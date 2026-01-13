@@ -36,10 +36,10 @@ export default function CoverGenerator() {
     bgType: 'color', 
     bgColor: '#111111',
     bgImage: null,
-    themeColor: '#ff1f1f',
+    themeColor: '#b90000',
     textColor: '#ffffff',
     fontFamily: 'sans-serif',
-    alignment: 'center',
+    alignment: 'bottom-left',
     blur: 0,
     brightness: 100,
     fontSize: 80, // 调大基准字体以适应 BASE_WIDTH
@@ -178,7 +178,7 @@ export default function CoverGenerator() {
       
       {/* --- 左侧：预览视窗 --- */}
       <div className="flex-1 flex flex-col gap-4 min-w-0"> {/* min-w-0 防止 flex 子项溢出 */}
-        <div className="relative border-2 border-ind-gray bg-ind-dark p-1 shadow-[10px_10px_0px_0px_rgba(20,20,20,1)] transition-all">
+        <div className="relative border-2 border-ind-gray bg-ind-dark p-1 transition-all">
           
           {/* UI 装饰元素 */}
           <div className="absolute top-0 left-0 w-2 h-2 bg-ind-red z-20"></div>
@@ -276,7 +276,7 @@ export default function CoverGenerator() {
         </div>
 
         {/* 滚动配置区 */}
-        <div className="flex-1 overflow-y-auto pr-2 space-y-6 custom-scrollbar max-h-[60vh]">
+        <div className="flex-1 overflow-y-auto pr-2 space-y-6 custom-scrollbar lg:max-h-[60vh]">
           
           <Section label="TEXT_INPUT">
             <Input 
