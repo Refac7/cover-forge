@@ -1,0 +1,70 @@
+---
+import CoverGenerator from '../components/CoverGenerator.jsx';
+import '../styles/global.css'; 
+---
+
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="/cover-forge.png" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>CoverForge // Article Cover Generator</title>
+		
+	</head>
+	<body class="bg-[#050505] min-h-screen text-ind-light font-sans bg-grid-pattern bg-size-[40px_40px] selection:bg-ind-red selection:text-white">
+		
+		{/* 顶部导航栏 */}
+		<header class="border-b border-ind-gray bg-ind-black/90 backdrop-blur sticky top-0 z-50">
+			<div class="max-w-7xl mx-auto px-8 xl:px-4 h-16 flex items-center justify-between">
+				<div class="flex items-center gap-3">
+					<div class="w-4 h-4 bg-ind-red animate-pulse"></div>
+					<h1 class="text-xl font-black tracking-widest uppercase">
+						Cover<span class="text-ind-red">Forge</span>
+					</h1>
+				</div>
+				<div class="hidden md:flex items-center gap-4 text-[10px] font-mono text-gray-500">
+					<span>BUILD: 2026.01</span>
+					<span>SYS: ONLINE</span>
+				</div>
+			</div>
+		</header>
+
+		{/* 主要内容区 */}
+		<main class="py-12 px-4">
+			<CoverGenerator client:only="react" />
+		</main>
+
+		{/* 页脚 */}
+		<footer class="text-center py-8 border-t border-ind-gray/30 bg-ind-black mt-auto">
+			<p class="text-xs text-gray-600 font-mono">
+				// DESIGNED FOR CREATORS <br/>
+				POWERED BY ASTRO + REACT
+			</p>
+		</footer>
+
+	</body>
+</html>
+
+<style is:global>
+	/* 全局样式微调 */
+	body {
+		/* 修复某些浏览器的滚动条样式 */
+		scrollbar-width: thin;
+		scrollbar-color: #333 #0a0a0a;
+	}
+	
+	/* 自定义滚动条 Webkit */
+	.custom-scrollbar::-webkit-scrollbar {
+		width: 4px;
+	}
+	.custom-scrollbar::-webkit-scrollbar-track {
+		background: #000;
+	}
+	.custom-scrollbar::-webkit-scrollbar-thumb {
+		background: #333;
+	}
+	.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+		background: #ff1f1f;
+	}
+</style>

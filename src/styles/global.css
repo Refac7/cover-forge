@@ -1,0 +1,56 @@
+/* v4 的核心引入方式 */
+@import "tailwindcss";
+
+/* 
+  v4 配置区 
+  在这里定义颜色、字体，它们会自动生成 bg-ind-red, text-ind-red 等工具类
+*/
+@theme {
+  /* 自定义颜色 */
+  --color-ind-red: #ff1f1f;
+  --color-ind-dark: #0a0a0a;
+  --color-ind-black: #000000;
+  --color-ind-gray: #333333;
+  --color-ind-light: #eeeeee;
+
+  /* 自定义字体 */
+  --font-mono: "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace";
+  --font-sans: "Inter", "system-ui", "sans-serif";
+  
+  /* 定义动画 (如果有) */
+  --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 
+  自定义工具类 (Utility)
+  v4 中复杂的背景图建议直接写成 CSS 类，或者使用 @utility 指令
+*/
+@utility bg-grid-pattern {
+  background-image: linear-gradient(to right, #1a1a1a 1px, transparent 1px),
+                    linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
+  background-size: 40px 40px; /* 默认大小 */
+}
+
+/* 全局基础样式 */
+@layer base {
+  body {
+    background-color: var(--color-ind-dark);
+    color: var(--color-ind-light);
+  }
+}
+
+/* 自定义滚动条 (保持之前的工业风格) */
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #000;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #333;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ind-red);
+  }
+}
