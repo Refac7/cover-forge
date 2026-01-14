@@ -168,7 +168,7 @@ export default function CoverGenerator() {
                 <h2 className="text-5xl md:text-6xl font-bold tracking-tighter text-white uppercase">Cover_Forge</h2>
                 <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-widest mt-4">:: Image Generation Module</p>
             </div>
-            <div className="flex items-center gap-2 text-xs font-mono">
+            <div className="hidden md:flex items-center gap-2 text-xs font-mono">
                 <span className={`w-2 h-2 rounded-full ${isProcessing ? 'bg-red-500 animate-ping' : 'bg-emerald-500'}`}></span>
                 <span className={isProcessing ? 'text-red-500' : 'text-emerald-500'}>
                     SYS: {isProcessing ? 'RENDERING...' : 'ONLINE'}
