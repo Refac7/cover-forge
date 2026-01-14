@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas-pro';
 
-// 预设字体选项
+// 预设字体选项 (保留功能，优化命名)
 const PRESET_FONTS = [
   { name: 'System Sans', value: 'sans-serif' },
   { name: 'System Mono', value: 'monospace' },
@@ -10,7 +10,7 @@ const PRESET_FONTS = [
   { name: 'Arial Black', value: '"Arial Black"' },
 ];
 
-// 九宫格对齐映射
+// 对齐方式映射
 const ALIGNMENTS = {
   'top-left':      'justify-start items-start text-left',
   'top-center':    'justify-start items-center text-center',
@@ -23,46 +23,43 @@ const ALIGNMENTS = {
   'bottom-right':  'justify-end items-end text-right',
 };
 
-// 设定画布的标准渲染宽度，保证所有设备上排版一致
-// 1280x720 是一个清晰度足够且性能平衡的基准
+// 1280x720 基准
 const BASE_WIDTH = 1280;
 const BASE_HEIGHT = 720;
 
 export default function CoverGenerator() {
   // --- 状态管理 ---
   const [config, setConfig] = useState({
-    title: 'COVER FORGE',
-    subtitle: 'ARTICLE IMAGE GENERATOR // V1.0',
+    title: 'REFAC7.LOGS',
+    subtitle: 'ARCHITECT OF THE DIGITAL VOID // V1.0',
     bgType: 'color', 
-    bgColor: '#111111',
+    bgColor: '#09090b', // 对应 zinc-950/black
     bgImage: null,
-    themeColor: '#b90000',
+    themeColor: '#ef4444', // 对应 red-500
     textColor: '#ffffff',
     fontFamily: 'sans-serif',
     alignment: 'bottom-left',
     blur: 0,
     brightness: 100,
-    fontSize: 80, // 调大基准字体以适应 BASE_WIDTH
+    fontSize: 100, 
+    showDecorations: true, // 新增：是否显示工业风装饰
   });
 
   const [customFontName, setCustomFontName] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [scale, setScale] = useState(1); // 用于缩放预览区
+  const [scale, setScale] = useState(1);
   
-  const previewRef = useRef(null); // 实际要导出的节点
-  const containerRef = useRef(null); // 用于计算屏幕宽度的容器
+  const previewRef = useRef(null);
+  const containerRef = useRef(null);
 
-  // --- 监听窗口变化计算缩放比例 ---
+  // --- 缩放计算 ---
   useEffect(() => {
     const calculateScale = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
-        // 计算当前容器宽度与基准宽度的比例
-        const newScale = containerWidth / BASE_WIDTH;
-        setScale(newScale);
+        setScale(containerWidth / BASE_WIDTH);
       }
     };
-
     calculateScale();
     window.addEventListener('resize', calculateScale);
     return () => window.removeEventListener('resize', calculateScale);
@@ -70,17 +67,16 @@ export default function CoverGenerator() {
 
   const updateConfig = (key, value) => setConfig(prev => ({ ...prev, [key]: value }));
 
-  // 图片上传
+  // --- 资源处理 ---
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => updateConfig('bgImage', e.target.result);
-      reader.readAsDataURL(file);
+      // 优化：使用 createObjectURL 提高性能
+      const url = URL.createObjectURL(file);
+      updateConfig('bgImage', url);
     }
   };
 
-  // 字体上传
   const handleFontUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -94,12 +90,10 @@ export default function CoverGenerator() {
         updateConfig('fontFamily', fontName);
       } catch (err) {
         console.error("Font load failed:", err);
-        alert("字体加载失败，请确保是有效的 .ttf/.otf 文件");
       }
     }
   };
 
-  // 辅助函数：将滤镜效果“烘焙”到 Canvas 上生成新的图片 URL
   const processImageWithFilters = (imgSrc, blur, brightness) => {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -109,11 +103,7 @@ export default function CoverGenerator() {
         canvas.width = img.width;
         canvas.height = img.height;
         const ctx = canvas.getContext('2d');
-        
-        // 使用 Canvas Context 滤镜（html2canvas 不支持 CSS 滤镜，但支持 Canvas 内容）
-        // 注意：brightness 在 CSS 中是 %, Canvas filter 字符串中通常直接支持
         ctx.filter = `blur(${blur * 2}px) brightness(${brightness}%)`;
-        
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         resolve(canvas.toDataURL('image/png'));
       };
@@ -122,50 +112,43 @@ export default function CoverGenerator() {
     });
   };
 
-  // 导出图片
+  // --- 导出逻辑 (已修复 Bug) ---
   const handleDownload = async () => {
     if (!previewRef.current) return;
     setIsProcessing(true);
 
-    // 原始状态备份
     const originalBgImage = config.bgImage;
     const originalBlur = config.blur;
     const originalBrightness = config.brightness;
 
     try {
-      // 1. 如果有背景图且应用了滤镜，先在内存中生成一张处理好的图片
       if (config.bgType === 'image' && config.bgImage && (config.blur > 0 || config.brightness !== 100)) {
-        // 临时生成带滤镜的图
         const processedImage = await processImageWithFilters(config.bgImage, config.blur, config.brightness);
-        
-        // 2. 临时更新状态：使用处理好的图，并移除 CSS 滤镜（防止双重滤镜）
         updateConfig('bgImage', processedImage);
         updateConfig('blur', 0);
         updateConfig('brightness', 100);
-        
-        // 等待 React 渲染更新
-        await new Promise(resolve => setTimeout(resolve, 100));
+        // 等待 React 渲染和图片解码
+        await new Promise(resolve => setTimeout(resolve, 300));
       }
 
-      // 3. 执行截图
       const canvas = await html2canvas(previewRef.current, {
-        scale: 1.5, // 已经在高分辨率基准上渲染，稍微放大即可
+        scale: 1.5,
         useCORS: true,
-        allowTaint: true,
+        allowTaint: false, // 关键修复：允许 toDataURL
         backgroundColor: config.bgColor,
         logging: false,
+        imageTimeout: 0,
       });
 
       const link = document.createElement('a');
-      link.download = `cover-forge-${Date.now()}.png`;
+      link.download = `REFAC7-LOG-${Date.now()}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
 
     } catch (err) {
       console.error(err);
-      alert("生成失败");
+      alert("System Error: Export Sequence Failed.");
     } finally {
-      // 4. 恢复原始状态
       updateConfig('bgImage', originalBgImage);
       updateConfig('blur', originalBlur);
       updateConfig('brightness', originalBrightness);
@@ -174,217 +157,255 @@ export default function CoverGenerator() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 w-full max-w-7xl mx-auto p-4 z-10 relative">
+    <div className="flex flex-col xl:flex-row gap-8 w-full max-w-400 mx-auto p-4 md:p-8 relative font-sans text-zinc-300">
       
-      {/* --- 左侧：预览视窗 --- */}
-      <div className="flex-1 flex flex-col gap-4 min-w-0"> {/* min-w-0 防止 flex 子项溢出 */}
-        <div className="relative border-2 border-ind-gray bg-ind-dark p-1 transition-all">
-          
-          {/* UI 装饰元素 */}
-          <div className="absolute top-0 left-0 w-2 h-2 bg-ind-red z-20"></div>
-          <div className="absolute top-0 right-0 w-2 h-2 bg-ind-light z-20"></div>
-          <div className="absolute bottom-0 left-0 w-2 h-2 bg-ind-light z-20"></div>
-          <div className="absolute bottom-0 right-0 w-2 h-2 bg-ind-red z-20"></div>
-          <div className="absolute top-4 left-4 text-[10px] bg-ind-red text-white px-1 font-bold z-20 font-mono tracking-widest">
-            VIEWPORT_01 // PREVIEW
-          </div>
+      {/* --- 左侧：视窗 --- */}
+      <div className="flex-1 flex flex-col gap-6 min-w-0">
+        
+        {/* 顶部状态栏风格 */}
+        <div className="flex justify-between items-end border-b border-zinc-800 pb-2">
+            <div>
+                <h2 className="text-2xl md:text-4xl font-bold tracking-tighter text-white uppercase">Cover_Forge</h2>
+                <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-widest mt-1">:: Image Generation Module</p>
+            </div>
+            <div className="flex items-center gap-2 text-xs font-mono">
+                <span className={`w-2 h-2 rounded-full ${isProcessing ? 'bg-red-500 animate-ping' : 'bg-emerald-500'}`}></span>
+                <span className={isProcessing ? 'text-red-500' : 'text-emerald-500'}>
+                    SYS: {isProcessing ? 'RENDERING...' : 'ONLINE'}
+                </span>
+            </div>
+        </div>
+
+        {/* 预览区域容器 */}
+        <div className="relative group border border-zinc-800 bg-zinc-950/50 p-2 backdrop-blur-sm transition-colors hover:border-zinc-700">
+          {/* 装饰角标 */}
+          <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-red-500/50 z-20"></div>
+          <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-zinc-500/50 z-20"></div>
+          <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-zinc-500/50 z-20"></div>
+          <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-red-500/50 z-20"></div>
 
           <div 
             ref={containerRef}
-            className="w-full aspect-video relative overflow-hidden bg-black/50"
+            className="w-full aspect-video relative overflow-hidden bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-zinc-900"
           >
+            {/* 实际渲染节点 */}
             <div 
               ref={previewRef}
               style={{
                 width: BASE_WIDTH,
                 height: BASE_HEIGHT,
                 backgroundColor: config.bgColor,
-                // 关键 CSS：将大画布缩小至容器大小，左上角对齐
                 transform: `scale(${scale})`,
                 transformOrigin: 'top left',
               }}
-              className="absolute top-0 left-0 flex select-none overflow-hidden"
+              className="absolute top-0 left-0 flex overflow-hidden select-none"
             >
-              {/* 背景层：使用 img 标签代替 div background，html2canvas 兼容性更好 */}
+              {/* 背景层 */}
               {config.bgType === 'image' && config.bgImage && (
                 <img 
                   src={config.bgImage}
                   className="absolute inset-0 w-full h-full object-cover"
                   style={{ 
-                    // 仅在预览时应用 CSS 滤镜，导出时会被 temporary state 移除
                     filter: `blur(${config.blur}px) brightness(${config.brightness}%)`,
-                    transform: 'scale(1.05)' // 防止 blur 导致的边缘白边
+                    transform: 'scale(1.02)'
                   }}
                   alt="bg"
                 />
               )}
               
-              {/* 遮罩层 */}
-              <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
+              {/* 遮罩纹理 */}
+              <div className="absolute inset-0 bg-black/20 pointer-events-none" 
+                   style={{ backgroundImage: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03))', backgroundSize: '100% 2px, 3px 100%' }}></div>
+
+              {/* 装饰层 (仿照 Refac7 风格) */}
+              {config.showDecorations && (
+                <>
+                  <div className="absolute top-12 right-12 flex flex-col items-end opacity-40 mix-blend-overlay">
+                     <span className="text-8xl font-black tracking-tighter leading-none" style={{ color: config.textColor, opacity: 0.1 }}>RX</span>
+                     <span className="text-sm font-mono tracking-[1em] mt-2 border-t border-current pt-2" style={{ color: config.themeColor }}>SYS.01</span>
+                  </div>
+                  
+                  <div className="absolute left-12 top-0 bottom-0 w-px bg-white/10 flex flex-col justify-between py-12">
+                     <div className="w-px h-20 bg-current" style={{ color: config.themeColor }}></div>
+                     <div className="font-mono text-[10px] -rotate-90 tracking-widest opacity-50 text-white whitespace-nowrap origin-center">
+                        IDENTITY_CORE // V.1.6
+                     </div>
+                     <div className="w-px h-20 bg-white/30"></div>
+                  </div>
+                </>
+              )}
 
               {/* 文字内容层 */}
-              <div className={`relative z-10 w-full h-full p-20 flex flex-col gap-6 ${ALIGNMENTS[config.alignment]}`}>
-                <div style={{ color: config.themeColor }} className="w-20 h-2 bg-current mb-4"></div>
+              <div className={`relative z-10 w-full h-full p-24 pl-32 flex flex-col gap-4 ${ALIGNMENTS[config.alignment]}`}>
                 
+                {/* 装饰性 Tag */}
+                <div className="mb-2">
+                   <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] px-2 py-1 bg-white/10 backdrop-blur-md border-l-2" style={{ borderColor: config.themeColor, color: config.themeColor }}>
+                     :: Identify Log
+                   </span>
+                </div>
+
                 <h1 
-                  className="font-black uppercase leading-none tracking-tighter drop-shadow-xl wrap-break-word max-w-full"
+                  className="font-black leading-[0.9] tracking-tighter drop-shadow-2xl wrap-break-word max-w-full"
                   style={{ 
                     color: config.textColor,
                     fontFamily: config.fontFamily,
-                    fontSize: `${config.fontSize}px` // 现在的 px 是相对于 1280 宽度的，不再受屏幕宽度影响
+                    fontSize: `${config.fontSize}px`
                   }}
                 >
                   {config.title}
+                  <span className="text-transparent" style={{ WebkitTextStroke: `2px ${config.themeColor}`, opacity: 0.5 }}>.</span>
                 </h1>
                 
                 <p 
-                  className="text-3xl font-mono px-4 py-2 bg-black/60 backdrop-blur-sm border-l-4 inline-block mt-2"
-                  style={{ 
-                    color: config.themeColor,
-                    borderColor: config.themeColor 
-                  }}
+                  className="text-2xl font-light tracking-wide opacity-80 mt-4 max-w-4xl border-l border-white/20 pl-6"
+                  style={{ color: config.textColor }}
                 >
                   {config.subtitle}
                 </p>
-              </div>
 
-              {/* 画布内装饰水印 */}
-              <div className="absolute bottom-6 right-6 text-xl text-white/30 font-mono border border-white/10 px-3 py-1">
-                GENERATED_BY_COVER_FORGE
+                {/* 底部功能条 */}
+                {config.showDecorations && (
+                  <div className="absolute bottom-12 right-12 left-32 flex items-center gap-4 border-t border-white/10 pt-4">
+                     <div className="flex-1 font-mono text-xs text-white/40 tracking-widest uppercase">
+                        Target: Transparency, Clarity, Reality.
+                     </div>
+                     <div className="flex gap-2">
+                        {[1,2,3].map(i => <div key={i} className="w-2 h-2 bg-white/20"></div>)}
+                     </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
-        </div>
-
-        {/* 底部信息栏 */}
-        <div className="flex justify-between font-mono text-xs text-gray-500">
-           <span>RENDER_BASE: {BASE_WIDTH}x{BASE_HEIGHT} px</span>
-           <span className={isProcessing ? "text-ind-red animate-pulse" : "text-green-600"}>
-             STATUS: {isProcessing ? 'PROCESSING...' : 'READY'}
-           </span>
         </div>
       </div>
 
-      {/* --- 右侧：控制台 --- */}
-      <div className="flex-1 lg:max-w-md flex flex-col gap-6 bg-ind-dark/90 p-6 border-l-4 border-ind-red backdrop-blur-sm shadow-2xl">
-        <div>
-          <h1 className="text-4xl font-bold uppercase tracking-tighter text-white">Cover<span className="text-ind-red">Forge</span></h1>
-          <div className="flex items-center gap-2 mt-2 text-gray-500 text-xs font-mono">
-            <span className="w-2 h-2 bg-green-500 inline-block animate-pulse rounded-full"></span>
-            SYSTEM ONLINE // V1.0 FIXED
+      {/* --- 右侧：控制台 (风格化) --- */}
+      <div className="flex-1 xl:max-w-md flex flex-col gap-6">
+        
+        <div className="bg-zinc-900/40 border border-zinc-800 p-6 backdrop-blur-sm relative overflow-hidden">
+          {/* 背景装饰 */}
+          <div className="absolute top-0 right-0 p-4 opacity-10 font-black text-6xl text-zinc-700 pointer-events-none select-none">SET</div>
+
+          <div className="space-y-8 overflow-y-auto max-h-[70vh] custom-scrollbar pr-2">
+            
+            <Section label="Input_Data">
+              <Input 
+                value={config.title} 
+                onChange={(e) => updateConfig('title', e.target.value)} 
+                placeholder="MAIN HEADING"
+              />
+              <Input 
+                value={config.subtitle} 
+                onChange={(e) => updateConfig('subtitle', e.target.value)} 
+                placeholder="SUBTITLE / META"
+              />
+            </Section>
+
+            <Section label="Typography">
+              <div className="flex flex-col gap-3">
+                 <div className="flex gap-2">
+                    <select 
+                      className="flex-1 bg-black/50 border-b border-zinc-700 p-2 text-xs text-zinc-300 focus:border-red-500 focus:outline-none transition-colors appearance-none rounded-none"
+                      value={config.fontFamily}
+                      onChange={(e) => updateConfig('fontFamily', e.target.value)}
+                    >
+                      {PRESET_FONTS.map(f => <option key={f.value} value={f.value}>{f.name}</option>)}
+                      {customFontName && <option value={customFontName}>* Uploaded Font</option>}
+                    </select>
+                    
+                    <label className="cursor-pointer px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-[10px] font-mono border border-zinc-700 transition-colors flex items-center justify-center">
+                      UPLOAD .TTF
+                      <input type="file" accept=".ttf,.otf,.woff" onChange={handleFontUpload} className="hidden" />
+                    </label>
+                 </div>
+
+                 {/* Alignment Grid */}
+                 <div className="grid grid-cols-3 gap-1 w-32 border border-zinc-800 p-1 bg-black/20">
+                    {Object.keys(ALIGNMENTS).map(align => (
+                      <button 
+                        key={align}
+                        onClick={() => updateConfig('alignment', align)}
+                        className={`w-full aspect-square transition-all ${config.alignment === align ? 'bg-red-600' : 'bg-zinc-800 hover:bg-zinc-700'}`}
+                      />
+                    ))}
+                 </div>
+                 
+                 <RangeControl label="SIZE (PX)" value={config.fontSize} min={40} max={250} onChange={(e) => updateConfig('fontSize', e.target.value)} />
+              </div>
+            </Section>
+
+            <Section label="Visual_Layers">
+              <div className="flex gap-4 mb-4 text-[10px] font-mono tracking-widest">
+                <label className="flex items-center gap-2 cursor-pointer group">
+                  <div className={`w-3 h-3 border ${config.bgType === 'color' ? 'bg-red-500 border-red-500' : 'border-zinc-500'}`}></div>
+                  <input type="radio" checked={config.bgType === 'color'} onChange={() => updateConfig('bgType', 'color')} className="hidden" />
+                  <span className="group-hover:text-white transition-colors">SOLID</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer group">
+                  <div className={`w-3 h-3 border ${config.bgType === 'image' ? 'bg-red-500 border-red-500' : 'border-zinc-500'}`}></div>
+                  <input type="radio" checked={config.bgType === 'image'} onChange={() => updateConfig('bgType', 'image')} className="hidden" />
+                  <span className="group-hover:text-white transition-colors">IMAGE</span>
+                </label>
+                 <label className="flex items-center gap-2 cursor-pointer group ml-auto">
+                  <div className={`w-3 h-3 border ${config.showDecorations ? 'bg-emerald-500 border-emerald-500' : 'border-zinc-500'}`}></div>
+                  <input type="checkbox" checked={config.showDecorations} onChange={(e) => updateConfig('showDecorations', e.target.checked)} className="hidden" />
+                  <span className="group-hover:text-white transition-colors">DECO</span>
+                </label>
+              </div>
+
+              {config.bgType === 'color' ? (
+                 <ColorPicker label="BACKGROUND" value={config.bgColor} onChange={(v) => updateConfig('bgColor', v)} />
+              ) : (
+                <div className="space-y-4">
+                   <label className="block w-full py-8 border border-dashed border-zinc-700 hover:border-red-500 hover:bg-red-500/5 text-center cursor-pointer transition-all group">
+                      <span className="text-xs font-mono text-zinc-500 group-hover:text-red-500">:: UPLOAD SOURCE ::</span>
+                      <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                   </label>
+                   <RangeControl label="BLUR" value={config.blur} min={0} max={20} onChange={(e) => updateConfig('blur', e.target.value)} />
+                   <RangeControl label="BRIGHTNESS" value={config.brightness} min={0} max={200} onChange={(e) => updateConfig('brightness', e.target.value)} />
+                </div>
+              )}
+            </Section>
+
+            <Section label="Palette">
+               <ColorPicker label="PRIMARY ACCENT" value={config.themeColor} onChange={(v) => updateConfig('themeColor', v)} />
+               <ColorPicker label="TEXT COLOR" value={config.textColor} onChange={(v) => updateConfig('textColor', v)} />
+            </Section>
+
           </div>
         </div>
 
-        {/* 滚动配置区 */}
-        <div className="flex-1 overflow-y-auto pr-2 space-y-6 custom-scrollbar lg:max-h-[60vh]">
-          
-          <Section label="TEXT_INPUT">
-            <Input 
-              value={config.title} 
-              onChange={(e) => updateConfig('title', e.target.value)} 
-              placeholder="MAIN HEADING"
-            />
-            <Input 
-              value={config.subtitle} 
-              onChange={(e) => updateConfig('subtitle', e.target.value)} 
-              placeholder="SUBTITLE / META INFO"
-            />
-          </Section>
-
-          <Section label="TYPOGRAPHY">
-            <div className="grid grid-cols-2 gap-2 mb-2">
-              <select 
-                className="bg-black border border-ind-gray text-ind-light p-3 text-xs focus:border-ind-red outline-none"
-                value={config.fontFamily}
-                onChange={(e) => updateConfig('fontFamily', e.target.value)}
-              >
-                {PRESET_FONTS.map(f => <option key={f.value} value={f.value}>{f.name}</option>)}
-                {customFontName && <option value={customFontName}>* Uploaded Font</option>}
-              </select>
-              
-              <label className="cursor-pointer bg-ind-gray/20 border border-dashed border-ind-gray hover:border-ind-red text-gray-400 text-[10px] flex flex-col items-center justify-center hover:text-ind-red transition-all">
-                <span className="font-bold">UPLOAD .TTF</span>
-                <input type="file" accept=".ttf,.otf,.woff" onChange={handleFontUpload} className="hidden" />
-              </label>
-            </div>
-
-            <div className="grid grid-cols-3 gap-1 w-24 mb-2">
-               {Object.keys(ALIGNMENTS).map(align => (
-                 <button 
-                   key={align}
-                   onClick={() => updateConfig('alignment', align)}
-                   className={`w-full aspect-square border ${config.alignment === align ? 'bg-ind-red border-ind-red' : 'bg-black border-ind-gray hover:border-ind-light'}`}
-                   title={align}
-                 />
-               ))}
-            </div>
-
-            <RangeControl label="FONT SIZE" value={config.fontSize} min={40} max={200} onChange={(e) => updateConfig('fontSize', e.target.value)} />
-          </Section>
-
-          <Section label="BACKGROUND_LAYER">
-            <div className="flex gap-2 mb-3">
-              <TabButton active={config.bgType === 'color'} onClick={() => updateConfig('bgType', 'color')}>SOLID COLOR</TabButton>
-              <TabButton active={config.bgType === 'image'} onClick={() => updateConfig('bgType', 'image')}>IMAGE FILE</TabButton>
-            </div>
-
-            {config.bgType === 'color' ? (
-              <div className="flex items-center gap-3 bg-black border border-ind-gray p-2">
-                <input type="color" value={config.bgColor} onChange={(e) => updateConfig('bgColor', e.target.value)} className="h-8 w-8 bg-transparent cursor-pointer" />
-                <span className="font-mono text-xs text-gray-400">{config.bgColor.toUpperCase()}</span>
-              </div>
-            ) : (
-              <label className="w-full h-24 cursor-pointer bg-black border-2 border-dashed border-ind-gray text-gray-500 hover:border-ind-red hover:text-ind-red transition-all flex flex-col items-center justify-center gap-1 group">
-                <span className="text-xs font-bold tracking-widest group-hover:underline">SELECT IMAGE SOURCE</span>
-                <span className="text-[10px] opacity-50">JPG / PNG / WEBP</span>
-                <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-              </label>
-            )}
-
-            {config.bgType === 'image' && (
-              <div className="space-y-3 mt-3">
-                <RangeControl label="BLUR (PX)" value={config.blur} min={0} max={20} onChange={(e) => updateConfig('blur', e.target.value)} />
-                <RangeControl label="BRIGHTNESS (%)" value={config.brightness} min={0} max={200} onChange={(e) => updateConfig('brightness', e.target.value)} />
-              </div>
-            )}
-          </Section>
-
-          <Section label="THEME_ACCENT">
-             <div className="flex justify-between items-center bg-black p-2 border border-ind-gray">
-                <span className="text-xs text-gray-400 font-mono">PRIMARY_COLOR</span>
-                <input type="color" value={config.themeColor} onChange={(e) => updateConfig('themeColor', e.target.value)} className="h-6 w-6 bg-transparent cursor-pointer" />
-             </div>
-             <div className="flex justify-between items-center bg-black p-2 border border-ind-gray mt-2">
-                <span className="text-xs text-gray-400 font-mono">TEXT_COLOR</span>
-                <input type="color" value={config.textColor} onChange={(e) => updateConfig('textColor', e.target.value)} className="h-6 w-6 bg-transparent cursor-pointer" />
-             </div>
-          </Section>
-
-        </div>
-
+        {/* 底部下载按钮 */}
         <button 
           onClick={handleDownload}
           disabled={isProcessing}
-          className="relative w-full py-4 bg-transparent border-2 border-ind-light text-ind-light hover:bg-ind-light hover:text-black transition-all group overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
+          className="group relative w-full py-4 bg-zinc-900 border border-zinc-700 hover:border-red-500/50 transition-all overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span className="absolute inset-0 w-0 bg-ind-light transition-all duration-250 ease-out group-hover:w-full opacity-10"></span>
-          <span className="relative font-bold uppercase tracking-[0.2em] text-sm flex items-center justify-center gap-2">
-            {isProcessing ? 'RENDERING...' : 'DOWNLOAD .PNG'}
+          <div className="absolute inset-0 bg-red-600/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+          <span className="relative z-10 font-mono font-bold text-sm tracking-[0.3em] flex items-center justify-center gap-3">
+             {isProcessing ? 'PROCESSING_SEQUENCE...' : 'EXECUTE_DOWNLOAD'}
+             {!isProcessing && <span className="text-red-500 group-hover:translate-x-1 transition-transform">→</span>}
           </span>
         </button>
+
       </div>
     </div>
   );
 }
 
-// --- 子组件保持不变 ---
+// --- 子组件 ---
 
 const Section = ({ label, children }) => (
-  <div className="flex flex-col gap-2">
-    <label className="text-ind-red text-[10px] font-bold uppercase tracking-widest flex justify-between border-b border-ind-gray/50 pb-1">
-      <span>{label}</span>
-      <span className="opacity-30">///</span>
-    </label>
+  <div className="flex flex-col gap-4">
+    <div className="flex items-center gap-2 text-red-500/80 mb-1">
+       <span className="w-1 h-1 bg-current"></span>
+       <label className="text-[10px] font-bold uppercase tracking-[0.2em] font-mono">
+         {label}
+       </label>
+       <div className="h-px bg-zinc-800 flex-1 ml-2"></div>
+    </div>
     {children}
   </div>
 );
@@ -393,30 +414,34 @@ const Input = (props) => (
   <textarea 
     {...props}
     rows={2}
-    className="w-full bg-black border border-ind-gray p-3 text-ind-light focus:outline-none focus:border-ind-red focus:shadow-[0_0_10px_rgba(255,31,31,0.2)] resize-none text-sm font-sans placeholder-gray-700 transition-all"
+    className="w-full bg-black/20 border-b border-zinc-700 p-3 text-zinc-200 focus:outline-none focus:border-red-500 focus:bg-zinc-900/50 resize-none text-sm font-sans placeholder-zinc-700 transition-all rounded-none"
   />
 );
 
-const TabButton = ({ active, children, onClick }) => (
-  <button 
-    onClick={onClick}
-    className={`flex-1 py-2 text-[10px] font-bold tracking-wider transition-all border ${
-      active ? 'bg-ind-light text-black border-ind-light' : 'bg-transparent text-gray-500 border-ind-gray hover:text-white'
-    }`}
-  >
-    {children}
-  </button>
-);
-
 const RangeControl = ({ label, value, min, max, onChange }) => (
-  <div>
-    <div className="flex justify-between text-[10px] text-gray-500 font-mono mb-1">
-      <span>{label}</span>
+  <div className="group">
+    <div className="flex justify-between text-[9px] text-zinc-500 font-mono mb-1 tracking-wider uppercase">
+      <span className="group-hover:text-red-500 transition-colors">{label}</span>
       <span>{value}</span>
     </div>
     <input 
       type="range" min={min} max={max} value={value} onChange={onChange}
-      className="w-full h-1 bg-ind-gray appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-ind-red [&::-webkit-slider-thumb]:hover:scale-125 transition-all"
+      className="w-full h-px bg-zinc-700 appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-zinc-400 [&::-webkit-slider-thumb]:hover:bg-red-500 transition-all"
     />
+  </div>
+);
+
+const ColorPicker = ({ label, value, onChange }) => (
+  <div className="flex items-center justify-between bg-black/20 p-2 border border-zinc-800 hover:border-zinc-600 transition-colors">
+    <span className="text-[10px] text-zinc-400 font-mono uppercase tracking-wider">{label}</span>
+    <div className="flex items-center gap-2">
+      <span className="text-[10px] font-mono text-zinc-600">{value}</span>
+      <input 
+        type="color" 
+        value={value} 
+        onChange={(e) => onChange(e.target.value)} 
+        className="h-5 w-5 bg-transparent cursor-pointer border-none p-0" 
+      />
+    </div>
   </div>
 );
