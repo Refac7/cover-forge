@@ -186,7 +186,7 @@ export default function CoverGenerator() {
 
           <div 
             ref={containerRef}
-            className="w-full aspect-video relative overflow-hidden bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-zinc-900"
+            className="w-full aspect-video relative overflow-hidden bg-zinc-900"
           >
             {/* 实际渲染节点 */}
             <div 
