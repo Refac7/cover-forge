@@ -157,7 +157,7 @@ export default function CoverGenerator() {
   };
 
   return (
-    <div className="flex flex-col xl:flex-row gap-8 w-full max-w-400 mx-auto p-4 md:p-8 relative font-sans text-zinc-300">
+    <div className="flex flex-col xl:flex-row gap-8 w-full max-w-400 mx-auto mt-10 md:p-8 relative font-sans text-zinc-300">
       
       {/* --- 左侧：视窗 --- */}
       <div className="flex-1 flex flex-col gap-6 min-w-0">
@@ -165,8 +165,8 @@ export default function CoverGenerator() {
         {/* 顶部状态栏风格 */}
         <div className="flex justify-between items-end border-b border-zinc-800 pb-2">
             <div>
-                <h2 className="text-2xl md:text-4xl font-bold tracking-tighter text-white uppercase">Cover_Forge</h2>
-                <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-widest mt-1">:: Image Generation Module</p>
+                <h2 className="text-5xl md:text-6xl font-bold tracking-tighter text-white uppercase">Cover_Forge</h2>
+                <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-widest mt-4">:: Image Generation Module</p>
             </div>
             <div className="flex items-center gap-2 text-xs font-mono">
                 <span className={`w-2 h-2 rounded-full ${isProcessing ? 'bg-red-500 animate-ping' : 'bg-emerald-500'}`}></span>
