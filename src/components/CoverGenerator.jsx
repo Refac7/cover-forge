@@ -33,7 +33,7 @@ export default function CoverGenerator() {
     title: 'REFAC7.LOGS',
     subtitle: 'ARCHITECT OF THE DIGITAL VOID // V1.0',
     bgType: 'color', 
-    bgColor: '#09090b', // 对应 zinc-950/black
+    bgColor: '#0e0e0e',
     bgImage: null,
     themeColor: '#ef4444', // 对应 red-500
     textColor: '#ffffff',
@@ -42,7 +42,7 @@ export default function CoverGenerator() {
     blur: 0,
     brightness: 100,
     fontSize: 100, 
-    showDecorations: true, // 新增：是否显示工业风装饰
+    showDecorations: true, 
   });
 
   const [customFontName, setCustomFontName] = useState(null);
@@ -165,7 +165,7 @@ export default function CoverGenerator() {
         {/* 顶部状态栏风格 */}
         <div className="flex justify-between items-end border-b border-zinc-800 pb-2">
             <div>
-                <h2 className="text-5xl md:text-6xl font-bold tracking-tighter text-white uppercase">Cover_Forge</h2>
+                <h2 className="border-l-4 pl-4 border-red-500/50 text-5xl md:text-6xl font-bold tracking-tighter text-white uppercase">Cover<br></br>Forge Sys_</h2>
                 <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-widest mt-4">:: Image Generation Module</p>
             </div>
             <div className="hidden md:flex items-center gap-2 text-xs font-mono">
