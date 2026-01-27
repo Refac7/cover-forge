@@ -1,46 +1,127 @@
 ---
 import CoverGenerator from '../components/CoverGenerator.jsx';
-import '../styles/global.css'; 
+import '../styles/global.css';
+
+const SITE_INFO = {
+  title: "CoverForge // Article Cover Generator",
+  description: "A minimal, industrial-style cover image generator for the digital void. Designed by Refac7.",
+  url: "https://refac7.com", // 替换为你的实际域名
+};
 ---
 
-<html lang="zh-CN">
+<!doctype html>
+<html lang="zh-CN" class="scroll-smooth">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="/cover-forge.png" />
-		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
-		<title>CoverForge // Article Cover Generator</title>
 		
-	</head>
-	<body class="bg-white dark:bg-black min-h-screen text-[#ffffff] font-sans selection:bg-red-600 selection:text-white">
+		<!-- SEO & Meta -->
+		<title>{SITE_INFO.title}</title>
+		<meta name="description" content={SITE_INFO.description} />
+		<meta name="theme-color" content="#09090b" />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={SITE_INFO.url} />
+		<meta property="og:title" content={SITE_INFO.title} />
+		<meta property="og:description" content={SITE_INFO.description} />
+		<meta property="og:image" content="/og-image.jpg" />
 
-		{/* 主要内容区 */}
-		<main class="py-12">
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={SITE_INFO.url} />
+		<meta property="twitter:title" content={SITE_INFO.title} />
+		<meta property="twitter:description" content={SITE_INFO.description} />
+		
+		<!-- 预加载关键字体 (可选，视具体项目字体配置而定) -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	</head>
+	
+	<body class="bg-zinc-50 dark:bg-zinc-950 min-h-screen text-zinc-900 dark:text-zinc-100 font-sans selection:bg-red-500/20 selection:text-red-600 antialiased overflow-x-hidden">
+
+		<!-- 全局装饰性网格背景 -->
+		<div class="fixed inset-0 pointer-events-none z-0" 
+			 style="background-image: linear-gradient(to right, var(--grid-color) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px); background-size: 6rem 6rem; opacity: 0.6;">
+		</div>
+
+		<!-- 主要内容区 -->
+		<main class="relative z-10 w-full min-h-screen flex flex-col">
+			<!-- 顶部微型导航/Logo (可选) -->
+			<header class="w-full max-w-350 mx-auto px-6 py-4 flex justify-between items-center opacity-40 hover:opacity-100 transition-opacity duration-500">
+				<a href="/" class="font-mono text-[10px] tracking-[0.2em] uppercase hover:text-red-500 transition-colors">
+					Refac7.dev
+				</a>
+				<span class="font-mono text-[10px] text-zinc-400">V.1.0.0</span>
+			</header>
+
+			<!-- 工具主体 -->
 			<CoverGenerator client:only="react" />
+			
+			<!-- 底部版权 -->
+			<footer class="py-8 text-center border-t border-zinc-200 dark:border-zinc-900 mt-auto bg-white/50 dark:bg-black/20 backdrop-blur-sm">
+				<p class="font-mono text-[10px] text-zinc-400 uppercase tracking-widest">
+					© {new Date().getFullYear()} Refac7 System. All rights reserved.
+				</p>
+			</footer>
 		</main>
 
 	</body>
 </html>
 
 <style is:global>
-	/* 全局样式微调 */
+	:root {
+		/* 网格颜色变量，方便统一调整 */
+		--grid-color: rgba(0, 0, 0, 0.03);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--grid-color: rgba(255, 255, 255, 0.03);
+		}
+	}
+
+	/* 自定义字体栈 - 工业风格 */
 	body {
-		/* 修复某些浏览器的滚动条样式 */
+		font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	}
+
+	/* 单独为代码/数据字体定义 */
+	code, pre, kbd, .font-mono {
+		font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+	}
+
+	/* 极简滚动条样式 - Firefox */
+	html {
 		scrollbar-width: thin;
-		scrollbar-color: #333 #0a0a0a;
+		scrollbar-color: #52525b transparent; /* zinc-600 */
 	}
-	
-	/* 自定义滚动条 Webkit */
-	.custom-scrollbar::-webkit-scrollbar {
-		width: 4px;
+
+	/* 极简滚动条样式 - Webkit (Chrome/Safari) */
+	::-webkit-scrollbar {
+		width: 5px;
+		height: 5px;
 	}
-	.custom-scrollbar::-webkit-scrollbar-track {
-		background: #000;
+
+	::-webkit-scrollbar-track {
+		background: transparent;
 	}
-	.custom-scrollbar::-webkit-scrollbar-thumb {
-		background: #333;
+
+	::-webkit-scrollbar-thumb {
+		background: #d4d4d8; /* zinc-300 */
+		border-radius: 0px;
 	}
-	.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-		background: #ff1f1f;
+
+	::-webkit-scrollbar-thumb:hover {
+		background: #ef4444; /* red-500 */
+	}
+
+	/* 深色模式滚动条 */
+	@media (prefers-color-scheme: dark) {
+		::-webkit-scrollbar-thumb {
+			background: #3f3f46; /* zinc-700 */
+		}
 	}
 </style>
