@@ -4,6 +4,8 @@
 
 **CoverForge** 是一个基于 React 的高度可定制化文章封面/缩略图生成器。它采用复古工业（Industrial/Cyberpunk）设计风格，允许用户实时预览并导出 PNG 图片。
 
+![Cover](./src/assets/cover.png)
+
 ---
 
 ## 核心特性
