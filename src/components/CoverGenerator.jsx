@@ -185,8 +185,8 @@ export default function CoverGenerator() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             
             {/* 左侧：预览区域 (占比更大，边框更淡) */}
-            <div className="lg:col-span-8 sticky top-8">
-                <div className="flex justify-between items-center mb-4 px-1">
+            <div className="lg:col-span-8 sticky top-0 bg-zinc-50 dark:bg-zinc-950 z-10">
+                <div className="flex justify-between items-center mt-8 lg:mt-0 mb-4 px-1">
                     <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
                         Canvas_Preview
                     </span>
@@ -391,7 +391,7 @@ export default function CoverGenerator() {
                         disabled={isProcessing}
                         className="w-full group relative overflow-hidden bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 py-4 px-6 transition-all hover:bg-red-600 dark:hover:bg-red-500 hover:text-white"
                     >
-                        <span className="relative z-10 font-mono font-bold text-sm tracking-widest uppercase flex items-center justify-center gap-3">
+                        <span className="relative z-0 font-mono font-bold text-sm tracking-widest uppercase flex items-center justify-center gap-3">
                             {isProcessing ? 'Generating...' : 'Download_Image'}
                             <span className="icon-[ph--download-simple] size-4"></span>
                         </span>

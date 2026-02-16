@@ -1,12 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  /* 自定义颜色 */
-  --color-ind-red: #b90000;
-  --color-ind-dark: #0a0a0a;
-  --color-ind-black: #000000;
-  --color-ind-gray: #333333;
-  --color-ind-light: #eeeeee;
 
   /* 自定义字体 */
   --font-mono: "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace";
