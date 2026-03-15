@@ -1,6 +1,15 @@
 @import "tailwindcss";
 
 @theme {
+  /* =========================================
+     核心主题色彩系统 (深色科技风)
+     ========================================= */
+  --color-background: #09090b;       /* 极深的背景色 zinc-950 */
+  --color-foreground: #fafafa;       /* 亮灰色文字 zinc-50 */
+  --color-muted: #18181b;            /* 浅一级的背景区块 zinc-900 */
+  --color-muted-foreground: #a1a1aa; /* 弱化的辅助文字 zinc-400 */
+  --color-border: #27272a;           /* ★ 修复白边框：低调的深灰边框 zinc-800 */
+  --color-primary: #ef4444;          /* 核心点缀色：科技红 red-500 */
 
   /* 自定义字体 */
   --font-mono: "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace";
@@ -13,14 +22,17 @@
 @utility bg-grid-pattern {
   background-image: linear-gradient(to right, #1a1a1a 1px, transparent 1px),
                     linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
-  background-size: 40px 40px; /* 默认大小 */
+  background-size: 40px 40px; 
 }
 
 /* 全局基础样式 */
 @layer base {
   body {
-    background-color: var(--color-ind-dark);
-    color: var(--color-ind-light);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    /* 提升全局字体的抗锯齿质感 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
@@ -30,12 +42,12 @@
     width: 6px;
   }
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: #000;
+    background: var(--color-background);
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #333;
+    background: var(--color-border);
   }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: var(--color-ind-red);
+    background: var(--color-primary);
   }
 }

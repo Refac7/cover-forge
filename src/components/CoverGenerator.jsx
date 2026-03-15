@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas-pro';
 
-// --- 常量定义 ---
-const PRESET_FONTS = [
+// --- 常量配置 ---
+const PRESET_FONTS =[
   { name: 'System Sans', value: 'sans-serif' },
   { name: 'System Mono', value: 'monospace' },
   { name: 'Serif', value: 'serif' },
@@ -25,13 +25,13 @@ const ALIGNMENTS = {
 const BASE_WIDTH = 1280;
 const BASE_HEIGHT = 720;
 
+// --- 主组件 ---
 export default function CoverGenerator() {
-  // --- 状态管理 ---
   const [config, setConfig] = useState({
     title: 'Refac7.Logs',
     subtitle: 'Architect of the Digital Void.',
     bgType: 'color', 
-    bgColor: '#18181b', // zinc-950
+    bgColor: '#18181b',
     bgImage: null,
     themeColor: '#ef4444', 
     textColor: '#ffffff',
@@ -50,19 +50,17 @@ export default function CoverGenerator() {
   const previewRef = useRef(null);
   const containerRef = useRef(null);
 
-  // --- 逻辑处理 ---
   useEffect(() => {
     const calculateScale = () => {
       if (containerRef.current) {
-        // 增加一点内边距的缓冲
         const containerWidth = containerRef.current.offsetWidth;
-        setScale((containerWidth) / BASE_WIDTH);
+        setScale(containerWidth / BASE_WIDTH);
       }
     };
     calculateScale();
     window.addEventListener('resize', calculateScale);
     return () => window.removeEventListener('resize', calculateScale);
-  }, []);
+  },[]);
 
   const updateConfig = (key, value) => setConfig(prev => ({ ...prev, [key]: value }));
 
@@ -142,7 +140,6 @@ export default function CoverGenerator() {
       link.download = `REFAC7_LOG_${Date.now()}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
-
     } catch (err) {
       console.error(err);
       alert("Error: Export failed.");
@@ -154,307 +151,348 @@ export default function CoverGenerator() {
     }
   };
 
-  // --- UI 组件 ---
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans selection:bg-red-500/20">
+    <div className="relative font-sans flex flex-col lg:flex-row min-h-screen text-foreground bg-background selection:bg-primary/20">
       
-      <div className="max-w-350 mx-auto px-6 py-12">
-
-        {/* 顶部标题区域：回归清爽的排版 */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-            <div>
-                <div className="flex items-center gap-3 mb-2">
-                    <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-                    <span className="font-mono text-xs text-zinc-500 tracking-[0.2em] uppercase">System :: Generator</span>
+      {/* ================= LEFT PANE (1/3) ================= */}
+      <aside className="w-full lg:w-1/3 lg:sticky lg:top-0 lg:h-screen flex flex-col border-b lg:border-b-0 lg:border-r border-border z-20 bg-background/95 backdrop-blur-md">
+        
+        <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col">
+          {/* Top Status Bar */}
+          <div className="p-6 lg:p-8 xl:p-12 pb-0 shrink-0">
+            <div className="flex flex-row justify-between items-start text-[10px] font-mono uppercase tracking-widest text-muted-foreground/60 select-none">
+                <span>// SYS_GENERATOR // V.2.0</span>
+                <div className="flex items-center gap-2 text-primary">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-none bg-emerald-500 opacity-75"></span>
+                      <span className="relative inline-flex rounded-none h-1.5 w-1.5 bg-emerald-600"></span>
+                    </span>
+                    <span className="text-foreground font-bold">ENGINE: ONLINE</span>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-                    Cover<span className="text-zinc-400 dark:text-zinc-600">Forge</span>.
-                </h1>
             </div>
-            
-            {/* 状态指示器 - 更加隐形 */}
-            <div className="flex items-center gap-4 text-xs font-mono text-zinc-500 border-l border-zinc-200 dark:border-zinc-800 pl-4">
-                <span>Output: PNG/1280p</span>
-                <span className="opacity-30">|</span>
-                <span className={isProcessing ? "text-amber-500 animate-pulse" : "text-emerald-500"}>
-                    {isProcessing ? 'RENDERING...' : 'READY'}
-                </span>
-            </div>
+          </div>
+
+          {/* Hero Title */}
+          <div className="flex-1 flex flex-col justify-center p-6 lg:p-8 xl:p-12 min-h-62.5">
+             <h1 className="text-6xl sm:text-8xl lg:text-7xl xl:text-8xl font-black tracking-tighter text-foreground leading-[0.8] mb-6 -ml-1 select-none">
+              COVER<br/>FORGE<span className="text-primary">.</span>
+             </h1>
+             <div className="h-px w-16 bg-border mt-8 mb-4"></div>
+             <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase">
+                <span className="icon-[ph--image-bold] size-4"></span>
+                <span>Visual Synthesis</span>
+             </div>
+          </div>
+
+          {/* Intro Box */}
+          <div className="shrink-0 p-6 xl:p-8 bg-muted/30 border-t border-border/50 border-dashed">
+             <span className="block text-[10px] uppercase text-muted-foreground/50 font-mono tracking-wider mb-4">// MODULE_INFO</span>
+             <p className="text-sm text-muted-foreground/80 leading-loose font-mono">
+               Real-time graphics rendering engine.<br/>
+               Configure parameters in the matrix to generate deployable cover assets.
+               <br/><br/>
+               <span className="text-primary/80">{'>'} Awaiting parameters...</span>
+             </p>
+          </div>
         </div>
-    
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            
-            {/* 左侧：预览区域 (占比更大，边框更淡) */}
-            <div className="lg:col-span-8 sticky top-0 bg-zinc-50 dark:bg-zinc-950 z-10">
-                <div className="flex justify-between items-center mt-8 lg:mt-0 mb-4 px-1">
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-400">
-                        Canvas_Preview
-                    </span>
-                    <span className="font-mono text-[10px] text-zinc-300 dark:text-zinc-700">
-                         {BASE_WIDTH} x {BASE_HEIGHT}
-                    </span>
+
+        {/* Docked Action Area */}
+        <div className="flex flex-col shrink-0 border-t border-border">
+            <div className="grid grid-cols-2 gap-px border-b border-border bg-border">
+                <div className="bg-background hover:bg-muted/20 transition-colors p-6 flex flex-col items-center justify-center h-24 xl:h-28">
+                   <span className="text-xl font-mono font-bold text-foreground/90">1280x720</span>
+                   <span className="text-[9px] font-mono uppercase text-muted-foreground mt-2 tracking-widest">Resolution</span>
                 </div>
-
-                {/* 容器：去掉粗边框，改用极其微妙的阴影和细线 */}
-                <div className="relative group rounded-sm ring-1 ring-zinc-200 dark:ring-zinc-800 bg-white dark:bg-zinc-900 shadow-sm p-2 transition-all duration-500 hover:shadow-md">
-                    
-                    {/* 预览视窗 */}
-                    <div ref={containerRef} className="overflow-hidden w-full relative bg-zinc-100 dark:bg-black/40" style={{ aspectRatio: `${BASE_WIDTH}/${BASE_HEIGHT}` }}>
-                        {/* 透明背景格 */}
-                        <div className="absolute inset-0 opacity-20 pointer-events-none" 
-                             style={{ backgroundImage: 'radial-gradient(circle, #888 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-                        </div>
-
-                        <div 
-                            ref={previewRef}
-                            style={{
-                                width: BASE_WIDTH,
-                                height: BASE_HEIGHT,
-                                backgroundColor: config.bgColor,
-                                transform: `scale(${scale})`,
-                                transformOrigin: 'top left',
-                            }}
-                            className="absolute top-0 left-0 flex overflow-hidden select-none"
-                        >
-                            {/* 1. 背景层 */}
-                            {config.bgType === 'image' && config.bgImage && (
-                                <img 
-                                    src={config.bgImage}
-                                    className="absolute inset-0 w-full h-full object-cover transition-all duration-300"
-                                    style={{ filter: `blur(${config.blur}px) brightness(${config.brightness}%)` }}
-                                    alt="bg"
-                                />
-                            )}
-                            
-                            {/* 2. 装饰层 (HUD) - 回归极简线条 */}
-                            {config.showDecorations && (
-                                <div className="absolute inset-0 pointer-events-none p-16">
-                                    <div className="w-full h-full border-l border-white/20 relative flex flex-col justify-between">
-                                        {/* 顶部装饰 */}
-                                        <div className="flex items-center gap-4 pl-6 pt-2">
-                                            <span className="font-mono text-xs text-white/50 tracking-widest">LOG.REFAC7</span>
-                                            <div className="h-px w-16 bg-white/20"></div>
-                                        </div>
-
-                                        {/* 底部装饰 */}
-                                        <div className="pl-6 pb-2">
-                                            <span className="font-mono text-[10px] text-white/30 tracking-widest uppercase block">
-                                                Digital Architecture // V.1.0
-                                            </span>
-                                        </div>
-                                    </div>
-                                    
-                                    {/* 右上角锚点 */}
-                                    <div className="absolute top-16 right-16 w-4 h-4 border-t border-r border-white/30"></div>
-                                </div>
-                            )}
-
-                            {/* 3. 内容层 */}
-                            <div className={`relative z-10 w-full h-full p-24 flex flex-col gap-8 ${ALIGNMENTS[config.alignment]}`}>
-                                <h1 
-                                    className="font-bold leading-[0.9] tracking-tighter mix-blend-difference whitespace-pre-wrap max-w-[85%]"
-                                    style={{ 
-                                        color: config.textColor,
-                                        fontFamily: config.fontFamily,
-                                        fontSize: `${config.fontSize}px`
-                                    }}
-                                >
-                                    {config.title}
-                                    <span style={{ color: config.themeColor }}>.</span>
-                                </h1>
-
-                                <div className="max-w-3xl backdrop-blur-sm">
-                                    <p 
-                                        className="text-4xl font-light tracking-wide opacity-90 leading-tight mix-blend-difference pl-1"
-                                        style={{ color: config.textColor }}
-                                    >
-                                        {config.subtitle}
-                                    </p>
-                                    {/* 装饰性下划线 */}
-                                    <div className="mt-6 h-1 w-24 bg-current opacity-80" style={{ color: config.themeColor }}></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div className="bg-background hover:bg-muted/20 transition-colors p-6 flex flex-col items-center justify-center h-24 xl:h-28">
+                   <span className={`text-lg font-mono font-bold ${isProcessing ? 'text-amber-500 animate-pulse' : 'text-emerald-500'}`}>
+                      {isProcessing ? 'RENDERING' : 'READY'}
+                   </span>
+                   <span className="text-[9px] font-mono uppercase text-muted-foreground mt-2 tracking-widest">Status</span>
                 </div>
             </div>
+            
+            <button 
+                onClick={handleDownload}
+                disabled={isProcessing}
+                className={`w-full py-6 font-mono text-xs font-bold tracking-[0.2em] uppercase transition-all flex items-center justify-center gap-3 ${
+                    isProcessing 
+                        ? 'bg-muted text-muted-foreground cursor-not-allowed border-t border-border' 
+                        : 'bg-foreground text-background hover:bg-primary'
+                }`}
+            >
+                <span>{isProcessing ? 'Processing_Queue...' : 'Initialize_Export'}</span>
+                {!isProcessing && <span className="icon-[ph--download-simple-bold] size-4"></span>}
+            </button>
+        </div>
+      </aside>
 
-            {/* 右侧：控制台 (更加清爽的表单风格) */}
-            <div className="lg:col-span-4 flex flex-col gap-10">
-                
-                {/* 文字设定 */}
-                <section>
-                    <SectionTitle number="01" title="Content_Data" />
-                    <div className="space-y-6 pt-2">
-                        <MinimalInput 
-                            label="Heading" 
-                            value={config.title} 
-                            onChange={(e) => updateConfig('title', e.target.value)} 
-                        />
-                        <MinimalInput 
-                            label="Sub_Heading" 
-                            value={config.subtitle} 
-                            onChange={(e) => updateConfig('subtitle', e.target.value)} 
-                            isTextarea
-                        />
-                    </div>
-                </section>
+      {/* ================= RIGHT PANE (2/3) ================= */}
+      <main className="w-full lg:w-2/3 z-10 flex flex-col min-h-screen">
+        <div className="p-6 lg:p-10 xl:p-16 flex-1 flex flex-col gap-16">
+          
+          {/* 1. Canvas Preview */}
+          <div>
+            <div className="flex items-end justify-between border-b border-border/80 pb-4 mb-8 select-none">
+               <div className="flex items-center">
+                   <span className="font-mono text-xs text-primary mr-3">01</span>
+                   <h2 className="font-mono text-sm font-bold uppercase tracking-widest text-foreground/80">Canvas_Preview</h2>
+               </div>
+               <span className="text-[10px] font-mono text-muted-foreground/50">LIVE_FEED</span>
+            </div>
 
-                {/* 样式设定 */}
-                <section>
-                    <SectionTitle number="02" title="Visual_Style" />
-                    <div className="space-y-6 pt-2">
+            <div className="relative group bg-muted/10 border border-border p-4 sm:p-8" ref={containerRef}>
+                {/* Corner Accents */}
+                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-primary/0 group-hover:border-primary/50 transition-colors"></div>
+                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-primary/0 group-hover:border-primary/50 transition-colors"></div>
+
+                {/* Wrapper holding aspect ratio */}
+                <div className="relative overflow-hidden border border-border bg-black/50 shadow-2xl" style={{ aspectRatio: `${BASE_WIDTH}/${BASE_HEIGHT}` }}>
+                    
+                    {/* Background Grid Pattern (using the utility from your CSS) */}
+                    <div className="absolute inset-0 opacity-[0.2] pointer-events-none bg-grid-pattern"></div>
+
+                    {/* Actual Rendered Canvas */}
+                    <div 
+                        ref={previewRef}
+                        style={{
+                            width: BASE_WIDTH,
+                            height: BASE_HEIGHT,
+                            backgroundColor: config.bgColor,
+                            transform: `scale(${scale})`,
+                            transformOrigin: 'top left',
+                        }}
+                        className="absolute top-0 left-0 flex overflow-hidden select-none"
+                    >
+                        {/* Layer 1: Background */}
+                        {config.bgType === 'image' && config.bgImage && (
+                            <img 
+                                src={config.bgImage}
+                                className="absolute inset-0 w-full h-full object-cover transition-all duration-300"
+                                style={{ filter: `blur(${config.blur}px) brightness(${config.brightness}%)` }}
+                                alt="bg"
+                            />
+                        )}
                         
-                        {/* 背景模式切换 */}
-                        <div className="flex gap-6 text-sm">
-                            <label className="flex items-center gap-2 cursor-pointer group">
-                                <span className={`w-3 h-3 rounded-full border ${config.bgType === 'color' ? 'bg-zinc-900 border-zinc-900 dark:bg-white dark:border-white' : 'border-zinc-300'}`}></span>
-                                <input type="radio" checked={config.bgType === 'color'} onChange={() => updateConfig('bgType', 'color')} className="hidden" />
-                                <span className="text-zinc-500 group-hover:text-zinc-900 transition-colors">Solid Color</span>
-                            </label>
-                            <label className="flex items-center gap-2 cursor-pointer group">
-                                <span className={`w-3 h-3 rounded-full border ${config.bgType === 'image' ? 'bg-zinc-900 border-zinc-900 dark:bg-white dark:border-white' : 'border-zinc-300'}`}></span>
-                                <input type="radio" checked={config.bgType === 'image'} onChange={() => updateConfig('bgType', 'image')} className="hidden" />
-                                <span className="text-zinc-500 group-hover:text-zinc-900 transition-colors">Image Overlay</span>
-                            </label>
-                        </div>
-
-                        {/* 图片控制 */}
-                        {config.bgType === 'image' && (
-                            <div className="p-4 bg-zinc-100 dark:bg-zinc-900 rounded-sm space-y-4 animate-in fade-in slide-in-from-top-1">
-                                <label className="block text-xs font-mono text-center border border-dashed border-zinc-300 dark:border-zinc-700 py-3 cursor-pointer hover:border-zinc-400 hover:bg-white dark:hover:bg-zinc-800 transition-all text-zinc-500">
-                                    [ Click to Upload Image ]
-                                    <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                                </label>
-                                <div className="space-y-3">
-                                    <RangeSlider label="Blur" value={config.blur} min={0} max={20} onChange={(v) => updateConfig('blur', v)} />
-                                    <RangeSlider label="Dim" value={config.brightness} min={0} max={200} onChange={(v) => updateConfig('brightness', v)} />
+                        {/* Layer 2: HUD Decorations */}
+                        {config.showDecorations && (
+                            <div className="absolute inset-0 pointer-events-none p-16 z-0">
+                                <div className="w-full h-full border-l border-white/10 relative flex flex-col justify-between mix-blend-overlay">
+                                    <div className="flex items-center gap-4 pl-6 pt-2">
+                                        <span className="font-mono text-xs text-white/40 tracking-widest">LOG.REFAC7</span>
+                                        <div className="h-px w-16 bg-white/10"></div>
+                                    </div>
+                                    <div className="pl-6 pb-2">
+                                        <span className="font-mono text-[10px] text-white/20 tracking-widest uppercase block">
+                                            Digital Architecture // V.1.0
+                                        </span>
+                                    </div>
                                 </div>
+                                <div className="absolute top-16 right-16 w-4 h-4 border-t border-r border-white/20 mix-blend-overlay"></div>
                             </div>
                         )}
 
-                        {/* 颜色与字体 */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-4">
-                                <ColorDot label="Accent" value={config.themeColor} onChange={(v) => updateConfig('themeColor', v)} />
-                                <ColorDot label="Text" value={config.textColor} onChange={(v) => updateConfig('textColor', v)} />
-                                {config.bgType === 'color' && (
-                                     <ColorDot label="Background" value={config.bgColor} onChange={(v) => updateConfig('bgColor', v)} />
-                                )}
-                            </div>
-                            <div className="flex flex-col justify-between">
-                                <div className="relative border-b border-zinc-200 dark:border-zinc-800">
-                                    <select 
-                                        value={config.fontFamily}
-                                        onChange={(e) => updateConfig('fontFamily', e.target.value)}
-                                        className="w-full bg-transparent py-1 text-xs font-mono appearance-none focus:outline-none cursor-pointer text-zinc-600 dark:text-zinc-400"
-                                    >
-                                        {PRESET_FONTS.map(f => <option key={f.value} value={f.value}>{f.name}</option>)}
-                                        {customFontName && <option value={customFontName}>Custom</option>}
-                                    </select>
-                                </div>
-                                
-                                {/* 对齐矩阵 */}
-                                <div className="mt-4">
-                                    <label className="text-[9px] font-mono text-zinc-400 uppercase mb-2 block">Alignment</label>
-                                    <div className="grid grid-cols-3 gap-1 w-16">
-                                        {Object.keys(ALIGNMENTS).map(a => (
-                                            <button 
-                                                key={a}
-                                                onClick={() => updateConfig('alignment', a)}
-                                                className={`w-full aspect-square rounded-[1px] transition-colors ${config.alignment === a ? 'bg-zinc-800 dark:bg-zinc-200' : 'bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300'}`}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
+                        {/* Layer 3: Typography */}
+                        <div className={`relative z-10 w-full h-full p-24 flex flex-col gap-8 ${ALIGNMENTS[config.alignment]}`}>
+                            <h1 
+                                className="font-bold leading-[0.9] tracking-tighter whitespace-pre-wrap max-w-[85%]"
+                                style={{ 
+                                    color: config.textColor,
+                                    fontFamily: config.fontFamily,
+                                    fontSize: `${config.fontSize}px`
+                                }}
+                            >
+                                {config.title}
+                                <span style={{ color: config.themeColor }}>.</span>
+                            </h1>
+                            <div className="max-w-3xl">
+                                <p className="text-4xl font-light tracking-wide opacity-90 leading-tight pl-1" style={{ color: config.textColor }}>
+                                    {config.subtitle}
+                                </p>
+                                <div className="mt-6 h-1 w-24 opacity-80" style={{ backgroundColor: config.themeColor }}></div>
                             </div>
                         </div>
-
-                        {/* 装饰开关 */}
-                        <div className="flex items-center justify-between pt-2">
-                             <span className="text-xs font-mono text-zinc-500">HUD Elements</span>
-                             <button 
-                                onClick={() => updateConfig('showDecorations', !config.showDecorations)}
-                                className={`w-10 h-5 rounded-full flex items-center px-1 transition-colors ${config.showDecorations ? 'bg-zinc-800' : 'bg-zinc-200'}`}
-                             >
-                                 <span className={`w-3 h-3 bg-white rounded-full shadow-sm transform transition-transform ${config.showDecorations ? 'translate-x-5' : 'translate-x-0'}`}></span>
-                             </button>
-                        </div>
-
                     </div>
-                </section>
+                </div>
+            </div>
+          </div>
 
-                {/* 操作按钮 */}
-                <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800 mt-auto">
-                    <button 
-                        onClick={handleDownload}
-                        disabled={isProcessing}
-                        className="w-full group relative overflow-hidden bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 py-4 px-6 transition-all hover:bg-red-600 dark:hover:bg-red-500 hover:text-white"
-                    >
-                        <span className="relative z-0 font-mono font-bold text-sm tracking-widest uppercase flex items-center justify-center gap-3">
-                            {isProcessing ? 'Generating...' : 'Download_Image'}
-                            <span className="icon-[ph--download-simple] size-4"></span>
-                        </span>
-                    </button>
-                    <p className="text-center text-[10px] text-zinc-400 mt-3 font-mono">
-                        Generated content is rendered client-side.
-                    </p>
+          {/* 2. Control Matrix */}
+          <div>
+            <div className="flex items-end justify-between border-b border-border/80 pb-4 mb-8 select-none">
+               <div className="flex items-center">
+                   <span className="font-mono text-xs text-primary mr-3">02</span>
+                   <h2 className="font-mono text-sm font-bold uppercase tracking-widest text-foreground/80">Parameters_Matrix</h2>
+               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
+                
+                {/* Group: Content */}
+                <div className="space-y-6">
+                    <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest border-b border-border/50 pb-2 block">
+                       [ Data_Input ]
+                    </span>
+                    <TechInput label="Heading" value={config.title} onChange={(e) => updateConfig('title', e.target.value)} />
+                    <TechInput label="Sub_Heading" value={config.subtitle} onChange={(e) => updateConfig('subtitle', e.target.value)} isTextarea />
+                </div>
+
+                {/* Group: Visual Style */}
+                <div className="space-y-6">
+                    <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest border-b border-border/50 pb-2 block">
+                       [ Style_Config ]
+                    </span>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                        <TechColorPicker label="Accent" value={config.themeColor} onChange={(v) => updateConfig('themeColor', v)} />
+                        <TechColorPicker label="Text" value={config.textColor} onChange={(v) => updateConfig('textColor', v)} />
+                    </div>
+
+                    <div className="flex flex-col gap-4 border border-border p-4 bg-muted/10 hover:border-primary/30 transition-colors">
+                        <div className="flex items-center gap-6">
+                            <label className="flex items-center gap-2 cursor-pointer group">
+                                <div className={`w-3 h-3 border transition-colors rounded-none ${config.bgType === 'color' ? 'bg-primary border-primary' : 'border-border group-hover:border-primary/50'}`} />
+                                <input type="radio" checked={config.bgType === 'color'} onChange={() => updateConfig('bgType', 'color')} className="hidden" />
+                                <span className="text-xs font-mono text-foreground/80 uppercase">Solid_Color</span>
+                            </label>
+                            <label className="flex items-center gap-2 cursor-pointer group">
+                                <div className={`w-3 h-3 border transition-colors rounded-none ${config.bgType === 'image' ? 'bg-primary border-primary' : 'border-border group-hover:border-primary/50'}`} />
+                                <input type="radio" checked={config.bgType === 'image'} onChange={() => updateConfig('bgType', 'image')} className="hidden" />
+                                <span className="text-xs font-mono text-foreground/80 uppercase">Image_Overlay</span>
+                            </label>
+                        </div>
+                        
+                        {config.bgType === 'color' ? (
+                            <TechColorPicker label="Background" value={config.bgColor} onChange={(v) => updateConfig('bgColor', v)} />
+                        ) : (
+                            <div className="space-y-4 animate-in fade-in">
+                                <label className="flex items-center justify-center w-full border border-dashed border-border py-2 cursor-pointer hover:border-primary/50 hover:text-primary hover:bg-muted/30 transition-colors">
+                                    <span className="text-[10px] font-mono text-muted-foreground uppercase">Upload_Asset</span>
+                                    <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                                </label>
+                                <TechSlider label="Blur" value={config.blur} min={0} max={20} onChange={(v) => updateConfig('blur', v)} />
+                                <TechSlider label="Dim" value={config.brightness} min={0} max={200} onChange={(v) => updateConfig('brightness', v)} />
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Group: Typography */}
+                <div className="space-y-6">
+                    <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest border-b border-border/50 pb-2 block">
+                       [ Typography ]
+                    </span>
+                    <div className="flex items-center justify-between border border-border bg-background px-3 py-2 hover:border-primary/40 transition-colors">
+                        <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Font_Family</span>
+                        <select 
+                            value={config.fontFamily}
+                            onChange={(e) => updateConfig('fontFamily', e.target.value)}
+                            className="bg-transparent text-sm font-mono text-foreground outline-none cursor-pointer text-right appearance-none"
+                        >
+                            {PRESET_FONTS.map(f => <option key={f.value} value={f.value} className="bg-background text-foreground">{f.name}</option>)}
+                            {customFontName && <option value={customFontName} className="bg-background text-foreground">Custom</option>}
+                        </select>
+                    </div>
+                    <label className="flex items-center justify-center w-full border border-dashed border-border py-2 cursor-pointer hover:border-primary/50 hover:text-primary hover:bg-muted/30 transition-colors">
+                        <span className="text-[10px] font-mono text-muted-foreground uppercase">Upload_TTF/OTF</span>
+                        <input type="file" accept=".ttf,.otf,.woff,.woff2" onChange={handleFontUpload} className="hidden" />
+                    </label>
+                    <TechSlider label="Font_Size" value={config.fontSize} min={40} max={200} onChange={(v) => updateConfig('fontSize', v)} />
+                </div>
+
+                {/* Group: Layout */}
+                <div className="space-y-6">
+                    <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest border-b border-border/50 pb-2 block">
+                       [ Layout_Control ]
+                    </span>
+                    
+                    <div className="flex justify-between items-start">
+                        <div className="flex flex-col gap-4">
+                            <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Position_Anchor</span>
+                            <div className="grid grid-cols-3 gap-1 w-20">
+                                {Object.keys(ALIGNMENTS).map(a => (
+                                    <button 
+                                        key={a}
+                                        onClick={() => updateConfig('alignment', a)}
+                                        className={`w-full aspect-square transition-colors rounded-none border ${
+                                            config.alignment === a 
+                                                ? 'bg-primary border-primary' 
+                                                : 'bg-muted/20 border-border hover:bg-primary/20 hover:border-primary/40'
+                                        }`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col items-end gap-4">
+                            <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">HUD_Overlay</span>
+                            <button 
+                                onClick={() => updateConfig('showDecorations', !config.showDecorations)}
+                                className={`w-12 h-6 border transition-colors flex items-center px-1 rounded-none ${
+                                    config.showDecorations ? 'bg-primary/20 border-primary' : 'bg-muted/20 border-border'
+                                }`}
+                            >
+                                <span className={`w-4 h-4 rounded-none transition-transform ${
+                                    config.showDecorations ? 'bg-primary translate-x-5' : 'bg-muted-foreground/30 translate-x-0'
+                                }`}></span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
             </div>
+          </div>
+
         </div>
-      </div>
+      </main>
     </div>
   );
 }
 
-// --- 纯净风格子组件 ---
+// --- 科技风复用组件 ---
 
-const SectionTitle = ({ number, title }) => (
-    <div className="flex items-baseline gap-2 mb-4 border-b border-zinc-100 dark:border-zinc-800 pb-2">
-        <span className="text-xs font-mono text-red-500 font-bold">{number}</span>
-        <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest">{title}</span>
-    </div>
-);
-
-const MinimalInput = ({ label, value, onChange, isTextarea }) => (
-    <div className="group">
-        <label className="block text-[10px] font-mono text-zinc-400 uppercase mb-1.5 transition-colors group-focus-within:text-red-500">{label}</label>
+const TechInput = ({ label, value, onChange, isTextarea }) => (
+    <div className="flex flex-col gap-2 group">
+        <label className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest transition-colors group-focus-within:text-primary">
+            {label}
+        </label>
         {isTextarea ? (
              <textarea 
                 value={value}
                 onChange={onChange}
                 rows={2}
-                className="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-700 py-1 text-sm text-zinc-800 dark:text-zinc-200 focus:outline-none focus:border-red-500 transition-colors resize-none placeholder-zinc-300"
+                className="w-full bg-background border border-border p-3 text-sm font-sans text-foreground focus:border-primary/50 outline-none transition-colors resize-none rounded-none"
             />
         ) : (
             <input 
                 type="text" 
                 value={value}
                 onChange={onChange}
-                className="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-700 py-1 text-sm text-zinc-800 dark:text-zinc-200 focus:outline-none focus:border-red-500 transition-colors placeholder-zinc-300"
+                className="w-full bg-background border border-border p-3 text-sm font-sans text-foreground focus:border-primary/50 outline-none transition-colors rounded-none"
             />
         )}
     </div>
 );
 
-const ColorDot = ({ label, value, onChange }) => (
-    <div className="flex items-center justify-between group cursor-pointer">
-        <span className="text-[10px] font-mono text-zinc-400 uppercase group-hover:text-zinc-600">{label}</span>
-        <div className="relative w-5 h-5 rounded-full border border-zinc-200 overflow-hidden shadow-sm">
+const TechColorPicker = ({ label, value, onChange }) => (
+    <div className="flex items-center justify-between p-3 border border-border bg-background hover:border-primary/40 transition-colors group">
+        <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest group-hover:text-foreground transition-colors">{label}</span>
+        <div className="relative w-5 h-5 border border-border">
              <input type="color" value={value} onChange={(e) => onChange(e.target.value)} className="absolute opacity-0 inset-0 w-full h-full cursor-pointer" />
              <div className="w-full h-full" style={{ backgroundColor: value }}></div>
         </div>
     </div>
 );
 
-const RangeSlider = ({ label, value, min, max, onChange }) => (
-    <div className="flex items-center gap-3">
-        <span className="text-[9px] font-mono text-zinc-400 w-8">{label}</span>
+const TechSlider = ({ label, value, min, max, onChange }) => (
+    <div className="flex flex-col gap-3 p-3 border border-border bg-background hover:border-primary/40 transition-colors">
+        <div className="flex justify-between items-center">
+            <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">{label}</span>
+            <span className="text-[10px] font-mono text-primary">{value}</span>
+        </div>
         <input 
             type="range" min={min} max={max} value={value} 
             onChange={(e) => onChange(e.target.value)} 
-            className="flex-1 h-1 bg-zinc-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-zinc-900 [&::-webkit-slider-thumb]:rounded-full"
+            className="w-full h-1 bg-border appearance-none cursor-pointer[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-primary rounded-none"
         />
     </div>
 );

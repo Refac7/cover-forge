@@ -49,23 +49,9 @@ const SITE_INFO = {
 
 		<!-- 主要内容区 -->
 		<main class="relative z-10 w-full min-h-screen flex flex-col">
-			<!-- 顶部微型导航/Logo (可选) -->
-			<header class="w-full max-w-350 mx-auto px-6 py-4 flex justify-between items-center opacity-40 hover:opacity-100 transition-opacity duration-500">
-				<a href="/" class="font-mono text-[10px] tracking-[0.2em] uppercase hover:text-red-500 transition-colors">
-					Refac7.dev
-				</a>
-				<span class="font-mono text-[10px] text-zinc-400">V.1.0.0</span>
-			</header>
 
-			<!-- 工具主体 -->
 			<CoverGenerator client:only="react" />
-			
-			<!-- 底部版权 -->
-			<footer class="py-8 text-center border-t border-zinc-200 dark:border-zinc-900 mt-auto bg-white/50 dark:bg-black/20 backdrop-blur-sm">
-				<p class="font-mono text-[10px] text-zinc-400 uppercase tracking-widest">
-					© {new Date().getFullYear()} Refac7 System. All rights reserved.
-				</p>
-			</footer>
+
 		</main>
 
 	</body>
