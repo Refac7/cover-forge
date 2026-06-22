@@ -4,7 +4,9 @@
    (spread onto DEFAULT_CONFIG at apply time).
    ======================================== */
 
-export const BUILT_IN_PRESETS = [
+import type { Preset } from '../types';
+
+export const BUILT_IN_PRESETS: Preset[] = [
   {
     id: 'minimal-dark',
     name: 'Minimal Dark',
@@ -12,7 +14,7 @@ export const BUILT_IN_PRESETS = [
     values: {
       title: 'Minimal Dark',
       subtitle: 'Clarity through reduction.',
-      bgType: 'color',
+      bgType: 'color' as const,
       bgColor: '#0a0a0a',
       textColor: '#fafafa',
       themeColor: '#6366f1',
@@ -31,7 +33,7 @@ export const BUILT_IN_PRESETS = [
     values: {
       title: 'The Editorial',
       subtitle: 'Long-form thinking, beautifully presented.',
-      bgType: 'color',
+      bgType: 'color' as const,
       bgColor: '#fafafa',
       textColor: '#18181b',
       themeColor: '#dc2626',
@@ -50,7 +52,7 @@ export const BUILT_IN_PRESETS = [
     values: {
       title: 'Indigo Night',
       subtitle: 'Depth that draws you in.',
-      bgType: 'color',
+      bgType: 'color' as const,
       bgColor: '#1e1b4b',
       textColor: '#e0e7ff',
       themeColor: '#a5b4fc',
@@ -69,7 +71,7 @@ export const BUILT_IN_PRESETS = [
     values: {
       title: 'Warm Paper',
       subtitle: 'Tactile. Grounded. Human.',
-      bgType: 'color',
+      bgType: 'color' as const,
       bgColor: '#f5f0e8',
       textColor: '#292524',
       themeColor: '#d97706',
@@ -88,7 +90,7 @@ export const BUILT_IN_PRESETS = [
     values: {
       title: 'MAKE IT BOLD',
       subtitle: 'No apologies. No footnotes.',
-      bgType: 'color',
+      bgType: 'color' as const,
       bgColor: '#000000',
       textColor: '#ffffff',
       themeColor: '#facc15',
@@ -107,7 +109,7 @@ export const BUILT_IN_PRESETS = [
     values: {
       title: 'Swiss Precision',
       subtitle: 'Grid. System. Clarity.',
-      bgType: 'color',
+      bgType: 'color' as const,
       bgColor: '#ffffff',
       textColor: '#18181b',
       themeColor: '#3b82f6',

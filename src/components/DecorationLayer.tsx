@@ -5,11 +5,17 @@
 
 import React from 'react';
 
+interface DecorationLayerProps {
+  showDecorations: boolean;
+  themeColor: string;
+  textColor: string;
+}
+
 export const DecorationLayer = React.memo(function DecorationLayer({
   showDecorations,
   themeColor,
   textColor,
-}) {
+}: DecorationLayerProps) {
   if (!showDecorations) return null;
 
   const year = new Date().getFullYear();

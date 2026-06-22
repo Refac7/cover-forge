@@ -5,7 +5,17 @@
    ======================================== */
 
 import React from 'react';
-import { ALIGNMENTS } from '../store/constants.js';
+import { ALIGNMENTS } from '../store/constants';
+
+interface TextLayerProps {
+  title: string;
+  subtitle: string;
+  textColor: string;
+  themeColor: string;
+  fontFamily: string;
+  fontSize: number;
+  alignment: string;
+}
 
 export const TextLayer = React.memo(function TextLayer({
   title,
@@ -15,8 +25,8 @@ export const TextLayer = React.memo(function TextLayer({
   fontFamily,
   fontSize,
   alignment,
-}) {
-  const align = ALIGNMENTS[alignment] || ALIGNMENTS.center;
+}: TextLayerProps) {
+  const align = ALIGNMENTS[alignment as keyof typeof ALIGNMENTS] || ALIGNMENTS.center;
 
   return (
     <div

@@ -5,25 +5,31 @@
 
 import React, { useState, useCallback, useRef } from 'react';
 
+interface FileUploadProps {
+  label: string;
+  accept: string;
+  onChange: (e: { target: { files: File[] } }) => void;
+}
+
 export const FileUpload = React.memo(function FileUpload({
   label,
   accept,
   onChange,
-}) {
+}: FileUploadProps) {
   const [isDragOver, setIsDragOver] = useState(false);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleDragOver = useCallback((e) => {
+  const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(true);
   }, []);
 
-  const handleDragLeave = useCallback((e) => {
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
   }, []);
 
-  const handleDrop = useCallback((e) => {
+  const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
     const file = e.dataTransfer?.files?.[0];

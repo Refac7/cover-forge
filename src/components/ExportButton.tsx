@@ -6,7 +6,12 @@
 
 import React from 'react';
 
-export const ExportButton = React.memo(function ExportButton({ isProcessing, onExport }) {
+interface ExportButtonProps {
+  isProcessing: boolean;
+  onExport: () => void;
+}
+
+export const ExportButton = React.memo(function ExportButton({ isProcessing, onExport }: ExportButtonProps) {
   return (
     <button
       onClick={onExport}
@@ -41,4 +46,3 @@ export const ExportButton = React.memo(function ExportButton({ isProcessing, onE
     </button>
   );
 });
-

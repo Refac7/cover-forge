@@ -4,17 +4,23 @@
 
 import React, { useCallback } from 'react';
 
-export const Toggle = React.memo(function Toggle({ label, checked, onChange }) {
-  const handleClick = useCallback(() => {
-    onChange(!checked);
-  }, [onChange, checked]);
+interface ToggleProps {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+}
 
-  const handleKeyDown = useCallback((e) => {
+export const Toggle = React.memo(function Toggle({ label, checked, onChange }: ToggleProps) {
+  const handleClick = useCallback(() => {
+    onChange();
+  }, [onChange]);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      onChange(!checked);
+      onChange();
     }
-  }, [onChange, checked]);
+  }, [onChange]);
 
   return (
     <div style={{

@@ -5,6 +5,15 @@
 
 import React from 'react';
 
+interface TextInputProps {
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  placeholder?: string;
+  isTextarea?: boolean;
+  rows?: number;
+}
+
 export const TextInput = React.memo(function TextInput({
   label,
   value,
@@ -12,7 +21,7 @@ export const TextInput = React.memo(function TextInput({
   placeholder = '',
   isTextarea = false,
   rows = 2,
-}) {
+}: TextInputProps) {
   const inputId = `input-${label.toLowerCase().replace(/\s+/g, '-')}`;
 
   return (

@@ -5,13 +5,14 @@
    ======================================== */
 
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { useCoverConfig } from '../hooks/useCoverConfig.js';
-import { ActionTypes } from '../store/configReducer.js';
-import { ALIGNMENT_KEYS } from '../store/constants.js';
-import { Sidebar } from './Sidebar.jsx';
-import { CanvasPreview } from './CanvasPreview.jsx';
-import { KeyboardShortcutOverlay } from './KeyboardShortcutOverlay.jsx';
-import { ExportButton } from './ExportButton.jsx';
+import { useCoverConfig } from '../hooks/useCoverConfig';
+import { ActionTypes } from '../store/configReducer';
+import { ALIGNMENT_KEYS } from '../store/constants';
+import { Sidebar } from './Sidebar';
+import { CanvasPreview } from './CanvasPreview';
+import { KeyboardShortcutOverlay } from './KeyboardShortcutOverlay';
+import { ExportButton } from './ExportButton';
+import type { CoverConfig } from '../types';
 
 export default function App() {
   const {
@@ -23,19 +24,19 @@ export default function App() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const previewRef = useRef(null);
+  const previewRef = useRef<HTMLDivElement>(null);
   const processingRef = useRef(false);
-  const configRef = useRef(config);
+  const configRef = useRef<CoverConfig>(config);
   configRef.current = config;
 
   /* ===== Keyboard Shortcuts ===== */
   useEffect(() => {
-    function handleKeyDown(e) {
+    function handleKeyDown(e: KeyboardEvent) {
       const ctrlOrMeta = e.metaKey || e.ctrlKey;
       const shift = e.shiftKey;
       const key = e.key.toLowerCase();
 
-      const tag = e.target.tagName;
+      const tag = (e.target as HTMLElement).tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
 
       if (!ctrlOrMeta && key === '?') {
@@ -137,7 +138,7 @@ export default function App() {
     }
   }, [dispatch]);
 
-  const handleApplyPreset = useCallback((values) => {
+  const handleApplyPreset = useCallback((values: Partial<CoverConfig>) => {
     dispatch({ type: ActionTypes.LOAD_PRESET, payload: values });
   }, [dispatch]);
 
@@ -304,7 +305,7 @@ export default function App() {
   );
 }
 
-function processImageWithFilters(imgSrc, blur, brightness) {
+function processImageWithFilters(imgSrc: string, blur: number, brightness: number): Promise<string> {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.crossOrigin = 'anonymous';

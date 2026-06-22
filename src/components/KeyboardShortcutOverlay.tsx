@@ -17,11 +17,16 @@ const SHORTCUT_LIST = [
   { keys: 'Esc', description: 'Close overlay' },
 ];
 
+interface KeyboardShortcutOverlayProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
 export const KeyboardShortcutOverlay = React.memo(function KeyboardShortcutOverlay({
   isOpen,
   onClose,
-}) {
-  const handleKeyDown = useCallback((e) => {
+}: KeyboardShortcutOverlayProps) {
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       onClose();
     }

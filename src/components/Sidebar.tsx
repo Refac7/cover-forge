@@ -4,15 +4,39 @@
    ======================================== */
 
 import React from 'react';
-import { SidebarHeader } from './SidebarHeader.jsx';
-import { ContentSection } from './ContentSection.jsx';
-import { AppearanceSection } from './AppearanceSection.jsx';
-import { TypographySection } from './TypographySection.jsx';
-import { LayoutSection } from './LayoutSection.jsx';
-import { PresetBar } from './PresetBar.jsx';
-import { ExportButton } from './ExportButton.jsx';
+import { SidebarHeader } from './SidebarHeader';
+import { ContentSection } from './ContentSection';
+import { AppearanceSection } from './AppearanceSection';
+import { TypographySection } from './TypographySection';
+import { LayoutSection } from './LayoutSection';
+import { PresetBar } from './PresetBar';
+import { ExportButton } from './ExportButton';
+import type { CoverConfig, ConfigAction } from '../types';
 
-const CollapsibleSection = React.memo(function CollapsibleSection({ title, defaultOpen = true, children }) {
+interface SidebarContentProps {
+  config: CoverConfig;
+  dispatch: (action: ConfigAction) => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  undoCount: number;
+  redoCount: number;
+  onUndo: () => void;
+  onRedo: () => void;
+  isProcessing: boolean;
+  onExport: () => void;
+  onApplyPreset: (values: Partial<CoverConfig>) => void;
+  onMobileClose?: () => void;
+}
+
+const CollapsibleSection = React.memo(function CollapsibleSection({
+  title,
+  defaultOpen = true,
+  children,
+}: {
+  title: string;
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+}) {
   const [isOpen, setIsOpen] = React.useState(defaultOpen);
 
   return (
@@ -48,7 +72,7 @@ const CollapsibleSection = React.memo(function CollapsibleSection({ title, defau
 const SidebarContent = React.memo(function SidebarContent({
   config, dispatch, canUndo, canRedo, undoCount, redoCount,
   onUndo, onRedo, isProcessing, onExport, onApplyPreset, onMobileClose,
-}) {
+}: SidebarContentProps) {
   return (
     <>
       <SidebarHeader
@@ -118,14 +142,19 @@ const SidebarContent = React.memo(function SidebarContent({
   );
 });
 
+interface SidebarProps extends SidebarContentProps {
+  isMobileOpen: boolean;
+  onMobileClose: () => void;
+}
+
 export const Sidebar = React.memo(function Sidebar({
   config, dispatch,
   canUndo, canRedo, undoCount, redoCount,
   onUndo, onRedo,
   isProcessing, onExport, onApplyPreset,
   isMobileOpen, onMobileClose,
-}) {
-  const sharedProps = {
+}: SidebarProps) {
+  const sharedProps: SidebarContentProps = {
     config, dispatch,
     canUndo, canRedo, undoCount, redoCount,
     onUndo, onRedo,

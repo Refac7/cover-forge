@@ -5,10 +5,20 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 
+interface SidebarHeaderProps {
+  canUndo: boolean;
+  canRedo: boolean;
+  undoCount: number;
+  redoCount: number;
+  onUndo: () => void;
+  onRedo: () => void;
+  onMobileClose?: () => void;
+}
+
 export const SidebarHeader = React.memo(function SidebarHeader({
   canUndo, canRedo, undoCount, redoCount,
   onUndo, onRedo, onMobileClose,
-}) {
+}: SidebarHeaderProps) {
   const [isDark, setIsDark] = useState(() => {
     if (typeof document !== 'undefined') {
       const stored = localStorage.getItem('coverforge-theme');

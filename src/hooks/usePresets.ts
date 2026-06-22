@@ -4,9 +4,10 @@
    ======================================== */
 
 import { useState, useCallback } from 'react';
-import { BUILT_IN_PRESETS, USER_PRESETS_KEY, MAX_USER_PRESETS } from '../store/presets.js';
+import type { CoverConfig, Preset } from '../types';
+import { BUILT_IN_PRESETS, USER_PRESETS_KEY, MAX_USER_PRESETS } from '../store/presets';
 
-function loadUserPresets() {
+function loadUserPresets(): Preset[] {
   try {
     const raw = localStorage.getItem(USER_PRESETS_KEY);
     return raw ? JSON.parse(raw) : [];
@@ -15,7 +16,7 @@ function loadUserPresets() {
   }
 }
 
-function saveUserPresets(presets) {
+function saveUserPresets(presets: Preset[]): void {
   try {
     localStorage.setItem(USER_PRESETS_KEY, JSON.stringify(presets));
   } catch {
@@ -23,14 +24,21 @@ function saveUserPresets(presets) {
   }
 }
 
-export function usePresets() {
-  const [userPresets, setUserPresets] = useState(loadUserPresets);
+export interface PresetsAPI {
+  allPresets: Preset[];
+  userPresets: Preset[];
+  saveCurrentAsPreset: (name: string, configValues: CoverConfig) => string;
+  deleteUserPreset: (id: string) => void;
+}
+
+export function usePresets(): PresetsAPI {
+  const [userPresets, setUserPresets] = useState<Preset[]>(loadUserPresets);
 
   const allPresets = [...BUILT_IN_PRESETS, ...userPresets];
 
-  const saveCurrentAsPreset = useCallback((name, configValues) => {
+  const saveCurrentAsPreset = useCallback((name: string, configValues: CoverConfig): string => {
     const id = `user-${Date.now()}`;
-    const preset = {
+    const preset: Preset = {
       id,
       name,
       icon: '★',
@@ -44,7 +52,7 @@ export function usePresets() {
     return id;
   }, []);
 
-  const deleteUserPreset = useCallback((id) => {
+  const deleteUserPreset = useCallback((id: string) => {
     setUserPresets((prev) => {
       const next = prev.filter((p) => p.id !== id);
       saveUserPresets(next);

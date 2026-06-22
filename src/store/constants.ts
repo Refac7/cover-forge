@@ -5,10 +5,12 @@
    (not Tailwind classes — we removed it).
    ======================================== */
 
+import type { CoverConfig, AlignmentKey, AlignmentCSS, FontOption } from '../types';
+
 export const BASE_WIDTH = 1280;
 export const BASE_HEIGHT = 720;
 
-export const PRESET_FONTS = [
+export const PRESET_FONTS: FontOption[] = [
   { name: 'System Sans', value: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif' },
   { name: 'System Mono', value: 'ui-monospace, "SF Mono", "Fira Code", monospace' },
   { name: 'Georgia Serif', value: 'Georgia, "Times New Roman", serif' },
@@ -19,7 +21,7 @@ export const PRESET_FONTS = [
 
 /* Alignment as CSS flex property objects.
    Used inline (not className) since we removed Tailwind. */
-export const ALIGNMENTS = {
+export const ALIGNMENTS: Record<AlignmentKey, AlignmentCSS> = {
   'top-left':      { justifyContent: 'flex-start', alignItems: 'flex-start' },
   'top-center':    { justifyContent: 'flex-start', alignItems: 'center'   },
   'top-right':     { justifyContent: 'flex-start', alignItems: 'flex-end'  },
@@ -32,13 +34,13 @@ export const ALIGNMENTS = {
 };
 
 /* Ordered array for grid rendering and keyboard 1-9 shortcuts */
-export const ALIGNMENT_KEYS = [
+export const ALIGNMENT_KEYS: AlignmentKey[] = [
   'top-left', 'top-center', 'top-right',
   'center-left', 'center', 'center-right',
   'bottom-left', 'bottom-center', 'bottom-right',
 ];
 
-export const ALIGNMENT_LABELS = {
+export const ALIGNMENT_LABELS: Record<AlignmentKey, string> = {
   'top-left':      'Top Left',
   'top-center':    'Top Center',
   'top-right':     'Top Right',
@@ -50,7 +52,7 @@ export const ALIGNMENT_LABELS = {
   'bottom-right':  'Bottom Right',
 };
 
-export const DEFAULT_CONFIG = {
+export const DEFAULT_CONFIG: CoverConfig = {
   title: 'Design is Intentional',
   subtitle: 'Every pixel tells a story. Every decision has purpose.',
   bgType: 'color',
@@ -64,4 +66,5 @@ export const DEFAULT_CONFIG = {
   brightness: 100,
   fontSize: 84,
   showDecorations: true,
+  customFontName: null,
 };

@@ -4,22 +4,34 @@
    ======================================== */
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import type { CoverConfig } from '../types';
 
 const AUTOSAVE_KEY = 'coverforge-autosave';
 const AUTOSAVE_DELAY = 1000;
 
-export function useAutosave(state, clearHistory) {
+interface SavedData {
+  config: CoverConfig;
+  timestamp: number;
+}
+
+export interface AutosaveAPI {
+  showRestorePrompt: boolean;
+  restore: () => CoverConfig | null;
+  dismissRestore: () => void;
+}
+
+export function useAutosave(state: CoverConfig, clearHistory: () => void): AutosaveAPI {
   const [showRestorePrompt, setShowRestorePrompt] = useState(false);
-  const [savedConfig, setSavedConfig] = useState(null);
+  const [savedConfig, setSavedConfig] = useState<CoverConfig | null>(null);
   const isRestoring = useRef(false);
-  const timerRef = useRef(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /* Check for saved state on mount */
   useEffect(() => {
     try {
       const raw = localStorage.getItem(AUTOSAVE_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw);
+        const parsed: SavedData = JSON.parse(raw);
         if (parsed && parsed.timestamp) {
           setSavedConfig(parsed.config);
           setShowRestorePrompt(true);
@@ -55,7 +67,7 @@ export function useAutosave(state, clearHistory) {
     };
   }, [state]);
 
-  const restore = useCallback(() => {
+  const restore = useCallback((): CoverConfig | null => {
     if (savedConfig) {
       isRestoring.current = true;
       clearHistory();
@@ -68,7 +80,7 @@ export function useAutosave(state, clearHistory) {
   const dismissRestore = useCallback(() => {
     setShowRestorePrompt(false);
     /* Clear saved state so it doesn't prompt again next load */
-    try { localStorage.removeItem(AUTOSAVE_KEY); } catch {}
+    try { localStorage.removeItem(AUTOSAVE_KEY); } catch { /* ignore */ }
   }, []);
 
   return { showRestorePrompt, restore, dismissRestore };

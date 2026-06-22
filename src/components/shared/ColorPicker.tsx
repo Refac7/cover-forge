@@ -5,8 +5,14 @@
 
 import React, { useCallback } from 'react';
 
-export const ColorPicker = React.memo(function ColorPicker({ label, value, onChange }) {
-  const handleChange = useCallback((e) => {
+interface ColorPickerProps {
+  label: string;
+  value: string;
+  onChange: (color: string) => void;
+}
+
+export const ColorPicker = React.memo(function ColorPicker({ label, value, onChange }: ColorPickerProps) {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   }, [onChange]);
 

@@ -4,7 +4,8 @@
    is an undo/redo-able state mutation.
    ======================================== */
 
-import { DEFAULT_CONFIG } from './constants.js';
+import type { CoverConfig, ConfigAction } from '../types';
+import { DEFAULT_CONFIG } from './constants';
 
 export const ActionTypes = {
   SET_TITLE:            'SET_TITLE',
@@ -23,9 +24,9 @@ export const ActionTypes = {
   SET_CUSTOM_FONT_NAME: 'SET_CUSTOM_FONT_NAME',
   LOAD_PRESET:           'LOAD_PRESET',
   RESTORE_STATE:         'RESTORE_STATE',
-};
+} as const;
 
-export function configReducer(state, action) {
+export function configReducer(state: CoverConfig, action: ConfigAction): CoverConfig {
   switch (action.type) {
     case ActionTypes.SET_TITLE:
       return { ...state, title: action.payload };
@@ -80,6 +81,6 @@ export function configReducer(state, action) {
   }
 }
 
-export function getInitialConfig() {
+export function getInitialConfig(): CoverConfig {
   return { ...DEFAULT_CONFIG, customFontName: null };
 }

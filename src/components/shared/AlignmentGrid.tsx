@@ -5,9 +5,10 @@
    ======================================== */
 
 import React from 'react';
-import { ALIGNMENT_KEYS, ALIGNMENT_LABELS } from '../../store/constants.js';
+import { ALIGNMENT_KEYS, ALIGNMENT_LABELS } from '../../store/constants';
+import type { AlignmentKey } from '../../types';
 
-const DOT_POSITIONS = {
+const DOT_POSITIONS: Record<AlignmentKey, { top: string; left: string }> = {
   'top-left':      { top: '25%', left: '25%' },
   'top-center':    { top: '25%', left: '50%' },
   'top-right':     { top: '25%', left: '75%' },
@@ -19,7 +20,12 @@ const DOT_POSITIONS = {
   'bottom-right':  { top: '75%', left: '75%' },
 };
 
-export const AlignmentGrid = React.memo(function AlignmentGrid({ value, onChange }) {
+interface AlignmentGridProps {
+  value: string;
+  onChange: (key: AlignmentKey) => void;
+}
+
+export const AlignmentGrid = React.memo(function AlignmentGrid({ value, onChange }: AlignmentGridProps) {
   return (
     <div
       role="radiogroup"

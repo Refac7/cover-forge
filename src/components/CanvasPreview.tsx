@@ -5,10 +5,27 @@
    ======================================== */
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { BackgroundLayer } from './BackgroundLayer.jsx';
-import { DecorationLayer } from './DecorationLayer.jsx';
-import { TextLayer } from './TextLayer.jsx';
-import { BASE_WIDTH, BASE_HEIGHT } from '../store/constants.js';
+import { BackgroundLayer } from './BackgroundLayer';
+import { DecorationLayer } from './DecorationLayer';
+import { TextLayer } from './TextLayer';
+import { BASE_WIDTH, BASE_HEIGHT } from '../store/constants';
+
+interface CanvasPreviewProps {
+  bgType: string;
+  bgColor: string;
+  bgImage: string | null;
+  blur: number;
+  brightness: number;
+  themeColor: string;
+  textColor: string;
+  title: string;
+  subtitle: string;
+  fontFamily: string;
+  fontSize: number;
+  alignment: string;
+  showDecorations: boolean;
+  previewRef: React.Ref<HTMLDivElement>;
+}
 
 export const CanvasPreview = React.memo(function CanvasPreview({
   bgType,
@@ -25,8 +42,8 @@ export const CanvasPreview = React.memo(function CanvasPreview({
   alignment,
   showDecorations,
   previewRef,
-}) {
-  const containerRef = useRef(null);
+}: CanvasPreviewProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
 
   /* ResizeObserver: compute scale to fit container width */

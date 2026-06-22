@@ -5,6 +5,15 @@
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 
+interface SliderProps {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step?: number;
+  onChange: (val: number) => void;
+}
+
 export const Slider = React.memo(function Slider({
   label,
   value,
@@ -12,15 +21,15 @@ export const Slider = React.memo(function Slider({
   max,
   step = 1,
   onChange,
-}) {
-  const [localValue, setLocalValue] = useState(value);
-  const rafRef = useRef(null);
+}: SliderProps) {
+  const [localValue, setLocalValue] = useState<number>(value);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     setLocalValue(value);
   }, [value]);
 
-  const handleChange = useCallback((e) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const val = Number(e.target.value);
     setLocalValue(val);
     if (rafRef.current) cancelAnimationFrame(rafRef.current);

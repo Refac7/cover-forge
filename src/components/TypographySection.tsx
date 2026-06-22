@@ -4,26 +4,34 @@
    ======================================== */
 
 import React, { useCallback } from 'react';
-import { ActionTypes } from '../store/configReducer.js';
-import { PRESET_FONTS } from '../store/constants.js';
-import { Slider } from './shared/Slider.jsx';
-import { FileUpload } from './shared/FileUpload.jsx';
+import { ActionTypes } from '../store/configReducer';
+import { PRESET_FONTS } from '../store/constants';
+import { Slider } from './shared/Slider';
+import { FileUpload } from './shared/FileUpload';
+import type { ConfigAction } from '../types';
+
+interface TypographySectionProps {
+  fontFamily: string;
+  fontSize: number;
+  customFontName: string | null;
+  dispatch: (action: ConfigAction) => void;
+}
 
 export const TypographySection = React.memo(function TypographySection({
   fontFamily,
   fontSize,
   customFontName,
   dispatch,
-}) {
-  const handleFontSelect = useCallback((e) => {
+}: TypographySectionProps) {
+  const handleFontSelect = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch({ type: ActionTypes.SET_FONT_FAMILY, payload: e.target.value });
   }, [dispatch]);
 
-  const handleFontSize = useCallback((val) => {
+  const handleFontSize = useCallback((val: number) => {
     dispatch({ type: ActionTypes.SET_FONT_SIZE, payload: val });
   }, [dispatch]);
 
-  const handleFontUpload = useCallback(async (e) => {
+  const handleFontUpload = useCallback(async (e: { target: { files: File[] } }) => {
     const file = e.target.files?.[0];
     if (!file) return;
 

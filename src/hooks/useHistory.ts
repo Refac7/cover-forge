@@ -7,24 +7,40 @@
    Max depth: 50 entries.
    ======================================== */
 
-import { useReducer, useCallback, useRef } from 'react';
+import { useReducer, useCallback, useRef, type Reducer } from 'react';
 
 const MAX_HISTORY = 50;
 
-export function useHistory(reducer, initializer, initialArg) {
+export interface HistoryAPI<S, A> {
+  state: S;
+  dispatch: (action: A) => void;
+  undo: () => void;
+  redo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  undoCount: number;
+  redoCount: number;
+  clearHistory: () => void;
+}
+
+export function useHistory<S, A>(
+  reducer: Reducer<S, A>,
+  initializer: (arg: undefined) => S,
+  initialArg: undefined,
+): HistoryAPI<S, A> {
   const [state, rawDispatch] = useReducer(reducer, initialArg, initializer);
 
-  const pastRef = useRef([]);
-  const futureRef = useRef([]);
+  const pastRef = useRef<S[]>([]);
+  const futureRef = useRef<S[]>([]);
   /* Keep latest state in a ref so callbacks don't depend on state */
-  const stateRef = useRef(state);
+  const stateRef = useRef<S>(state);
   stateRef.current = state;
 
   /* Also track undo/redo counts in state for reactivity */
   const countsRef = useRef({ undoCount: 0, redoCount: 0, canUndo: false, canRedo: false });
 
   /* Force re-render helper (for badge counts) */
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [, forceUpdate] = useReducer((x: number) => x + 1, 0);
 
   function updateCounts() {
     countsRef.current = {
@@ -36,7 +52,7 @@ export function useHistory(reducer, initializer, initialArg) {
   }
 
   /* Stable dispatch — never changes */
-  const dispatch = useCallback((action) => {
+  const dispatch = useCallback((action: A) => {
     pastRef.current = [...pastRef.current, stateRef.current].slice(-MAX_HISTORY);
     futureRef.current = [];
     rawDispatch(action);
@@ -50,7 +66,7 @@ export function useHistory(reducer, initializer, initialArg) {
     const previous = pastRef.current[pastRef.current.length - 1];
     pastRef.current = pastRef.current.slice(0, -1);
     futureRef.current = [...futureRef.current, stateRef.current].slice(-MAX_HISTORY);
-    rawDispatch({ type: 'RESTORE_STATE', payload: previous });
+    rawDispatch({ type: 'RESTORE_STATE', payload: previous } as unknown as A);
     updateCounts();
     forceUpdate();
   }, []);
@@ -61,7 +77,7 @@ export function useHistory(reducer, initializer, initialArg) {
     const next = futureRef.current[futureRef.current.length - 1];
     futureRef.current = futureRef.current.slice(0, -1);
     pastRef.current = [...pastRef.current, stateRef.current].slice(-MAX_HISTORY);
-    rawDispatch({ type: 'RESTORE_STATE', payload: next });
+    rawDispatch({ type: 'RESTORE_STATE', payload: next } as unknown as A);
     updateCounts();
     forceUpdate();
   }, []);

@@ -4,10 +4,22 @@
    ======================================== */
 
 import React, { useCallback } from 'react';
-import { ActionTypes } from '../store/configReducer.js';
-import { ColorPicker } from './shared/ColorPicker.jsx';
-import { Slider } from './shared/Slider.jsx';
-import { FileUpload } from './shared/FileUpload.jsx';
+import { ActionTypes } from '../store/configReducer';
+import { ColorPicker } from './shared/ColorPicker';
+import { Slider } from './shared/Slider';
+import { FileUpload } from './shared/FileUpload';
+import type { ConfigAction } from '../types';
+
+interface AppearanceSectionProps {
+  bgType: string;
+  bgColor: string;
+  bgImage: string | null;
+  themeColor: string;
+  textColor: string;
+  blur: number;
+  brightness: number;
+  dispatch: (action: ConfigAction) => void;
+}
 
 export const AppearanceSection = React.memo(function AppearanceSection({
   bgType,
@@ -18,12 +30,12 @@ export const AppearanceSection = React.memo(function AppearanceSection({
   blur,
   brightness,
   dispatch,
-}) {
-  const setBgType = useCallback((type) => {
-    dispatch({ type: ActionTypes.SET_BG_TYPE, payload: type });
+}: AppearanceSectionProps) {
+  const setBgType = useCallback((type: string) => {
+    dispatch({ type: ActionTypes.SET_BG_TYPE, payload: type as 'color' | 'image' });
   }, [dispatch]);
 
-  const handleImageUpload = useCallback((e) => {
+  const handleImageUpload = useCallback((e: { target: { files: File[] } }) => {
     const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
@@ -32,11 +44,11 @@ export const AppearanceSection = React.memo(function AppearanceSection({
     }
   }, [dispatch]);
 
-  const handleColorChange = useCallback((action) => (val) => {
+  const handleColorChange = useCallback((action: typeof ActionTypes.SET_THEME_COLOR | typeof ActionTypes.SET_TEXT_COLOR | typeof ActionTypes.SET_BG_COLOR) => (val: string) => {
     dispatch({ type: action, payload: val });
   }, [dispatch]);
 
-  const handleSlider = useCallback((action) => (val) => {
+  const handleSlider = useCallback((action: typeof ActionTypes.SET_BLUR | typeof ActionTypes.SET_BRIGHTNESS) => (val: number) => {
     dispatch({ type: action, payload: val });
   }, [dispatch]);
 
