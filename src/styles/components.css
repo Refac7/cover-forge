@@ -1,0 +1,417 @@
+/* ========================================
+   CoverForge Shared Component Classes
+   shadcn/ui-inspired: ring focus, proper
+   border-radius, HSL color usage.
+   ======================================== */
+
+/* ---- Button ---- */
+.cf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+  user-select: none;
+  white-space: nowrap;
+  line-height: var(--leading-normal);
+}
+
+.cf-btn:active {
+  transform: scale(0.97);
+}
+
+.cf-btn:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+.cf-btn--primary {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.cf-btn--primary:hover {
+  opacity: 0.9;
+}
+
+.cf-btn--primary:disabled {
+  background: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.5;
+}
+
+.cf-btn--ghost {
+  background: transparent;
+  color: hsl(var(--foreground));
+}
+
+.cf-btn--ghost:hover {
+  background: hsl(var(--secondary));
+}
+
+.cf-btn--icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  color: hsl(var(--muted-foreground));
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+  border: none;
+  padding: 0;
+}
+
+.cf-btn--icon:hover {
+  background: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+}
+
+.cf-btn--icon:disabled {
+  color: hsl(var(--muted-foreground));
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.cf-btn--icon:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* ---- Input Group ---- */
+.cf-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.cf-input-label {
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: hsl(var(--muted-foreground));
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+}
+
+.cf-input {
+  width: 100%;
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.cf-input:focus {
+  border-color: hsl(var(--ring));
+  box-shadow: 0 0 0 3px hsl(var(--ring) / 0.2);
+}
+
+.cf-input::placeholder {
+  color: hsl(var(--muted-foreground) / 0.6);
+}
+
+/* ---- Card ---- */
+.cf-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+/* ---- Section ---- */
+.cf-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) 0;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  background: transparent;
+  width: 100%;
+  color: inherit;
+}
+
+.cf-section-title {
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: hsl(var(--muted-foreground));
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+}
+
+/* ---- Divider ---- */
+.cf-divider {
+  height: 1px;
+  background: hsl(var(--border));
+  border: none;
+  margin: 0;
+}
+
+/* ---- Badge ---- */
+.cf-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: var(--font-semibold);
+  color: hsl(var(--primary-foreground));
+  background: hsl(var(--primary));
+  border-radius: 9999px;
+}
+
+/* ---- Status Dot ---- */
+.cf-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: hsl(var(--muted-foreground));
+}
+
+.cf-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.cf-status-dot--ready {
+  background: hsl(var(--success));
+  box-shadow: 0 0 6px hsl(var(--success));
+}
+
+.cf-status-dot--processing {
+  background: hsl(var(--warning));
+  box-shadow: 0 0 6px hsl(var(--warning));
+  animation: cf-pulse 1.5s ease-in-out infinite;
+}
+
+/* ---- Toast ---- */
+.cf-toast {
+  position: fixed;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-toast);
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+  font-size: var(--text-sm);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  animation: cf-slide-up 0.3s var(--ease-out);
+}
+
+/* ---- Keyboard Keycap ---- */
+.cf-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 var(--space-1);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: var(--font-medium);
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-sm);
+  box-shadow: 0 1px 1px rgb(0 0 0 / 0.06);
+}
+
+/* ---- Preset Chip ---- */
+.cf-preset {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.cf-preset:hover {
+  background: hsl(var(--primary) / 0.1);
+  border-color: hsl(var(--primary) / 0.3);
+  color: hsl(var(--primary));
+}
+
+.cf-preset:active {
+  transform: scale(0.96);
+}
+
+/* ---- Sidebar: Desktop vs Mobile visibility ---- */
+
+/* Desktop sidebar: visible by default, hidden on mobile */
+.cf-sidebar-desktop {
+  display: flex;
+}
+
+/* Mobile sidebar: hidden by default, shown on mobile */
+.cf-sidebar--mobile {
+  display: none;
+}
+
+/* Mobile sidebar overlay backdrop */
+.cf-sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  background: rgb(0 0 0 / 0.4);
+  backdrop-filter: blur(2px);
+  animation: cf-fade-in 0.2s var(--ease-out);
+}
+
+/* ---- Hamburger button ---- */
+.cf-hamburger {
+  display: none;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  color: hsl(var(--foreground));
+  background: transparent;
+  border: 1px solid hsl(var(--border));
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.cf-hamburger:hover {
+  background: hsl(var(--secondary));
+}
+
+/* ---- Floating export bar (mobile) ---- */
+.cf-floating-export {
+  display: none;
+  position: fixed;
+  bottom: var(--space-4);
+  left: var(--space-4);
+  right: var(--space-4);
+  z-index: var(--z-sticky);
+}
+
+/* ---- Mobile close button ---- */
+.cf-mobile-close {
+  display: none;
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Tablet: narrower sidebar */
+@media (max-width: 1023px) {
+  :root {
+    --sidebar-width: 300px;
+  }
+}
+
+/* Mobile: overlay sidebar */
+@media (max-width: 767px) {
+  /* Hide desktop sidebar */
+  .cf-sidebar-desktop {
+    display: none;
+  }
+
+  /* Show mobile sidebar with slide-in behavior */
+  .cf-sidebar--mobile {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(85vw, 340px);
+    z-index: var(--z-modal);
+    transform: translateX(-100%);
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+
+  .cf-sidebar--mobile.cf-sidebar--open {
+    transform: translateX(0);
+  }
+
+  /* Show hamburger */
+  .cf-hamburger {
+    display: flex;
+  }
+
+  /* Show floating export */
+  .cf-floating-export {
+    display: block;
+  }
+
+  /* Show mobile close button inside sidebar */
+  .cf-mobile-close {
+    display: flex;
+  }
+
+  /* Hide desktop docked export inside mobile sidebar */
+  .cf-sidebar-export {
+    display: none;
+  }
+}
+
+/* ========================================
+   KEYFRAME ANIMATIONS
+   ======================================== */
+
+@keyframes cf-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes cf-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes cf-slide-up {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes cf-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

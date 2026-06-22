@@ -1,0 +1,126 @@
+/* ========================================
+   CoverForge Built-in Presets
+   Each preset is a full config snapshot
+   (spread onto DEFAULT_CONFIG at apply time).
+   ======================================== */
+
+export const BUILT_IN_PRESETS = [
+  {
+    id: 'minimal-dark',
+    name: 'Minimal Dark',
+    icon: '●',
+    values: {
+      title: 'Minimal Dark',
+      subtitle: 'Clarity through reduction.',
+      bgType: 'color',
+      bgColor: '#0a0a0a',
+      textColor: '#fafafa',
+      themeColor: '#6366f1',
+      fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+      alignment: 'center',
+      fontSize: 88,
+      showDecorations: true,
+      blur: 0,
+      brightness: 100,
+    },
+  },
+  {
+    id: 'editorial',
+    name: 'Editorial',
+    icon: '¶',
+    values: {
+      title: 'The Editorial',
+      subtitle: 'Long-form thinking, beautifully presented.',
+      bgType: 'color',
+      bgColor: '#fafafa',
+      textColor: '#18181b',
+      themeColor: '#dc2626',
+      fontFamily: 'Georgia, "Times New Roman", serif',
+      alignment: 'center-left',
+      fontSize: 72,
+      showDecorations: true,
+      blur: 0,
+      brightness: 100,
+    },
+  },
+  {
+    id: 'indigo-night',
+    name: 'Indigo Night',
+    icon: '◈',
+    values: {
+      title: 'Indigo Night',
+      subtitle: 'Depth that draws you in.',
+      bgType: 'color',
+      bgColor: '#1e1b4b',
+      textColor: '#e0e7ff',
+      themeColor: '#a5b4fc',
+      fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+      alignment: 'center',
+      fontSize: 92,
+      showDecorations: true,
+      blur: 0,
+      brightness: 100,
+    },
+  },
+  {
+    id: 'warm-paper',
+    name: 'Warm Paper',
+    icon: '◫',
+    values: {
+      title: 'Warm Paper',
+      subtitle: 'Tactile. Grounded. Human.',
+      bgType: 'color',
+      bgColor: '#f5f0e8',
+      textColor: '#292524',
+      themeColor: '#d97706',
+      fontFamily: 'Georgia, "Times New Roman", serif',
+      alignment: 'bottom-right',
+      fontSize: 78,
+      showDecorations: false,
+      blur: 0,
+      brightness: 100,
+    },
+  },
+  {
+    id: 'bold-statement',
+    name: 'Bold Statement',
+    icon: '■',
+    values: {
+      title: 'MAKE IT BOLD',
+      subtitle: 'No apologies. No footnotes.',
+      bgType: 'color',
+      bgColor: '#000000',
+      textColor: '#ffffff',
+      themeColor: '#facc15',
+      fontFamily: 'Impact, "Arial Black", sans-serif',
+      alignment: 'center',
+      fontSize: 120,
+      showDecorations: false,
+      blur: 0,
+      brightness: 100,
+    },
+  },
+  {
+    id: 'clean-swiss',
+    name: 'Clean Swiss',
+    icon: '▤',
+    values: {
+      title: 'Swiss Precision',
+      subtitle: 'Grid. System. Clarity.',
+      bgType: 'color',
+      bgColor: '#ffffff',
+      textColor: '#18181b',
+      themeColor: '#3b82f6',
+      fontFamily: '"Inter", system-ui, sans-serif',
+      alignment: 'top-left',
+      fontSize: 76,
+      showDecorations: true,
+      blur: 0,
+      brightness: 100,
+    },
+  },
+];
+
+/* localStorage key for user presets */
+export const USER_PRESETS_KEY = 'coverforge-user-presets';
+export const MAX_USER_PRESETS = 10;
