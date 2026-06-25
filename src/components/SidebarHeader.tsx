@@ -5,6 +5,40 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 
+type Theme = 'system' | 'light' | 'dark';
+
+const THEME_KEY = 'coverforge-theme';
+const THEME_CYCLE: Theme[] = ['system', 'light', 'dark'];
+
+function getStoredTheme(): Theme {
+  if (typeof document === 'undefined') return 'system';
+  const stored = localStorage.getItem(THEME_KEY);
+  if (stored === 'light' || stored === 'dark') return stored;
+  return 'system';
+}
+
+function getSystemIsDark(): boolean {
+  if (typeof document === 'undefined') return true;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function applyTheme(theme: Theme): void {
+  const root = document.documentElement;
+  if (theme === 'dark') {
+    root.setAttribute('data-theme', 'dark');
+    root.classList.add('dark');
+    root.classList.remove('light');
+  } else if (theme === 'light') {
+    root.setAttribute('data-theme', 'light');
+    root.classList.add('light');
+    root.classList.remove('dark');
+  } else {
+    // System mode — let CSS @media (prefers-color-scheme) handle it
+    root.removeAttribute('data-theme');
+    root.classList.remove('dark', 'light');
+  }
+}
+
 interface SidebarHeaderProps {
   canUndo: boolean;
   canRedo: boolean;
@@ -19,30 +53,38 @@ export const SidebarHeader = React.memo(function SidebarHeader({
   canUndo, canRedo, undoCount, redoCount,
   onUndo, onRedo, onMobileClose,
 }: SidebarHeaderProps) {
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof document !== 'undefined') {
-      const stored = localStorage.getItem('coverforge-theme');
-      if (stored) return stored === 'dark';
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    return true;
-  });
+  const [theme, setTheme] = useState<Theme>(getStoredTheme);
+  const [systemIsDark, setSystemIsDark] = useState(getSystemIsDark);
 
+  // Listen for system color-scheme changes (for icon updates when in "system" mode)
   useEffect(() => {
-    const root = document.documentElement;
-    if (isDark) {
-      root.setAttribute('data-theme', 'dark');
-      root.classList.add('dark');
-      root.classList.remove('light');
-    } else {
-      root.setAttribute('data-theme', 'light');
-      root.classList.add('light');
-      root.classList.remove('dark');
-    }
-    localStorage.setItem('coverforge-theme', isDark ? 'dark' : 'light');
-  }, [isDark]);
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = (e: MediaQueryListEvent) => setSystemIsDark(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
-  const toggleTheme = useCallback(() => setIsDark((d) => !d), []);
+  // Apply theme classes/attributes to <html> whenever theme changes
+  useEffect(() => {
+    applyTheme(theme);
+    if (theme === 'system') {
+      localStorage.removeItem(THEME_KEY);
+    } else {
+      localStorage.setItem(THEME_KEY, theme);
+    }
+  }, [theme]);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((t) => {
+      const idx = THEME_CYCLE.indexOf(t);
+      return THEME_CYCLE[(idx + 1) % THEME_CYCLE.length];
+    });
+  }, []);
+
+  // The visually active theme — used for the icon shown in the button
+  const effectiveIsDark = theme === 'system' ? systemIsDark : theme === 'dark';
+
+  const nextTheme = THEME_CYCLE[(THEME_CYCLE.indexOf(theme) + 1) % THEME_CYCLE.length];
 
   return (
     <div style={{
@@ -85,10 +127,24 @@ export const SidebarHeader = React.memo(function SidebarHeader({
           <button
             onClick={toggleTheme}
             className="cf-btn--icon"
-            title={isDark ? 'Light mode' : 'Dark mode'}
+            title={`Theme: ${theme === 'system' ? 'Auto (follow system)' : theme === 'light' ? 'Light' : 'Dark'} — click for ${nextTheme === 'system' ? 'auto' : nextTheme}`}
             aria-label="Toggle theme"
           >
-            {isDark ? '☀' : '☾'}
+            {theme === 'system' ? (
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="1" y="3" width="14" height="9" rx="1.5" />
+                <path d="M5 14h6M8 12v2" />
+              </svg>
+            ) : effectiveIsDark ? (
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="8" cy="8" r="4.5" />
+                <path d="M8 1v1.5M8 13.5V15M15 8h-1.5M2.5 8H1M13 3l-1 1M4 12l-1 1M13 13l-1-1M4 4L3 3" />
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="8" cy="8" r="4.5" />
+              </svg>
+            )}
           </button>
           {onMobileClose && (
             <button
