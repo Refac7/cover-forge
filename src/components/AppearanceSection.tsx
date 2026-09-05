@@ -35,13 +35,10 @@ export const AppearanceSection = React.memo(function AppearanceSection({
     dispatch({ type: ActionTypes.SET_BG_TYPE, payload: type as 'color' | 'image' });
   }, [dispatch]);
 
-  const handleImageUpload = useCallback((e: { target: { files: File[] } }) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      dispatch({ type: ActionTypes.SET_BG_IMAGE, payload: url });
-      dispatch({ type: ActionTypes.SET_BG_TYPE, payload: 'image' });
-    }
+  const handleImageUpload = useCallback((file: File) => {
+    const url = URL.createObjectURL(file);
+    dispatch({ type: ActionTypes.SET_BG_IMAGE, payload: url });
+    dispatch({ type: ActionTypes.SET_BG_TYPE, payload: 'image' });
   }, [dispatch]);
 
   const handleColorChange = useCallback((action: typeof ActionTypes.SET_THEME_COLOR | typeof ActionTypes.SET_TEXT_COLOR | typeof ActionTypes.SET_BG_COLOR) => (val: string) => {
@@ -110,7 +107,7 @@ export const AppearanceSection = React.memo(function AppearanceSection({
           <ColorPicker label="Background" value={bgColor} onChange={handleColorChange(ActionTypes.SET_BG_COLOR)} />
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-            <FileUpload label="Upload Background Image" accept="image/*" onChange={handleImageUpload} />
+            <FileUpload label="Upload Background Image" accept="image/*" onFile={handleImageUpload} />
             {bgImage && (
               <>
                 <Slider label="Blur" value={blur} min={0} max={20} onChange={handleSlider(ActionTypes.SET_BLUR)} />

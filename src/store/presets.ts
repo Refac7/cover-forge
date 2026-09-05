@@ -125,4 +125,3 @@ export const BUILT_IN_PRESETS: Preset[] = [
 
 /* localStorage key for user presets */
 export const USER_PRESETS_KEY = 'coverforge-user-presets';
-export const MAX_USER_PRESETS = 10;

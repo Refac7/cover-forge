@@ -4,7 +4,7 @@
    responsive layout with mobile sidebar.
    ======================================== */
 
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useCoverConfig } from '../hooks/useCoverConfig';
 import { ActionTypes } from '../store/configReducer';
 import { ALIGNMENT_KEYS } from '../store/constants';

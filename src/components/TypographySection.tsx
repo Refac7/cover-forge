@@ -31,10 +31,7 @@ export const TypographySection = React.memo(function TypographySection({
     dispatch({ type: ActionTypes.SET_FONT_SIZE, payload: val });
   }, [dispatch]);
 
-  const handleFontUpload = useCallback(async (e: { target: { files: File[] } }) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  const handleFontUpload = useCallback(async (file: File) => {
     try {
       const fontName = `CustomFont_${Date.now()}`;
       const buffer = await file.arrayBuffer();
@@ -67,7 +64,7 @@ export const TypographySection = React.memo(function TypographySection({
       </div>
 
       {/* Font upload */}
-      <FileUpload label="Upload Font (.ttf, .otf, .woff, .woff2)" accept=".ttf,.otf,.woff,.woff2" onChange={handleFontUpload} />
+      <FileUpload label="Upload Font (.ttf, .otf, .woff, .woff2)" accept=".ttf,.otf,.woff,.woff2" onFile={handleFontUpload} />
 
       {/* Font size slider */}
       <Slider label="Font Size" value={fontSize} min={24} max={200} step={1} onChange={handleFontSize} />

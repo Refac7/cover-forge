@@ -120,7 +120,7 @@ export const KeyboardShortcutOverlay = React.memo(function KeyboardShortcutOverl
               <div style={{ display: 'flex', gap: 'var(--space-1)' }}>
                 {keys.split('').map((char, i) => (
                   <kbd key={i} className="cf-kbd">
-                    {char === '⇧' ? '⇧' : char === '⌘' ? '⌘' : char}
+                    {char}
                   </kbd>
                 ))}
               </div>

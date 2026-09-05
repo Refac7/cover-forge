@@ -63,13 +63,11 @@ export interface AlignmentCSS {
 }
 
 /* ---- Presets ---- */
-export interface PresetValues extends Partial<CoverConfig> {}
-
 export interface Preset {
   id: string;
   name: string;
   icon: string;
-  values: PresetValues;
+  values: Partial<CoverConfig>;
 }
 
 /* ---- Font ---- */

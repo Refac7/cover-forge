@@ -94,7 +94,7 @@ const SidebarContent = React.memo(function SidebarContent({
         flexDirection: 'column',
         gap: 'var(--space-2)',
       }}>
-        <PresetBar currentValues={config} onApply={onApplyPreset} />
+        <PresetBar onApply={onApplyPreset} />
         <hr className="cf-divider" />
 
         <CollapsibleSection title="Content">

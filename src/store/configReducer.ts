@@ -102,5 +102,5 @@ export function configReducer(state: CoverConfig, action: ConfigAction): CoverCo
 }
 
 export function getInitialConfig(): CoverConfig {
-  return { ...DEFAULT_CONFIG, customFontName: null };
+  return { ...DEFAULT_CONFIG };
 }

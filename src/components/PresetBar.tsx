@@ -8,11 +8,10 @@ import { usePresets } from '../hooks/usePresets';
 import type { CoverConfig, Preset } from '../types';
 
 interface PresetBarProps {
-  currentValues: CoverConfig;
   onApply: (values: Partial<CoverConfig>) => void;
 }
 
-export const PresetBar = React.memo(function PresetBar({ currentValues, onApply }: PresetBarProps) {
+export const PresetBar = React.memo(function PresetBar({ onApply }: PresetBarProps) {
   const { allPresets } = usePresets();
 
   const handleClick = useCallback((preset: Preset) => {

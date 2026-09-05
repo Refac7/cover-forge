@@ -19,7 +19,7 @@ html {
 }
 
 body {
-  line-height: var(--cf-leading-normal);
+  line-height: var(--leading-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -80,7 +80,7 @@ fieldset {
 }
 
 :focus-visible {
-  outline: 2px solid var(--cf-accent);
+  outline: 2px solid hsl(var(--ring));
   outline-offset: 2px;
 }
 

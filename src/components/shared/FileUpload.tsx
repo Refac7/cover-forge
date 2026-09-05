@@ -8,13 +8,13 @@ import React, { useState, useCallback, useRef } from 'react';
 interface FileUploadProps {
   label: string;
   accept: string;
-  onChange: (e: { target: { files: File[] } }) => void;
+  onFile: (file: File) => void;
 }
 
 export const FileUpload = React.memo(function FileUpload({
   label,
   accept,
-  onChange,
+  onFile,
 }: FileUploadProps) {
   const [isDragOver, setIsDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -33,8 +33,13 @@ export const FileUpload = React.memo(function FileUpload({
     e.preventDefault();
     setIsDragOver(false);
     const file = e.dataTransfer?.files?.[0];
-    if (file) onChange({ target: { files: [file] } });
-  }, [onChange]);
+    if (file) onFile(file);
+  }, [onFile]);
+
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) onFile(file);
+  }, [onFile]);
 
   const handleClick = useCallback(() => {
     inputRef.current?.click();
@@ -71,7 +76,7 @@ export const FileUpload = React.memo(function FileUpload({
         ref={inputRef}
         type="file"
         accept={accept}
-        onChange={onChange}
+        onChange={handleChange}
       />
     </label>
   );
