@@ -183,7 +183,7 @@
   font-weight: var(--font-semibold);
   color: hsl(var(--primary-foreground));
   background: hsl(var(--primary));
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
 }
 
 /* ---- Status Dot ---- */
@@ -198,7 +198,7 @@
 .cf-status-dot {
   width: 6px;
   height: 6px;
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
   flex-shrink: 0;
 }
 
@@ -261,7 +261,7 @@
   color: hsl(var(--muted-foreground));
   background: hsl(var(--card));
   border: 1px solid hsl(var(--border));
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
   cursor: pointer;
   transition:
     background var(--duration-fast) var(--ease-out),
