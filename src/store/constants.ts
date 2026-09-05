@@ -10,6 +10,28 @@ import type { CoverConfig, AlignmentKey, AlignmentCSS, FontOption } from '../typ
 export const BASE_WIDTH = 1280;
 export const BASE_HEIGHT = 720;
 
+export const MIN_CANVAS_DIMENSION = 200;
+export const MAX_CANVAS_DIMENSION = 7680;
+
+/* Preset aspect ratios. Width/height are canonical resolutions. */
+export interface AspectRatioOption {
+  id: string;
+  label: string;
+  width: number;
+  height: number;
+}
+
+export const ASPECT_RATIOS: AspectRatioOption[] = [
+  { id: '16:9', label: '16:9', width: 1280, height: 720 },
+  { id: '4:3',  label: '4:3',  width: 1280, height: 960 },
+  { id: '3:2',  label: '3:2',  width: 1280, height: 853 },
+  { id: '1:1',  label: '1:1',  width: 1080, height: 1080 },
+  { id: '3:4',  label: '3:4',  width: 810,  height: 1080 },
+  { id: '2:3',  label: '2:3',  width: 720,  height: 1080 },
+  { id: '9:16', label: '9:16', width: 720,  height: 1280 },
+  { id: '21:9', label: '21:9', width: 1680, height: 720 },
+];
+
 export const PRESET_FONTS: FontOption[] = [
   { name: 'System Sans', value: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif' },
   { name: 'System Mono', value: 'ui-monospace, "SF Mono", "Fira Code", monospace' },
@@ -67,4 +89,6 @@ export const DEFAULT_CONFIG: CoverConfig = {
   fontSize: 84,
   showDecorations: true,
   customFontName: null,
+  canvasWidth: BASE_WIDTH,
+  canvasHeight: BASE_HEIGHT,
 };

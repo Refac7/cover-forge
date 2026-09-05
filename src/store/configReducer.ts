@@ -5,7 +5,7 @@
    ======================================== */
 
 import type { CoverConfig, ConfigAction } from '../types';
-import { DEFAULT_CONFIG } from './constants';
+import { DEFAULT_CONFIG, MIN_CANVAS_DIMENSION, MAX_CANVAS_DIMENSION } from './constants';
 
 export const ActionTypes = {
   SET_TITLE:            'SET_TITLE',
@@ -22,9 +22,16 @@ export const ActionTypes = {
   SET_ALIGNMENT:        'SET_ALIGNMENT',
   TOGGLE_DECORATIONS:   'TOGGLE_DECORATIONS',
   SET_CUSTOM_FONT_NAME: 'SET_CUSTOM_FONT_NAME',
+  SET_CANVAS_WIDTH:     'SET_CANVAS_WIDTH',
+  SET_CANVAS_HEIGHT:    'SET_CANVAS_HEIGHT',
+  SET_CANVAS_SIZE:      'SET_CANVAS_SIZE',
   LOAD_PRESET:           'LOAD_PRESET',
   RESTORE_STATE:         'RESTORE_STATE',
 } as const;
+
+function clampDimension(value: number): number {
+  return Math.min(MAX_CANVAS_DIMENSION, Math.max(MIN_CANVAS_DIMENSION, Math.round(value)));
+}
 
 export function configReducer(state: CoverConfig, action: ConfigAction): CoverConfig {
   switch (action.type) {
@@ -69,6 +76,19 @@ export function configReducer(state: CoverConfig, action: ConfigAction): CoverCo
 
     case ActionTypes.SET_CUSTOM_FONT_NAME:
       return { ...state, customFontName: action.payload };
+
+    case ActionTypes.SET_CANVAS_WIDTH:
+      return { ...state, canvasWidth: clampDimension(action.payload) };
+
+    case ActionTypes.SET_CANVAS_HEIGHT:
+      return { ...state, canvasHeight: clampDimension(action.payload) };
+
+    case ActionTypes.SET_CANVAS_SIZE:
+      return {
+        ...state,
+        canvasWidth: clampDimension(action.payload.width),
+        canvasHeight: clampDimension(action.payload.height),
+      };
 
     case ActionTypes.LOAD_PRESET:
       return { ...state, ...action.payload };

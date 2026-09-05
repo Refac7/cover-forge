@@ -221,7 +221,9 @@ export default function App() {
             fontSize: 'var(--text-xs)',
             color: 'hsl(var(--muted-foreground) / 0.6)',
           }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11 }}>1280 × 720</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11 }}>
+              {config.canvasWidth} × {config.canvasHeight}
+            </span>
             <div className="cf-status">
               <div className={`cf-status-dot ${isProcessing ? 'cf-status-dot--processing' : 'cf-status-dot--ready'}`} />
             </div>
@@ -258,6 +260,8 @@ export default function App() {
             fontSize={config.fontSize}
             alignment={config.alignment}
             showDecorations={config.showDecorations}
+            canvasWidth={config.canvasWidth}
+            canvasHeight={config.canvasHeight}
             previewRef={previewRef}
           />
         </div>

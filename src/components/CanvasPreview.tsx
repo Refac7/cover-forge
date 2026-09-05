@@ -1,6 +1,7 @@
 /* ========================================
-   CanvasPreview — Scaled 1280×720 container.
-   Uses ResizeObserver for adaptive scaling.
+   CanvasPreview — Scaled canvas container.
+   Uses ResizeObserver for adaptive scaling,
+   fits both width and height of the viewport.
    Composes all three canvas layers.
    ======================================== */
 
@@ -8,7 +9,6 @@ import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { BackgroundLayer } from './BackgroundLayer';
 import { DecorationLayer } from './DecorationLayer';
 import { TextLayer } from './TextLayer';
-import { BASE_WIDTH, BASE_HEIGHT } from '../store/constants';
 
 interface CanvasPreviewProps {
   bgType: string;
@@ -24,6 +24,8 @@ interface CanvasPreviewProps {
   fontSize: number;
   alignment: string;
   showDecorations: boolean;
+  canvasWidth: number;
+  canvasHeight: number;
   previewRef: React.Ref<HTMLDivElement>;
 }
 
@@ -41,85 +43,102 @@ export const CanvasPreview = React.memo(function CanvasPreview({
   fontSize,
   alignment,
   showDecorations,
+  canvasWidth,
+  canvasHeight,
   previewRef,
 }: CanvasPreviewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
 
-  /* ResizeObserver: compute scale to fit container width */
+  /* Compute scale to fit available width and height */
   const updateScale = useCallback(() => {
-    if (containerRef.current) {
-      const w = containerRef.current.offsetWidth;
-      setScale(w / BASE_WIDTH);
+    const el = containerRef.current;
+    if (!el) return;
+    const parent = el.parentElement;
+    const availW = parent ? parent.clientWidth : el.clientWidth;
+    const availH = parent ? parent.clientHeight : Math.max(window.innerHeight - 220, 240);
+    if (availW > 0 && availH > 0) {
+      setScale(Math.min(availW / canvasWidth, availH / canvasHeight));
     }
-  }, []);
+  }, [canvasWidth, canvasHeight]);
 
   useEffect(() => {
+    updateScale();
+
     const el = containerRef.current;
     if (!el) return;
 
-    updateScale();
-
     const observer = new ResizeObserver(() => {
-      /* rAF throttle */
       requestAnimationFrame(updateScale);
     });
     observer.observe(el);
+    if (el.parentElement) observer.observe(el.parentElement);
+    window.addEventListener('resize', updateScale);
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateScale);
+    };
   }, [updateScale]);
 
   return (
     <div
       ref={containerRef}
       style={{
-        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         width: '100%',
-        background: 'hsl(var(--secondary))',
-        borderRadius: 'var(--radius-lg)',
-        overflow: 'hidden',
-        boxShadow: 'var(--shadow-md)',
       }}
     >
-      {/* Aspect-ratio spacer */}
-      <div style={{ paddingBottom: `${(BASE_HEIGHT / BASE_WIDTH) * 100}%` }} />
-
-      {/* Scaled canvas */}
       <div
-        ref={previewRef}
         style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: BASE_WIDTH,
-          height: BASE_HEIGHT,
-          transform: `scale(${scale})`,
-          transformOrigin: 'top left',
+          position: 'relative',
+          width: canvasWidth * scale,
+          height: canvasHeight * scale,
+          borderRadius: 'var(--radius-lg)',
           overflow: 'hidden',
-          userSelect: 'none',
+          boxShadow: 'var(--shadow-md)',
+          flexShrink: 0,
         }}
       >
-        <BackgroundLayer
-          bgType={bgType}
-          bgColor={bgColor}
-          bgImage={bgImage}
-          blur={blur}
-          brightness={brightness}
-        />
-        <DecorationLayer
-          showDecorations={showDecorations}
-          themeColor={themeColor}
-          textColor={textColor}
-        />
-        <TextLayer
-          title={title}
-          subtitle={subtitle}
-          textColor={textColor}
-          themeColor={themeColor}
-          fontFamily={fontFamily}
-          fontSize={fontSize}
-          alignment={alignment}
-        />
+        {/* Scaled canvas */}
+        <div
+          ref={previewRef}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: canvasWidth,
+            height: canvasHeight,
+            transform: `scale(${scale})`,
+            transformOrigin: 'top left',
+            overflow: 'hidden',
+            userSelect: 'none',
+          }}
+        >
+          <BackgroundLayer
+            bgType={bgType}
+            bgColor={bgColor}
+            bgImage={bgImage}
+            blur={blur}
+            brightness={brightness}
+          />
+          <DecorationLayer
+            showDecorations={showDecorations}
+            themeColor={themeColor}
+            textColor={textColor}
+          />
+          <TextLayer
+            title={title}
+            subtitle={subtitle}
+            textColor={textColor}
+            themeColor={themeColor}
+            fontFamily={fontFamily}
+            fontSize={fontSize}
+            alignment={alignment}
+          />
+        </div>
       </div>
     </div>
   );

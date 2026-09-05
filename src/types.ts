@@ -19,6 +19,8 @@ export interface CoverConfig {
   fontSize: number;
   showDecorations: boolean;
   customFontName: string | null;
+  canvasWidth: number;
+  canvasHeight: number;
 }
 
 /* ---- Reducer Actions ---- */
@@ -36,6 +38,9 @@ export type ConfigAction =
   | { type: 'SET_FONT_SIZE'; payload: number }
   | { type: 'SET_ALIGNMENT'; payload: string }
   | { type: 'SET_CUSTOM_FONT_NAME'; payload: string }
+  | { type: 'SET_CANVAS_WIDTH'; payload: number }
+  | { type: 'SET_CANVAS_HEIGHT'; payload: number }
+  | { type: 'SET_CANVAS_SIZE'; payload: { width: number; height: number } }
   | { type: 'TOGGLE_DECORATIONS' }
   | { type: 'LOAD_PRESET'; payload: Partial<CoverConfig> }
   | { type: 'RESTORE_STATE'; payload: Partial<CoverConfig> };

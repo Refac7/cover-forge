@@ -9,6 +9,7 @@ import { ContentSection } from './ContentSection';
 import { AppearanceSection } from './AppearanceSection';
 import { TypographySection } from './TypographySection';
 import { LayoutSection } from './LayoutSection';
+import { CanvasSection } from './CanvasSection';
 import { PresetBar } from './PresetBar';
 import { ExportButton } from './ExportButton';
 import type { CoverConfig, ConfigAction } from '../types';
@@ -122,6 +123,14 @@ const SidebarContent = React.memo(function SidebarContent({
         <CollapsibleSection title="Layout">
           <LayoutSection
             alignment={config.alignment} showDecorations={config.showDecorations}
+            dispatch={dispatch}
+          />
+        </CollapsibleSection>
+        <hr className="cf-divider" />
+
+        <CollapsibleSection title="Canvas">
+          <CanvasSection
+            canvasWidth={config.canvasWidth} canvasHeight={config.canvasHeight}
             dispatch={dispatch}
           />
         </CollapsibleSection>
