@@ -1,12 +1,13 @@
 # CoverForge
 
-**文章封面图片生成器。** 在浏览器中设计精美的 1280×720 文章封面，自定义排版、配色与背景，一键导出高分辨率 PNG。
+**文章封面图片生成器。** 在浏览器中设计精美的文章封面，自定义画布尺寸与比例、排版、配色与背景，一键导出高分辨率 PNG。
 
 ---
 
 ## 功能特性
 
-- **所见即所得实时预览** — 画布自适应各种屏幕宽度，预览区的排版、换行与最终导出图片完全一致。
+- **所见即所得实时预览** — 画布自适应各种屏幕宽度与高度，预览区的排版、换行与最终导出图片完全一致。
+- **画布尺寸与比例** — 8 个预设宽高比（16:9、4:3、3:2、1:1、3:4、2:3、9:16、21:9）一键切换，或手动输入自定义分辨率（200–7680 px）。
 - **背景滤镜烘焙** — 上传背景图后，可调节**模糊**与**亮度**，导出时滤镜效果直接烘焙进 PNG。
 - **排版控制** — 6 款内置字体，支持上传自定义 `.ttf` / `.otf` 字体。通过九宫格对齐系统调整文字位置，字号自由调节。
 - **灵活背景** — 纯色取色器 或 本地图片上传。
@@ -18,7 +19,7 @@
 - **键盘快捷键** — `⌘E` 导出，`⌘Z` 撤销，`⌘⇧Z` 重做，`⌘D` 切换装饰条，`⌘B` 切换背景类型，`1–9` 文字对齐，`?` 查看所有快捷键。
 - **主题切换** — 三态切换：跟随系统 / 浅色 / 深色。设计令牌遵循 shadcn/ui HSL 约定，完整覆盖深色模式。
 - **响应式布局** — 桌面端固定侧边栏，移动端浮层抽屉，小屏设备底部悬浮导出按钮。
-- **高清导出** — 通过 `html2canvas-pro` 以 1.5× 倍率渲染，在视网膜屏幕上输出清晰锐利的图片。
+- **高清导出** — 通过 `html2canvas-pro` 以 1.5× 倍率渲染，输出分辨率与画布尺寸成正比，在视网膜屏幕上清晰锐利。
 
 ---
 
@@ -77,13 +78,13 @@ pnpm preview
 
 ### 画布管线
 
-渲染区域为一个固定 1280×720 的 `<div>`，由三层叠加组成：
+渲染区域为一个可配置尺寸（默认 1280×720）的 `<div>`，由三层叠加组成：
 
 1. **BackgroundLayer** — 纯色填充或带 CSS `filter: blur() brightness()` 的 `<img>`。
 2. **DecorationLayer** — 通过绝对定位 `<span>` 元素渲染几何装饰条。
 3. **TextLayer** — 主标题 + 副标题，通过 CSS flexbox 对齐（九宫格系统）定位。
 
-`ResizeObserver` 计算统一的 `scale()` 变换以适配容器宽度，同时保持内部坐标系不变。导出时 `html2canvas-pro` 以 1.5× 设备像素比捕获同一元素。
+`ResizeObserver` 计算统一的 `scale()` 变换以同时适配容器的宽度与高度，同时保持内部坐标系不变。导出时 `html2canvas-pro` 以 1.5× 设备像素比捕获同一元素。
 
 ### 状态管理
 
@@ -113,6 +114,7 @@ src/
 │   ├── AppearanceSection.tsx        # 背景、颜色、滤镜
 │   ├── TypographySection.tsx        # 字体选择、上传、字号
 │   ├── LayoutSection.tsx            # 对齐网格 + 装饰条开关
+│   ├── CanvasSection.tsx            # 宽高比预设 + 自定义分辨率
 │   ├── PresetBar.tsx                # 预设缩略图 + 保存
 │   ├── ExportButton.tsx             # 导出按钮
 │   ├── KeyboardShortcutOverlay.tsx  # ? 键快捷键面板
@@ -148,6 +150,9 @@ src/
 const BASE_WIDTH = 1280;
 const BASE_HEIGHT = 720;
 
+const MIN_CANVAS_DIMENSION = 200;
+const MAX_CANVAS_DIMENSION = 7680;
+
 const DEFAULT_CONFIG: CoverConfig = {
   title: 'Design is Intentional',
   subtitle: 'Every pixel tells a story. Every decision has purpose.',
@@ -159,11 +164,13 @@ const DEFAULT_CONFIG: CoverConfig = {
   fontSize: 84,
   alignment: 'center',
   showDecorations: true,
+  canvasWidth: BASE_WIDTH,
+  canvasHeight: BASE_HEIGHT,
   // ...
 };
 ```
 
-在 `PRESET_FONTS` 数组中添加预设字体，或在 `src/store/presets.ts` 中添加新的内置预设。
+在 `PRESET_FONTS` 数组中添加预设字体，在 `ASPECT_RATIOS` 数组中添加宽高比预设，或在 `src/store/presets.ts` 中添加新的内置预设。
 
 ---
 
