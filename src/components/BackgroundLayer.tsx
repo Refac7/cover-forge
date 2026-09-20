@@ -3,7 +3,7 @@
    background image for the canvas.
    ======================================== */
 
-import React from 'react';
+import React from "react";
 
 interface BackgroundLayerProps {
   bgType: string;
@@ -25,23 +25,23 @@ export const BackgroundLayer = React.memo(function BackgroundLayer({
       {/* Solid color base — always present */}
       <div
         style={{
-          position: 'absolute',
+          position: "absolute",
           inset: 0,
           backgroundColor: bgColor,
         }}
       />
 
       {/* Image overlay when image mode is active */}
-      {bgType === 'image' && bgImage && (
+      {bgType === "image" && bgImage && (
         <img
           src={bgImage}
           alt="Background"
           style={{
-            position: 'absolute',
+            position: "absolute",
             inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
             filter: `blur(${blur}px) brightness(${brightness}%)`,
           }}
           draggable={false}

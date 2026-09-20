@@ -1,70 +1,84 @@
 /* ========================================
-   CoverForge Design Tokens — shadcn/ui HSL
-   Convention: "H S% L%" (no hsl() wrapper)
-   Usage: background: hsl(var(--background));
+   CoverForge Design Tokens
+   Nothing Design · 红白黑（克制的 Nothing 风格）
+   Monochrome + signature red accent. Keeps the
+   refined radius / soft shadcn-inspired layout,
+   colored and textured like the RefactX theme.
    ======================================== */
 
 :root {
-  /* === Base === */
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
+  /* === Base (monochrome) === */
+  --background: 0 0% 99.5%;
+  --foreground: 0 0% 6%;
   --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
+  --card-foreground: 0 0% 6%;
   --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
+  --popover-foreground: 0 0% 6%;
 
-  /* === Primary (accent) === */
-  --primary: 243 75% 59%;
-  --primary-foreground: 0 0% 98%;
+  /* === Primary (Nothing red) === */
+  --primary: 3 72% 40%;
+  --primary-foreground: 0 0% 100%;
 
   /* === Secondary === */
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
+  --secondary: 0 0% 95%;
+  --secondary-foreground: 0 0% 10%;
 
   /* === Muted === */
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
+  --muted: 0 0% 93%;
+  --muted-foreground: 0 0% 42%;
 
   /* === Borders & Inputs === */
-  --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 243 75% 59%;
+  --border: 0 0% 88%;
+  --input: 0 0% 88%;
+  --ring: 3 72% 40%;
+
+  /* === Divider — soft hairline === */
+  --divider: 0 0% 88%;
 
   /* === Semantic === */
   --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
+  --destructive-foreground: 0 0% 100%;
   --success: 142 76% 36%;
   --warning: 38 92% 50%;
 
-  /* === Radius === */
+  /* === Radius — main structural surfaces stay square, small accents are pills === */
   --radius: 0;
   --radius-sm: 0;
   --radius-md: 0;
   --radius-lg: 0;
   --radius-xl: 0;
-  --radius-full: 0;
+  --radius-full: 9999px;
 
-  /* === Typography (shadcn doesn't define these, but we need them) === */
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  /* === Typography — clean grotesque + mono === */
+  --font-sans:
+    "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
 
   --text-xs: 0.75rem;
   --text-sm: 0.8125rem;
   --text-base: 0.875rem;
   --text-md: 0.9375rem;
   --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
 
   --font-normal: 400;
   --font-medium: 500;
   --font-semibold: 600;
   --font-bold: 700;
 
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
   --leading-normal: 1.5;
 
   --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
   --tracking-wider: 0.05em;
 
-  /* === Spacing (4px base, not defined by shadcn) === */
+  /* === Spacing === */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -72,17 +86,21 @@
   --space-5: 1.25rem;
   --space-6: 1.5rem;
   --space-8: 2rem;
+  --space-10: 2.5rem;
   --space-12: 3rem;
   --space-16: 4rem;
 
-  /* === Shadows (shadcn-style) === */
+  /* === Shadows (soft — refined, not hard offset) === */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl:
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 
   /* === Motion === */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --duration-fast: 150ms;
   --duration-normal: 200ms;
@@ -90,85 +108,116 @@
 
   /* === Layout === */
   --sidebar-width: 400px;
+  --canvas-width: 1280px;
+  --canvas-height: 720px;
 
   /* === Z-Index === */
+  --z-base: 0;
+  --z-dropdown: 10;
   --z-sticky: 20;
   --z-overlay: 30;
   --z-modal: 40;
   --z-toast: 50;
+
+  /* === Dot-matrix backdrop pattern (subtle) === */
+  --dot-grid: radial-gradient(
+    circle,
+    hsl(var(--foreground) / 0.06) 1px,
+    transparent 1px
+  );
+  --dot-grid-size: 18px;
 }
 
-/* ========================================
-   DARK MODE (shadcn-style)
-   ======================================== */
+[data-theme="dark"],
+.dark {
+  --background: 0 0% 4%;
+  --foreground: 0 0% 97%;
+  --card: 0 0% 6%;
+  --card-foreground: 0 0% 97%;
+  --popover: 0 0% 6%;
+  --popover-foreground: 0 0% 97%;
 
-.dark,
-[data-theme="dark"] {
-  --background: 0 0% 3.9%;
-  --foreground: 0 0% 98%;
-  --card: 0 0% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --popover: 0 0% 3.9%;
-  --popover-foreground: 0 0% 98%;
+  --primary: 3 78% 48%;
+  --primary-foreground: 0 0% 100%;
 
-  --primary: 243 75% 65%;
-  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 13%;
+  --secondary-foreground: 0 0% 100%;
 
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 13%;
+  --muted-foreground: 0 0% 55%;
 
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
+  --border: 0 0% 18%;
+  --input: 0 0% 18%;
+  --ring: 3 78% 48%;
 
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --ring: 243 75% 65%;
+  --divider: 0 0% 22%;
 
   --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
+  --destructive-foreground: 0 0% 100%;
 
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl:
+    0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+
+  --dot-grid: radial-gradient(
+    circle,
+    hsl(var(--foreground) / 0.05) 1px,
+    transparent 1px
+  );
 }
 
+/* ========================================
+   AUTO DARK MODE — when no explicit theme is set
+   ======================================== */
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not([data-theme="light"]) {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 97%;
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 97%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 97%;
 
-    --primary: 243 75% 65%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 3 78% 48%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 0 0% 13%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 0 0% 13%;
+    --muted-foreground: 0 0% 55%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 243 75% 65%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 3 78% 48%;
+
+    --divider: 0 0% 22%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 0 0% 100%;
 
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+    --shadow-md:
+      0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --shadow-lg:
+      0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+    --shadow-xl:
+      0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+
+    --dot-grid: radial-gradient(
+      circle,
+      hsl(var(--foreground) / 0.05) 1px,
+      transparent 1px
+    );
   }
 }
 
 /* ========================================
    REDUCED MOTION
    ======================================== */
-
 @media (prefers-reduced-motion: reduce) {
   :root {
     --duration-fast: 0ms;

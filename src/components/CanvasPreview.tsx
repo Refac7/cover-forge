@@ -5,10 +5,10 @@
    Composes all three canvas layers.
    ======================================== */
 
-import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { BackgroundLayer } from './BackgroundLayer';
-import { DecorationLayer } from './DecorationLayer';
-import { TextLayer } from './TextLayer';
+import React, { useRef, useEffect, useState, useCallback } from "react";
+import { BackgroundLayer } from "./BackgroundLayer";
+import { DecorationLayer } from "./DecorationLayer";
+import { TextLayer } from "./TextLayer";
 
 interface CanvasPreviewProps {
   bgType: string;
@@ -56,7 +56,9 @@ export const CanvasPreview = React.memo(function CanvasPreview({
     if (!el) return;
     const parent = el.parentElement;
     const availW = parent ? parent.clientWidth : el.clientWidth;
-    const availH = parent ? parent.clientHeight : Math.max(window.innerHeight - 220, 240);
+    const availH = parent
+      ? parent.clientHeight
+      : Math.max(window.innerHeight - 220, 240);
     if (availW > 0 && availH > 0) {
       setScale(Math.min(availW / canvasWidth, availH / canvasHeight));
     }
@@ -73,11 +75,11 @@ export const CanvasPreview = React.memo(function CanvasPreview({
     });
     observer.observe(el);
     if (el.parentElement) observer.observe(el.parentElement);
-    window.addEventListener('resize', updateScale);
+    window.addEventListener("resize", updateScale);
 
     return () => {
       observer.disconnect();
-      window.removeEventListener('resize', updateScale);
+      window.removeEventListener("resize", updateScale);
     };
   }, [updateScale]);
 
@@ -85,20 +87,20 @@ export const CanvasPreview = React.memo(function CanvasPreview({
     <div
       ref={containerRef}
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
       }}
     >
       <div
         style={{
-          position: 'relative',
+          position: "relative",
           width: canvasWidth * scale,
           height: canvasHeight * scale,
-          borderRadius: 'var(--radius-lg)',
-          overflow: 'hidden',
-          boxShadow: 'var(--shadow-md)',
+          borderRadius: "var(--radius-lg)",
+          overflow: "hidden",
+          boxShadow: "var(--shadow-md)",
           flexShrink: 0,
         }}
       >
@@ -106,15 +108,15 @@ export const CanvasPreview = React.memo(function CanvasPreview({
         <div
           ref={previewRef}
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             left: 0,
             width: canvasWidth,
             height: canvasHeight,
             transform: `scale(${scale})`,
-            transformOrigin: 'top left',
-            overflow: 'hidden',
-            userSelect: 'none',
+            transformOrigin: "top left",
+            overflow: "hidden",
+            userSelect: "none",
           }}
         >
           <BackgroundLayer

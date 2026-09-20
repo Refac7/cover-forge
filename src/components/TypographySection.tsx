@@ -3,12 +3,12 @@
    custom font upload (FontFace API), font size.
    ======================================== */
 
-import React, { useCallback } from 'react';
-import { ActionTypes } from '../store/configReducer';
-import { PRESET_FONTS } from '../store/constants';
-import { Slider } from './shared/Slider';
-import { FileUpload } from './shared/FileUpload';
-import type { ConfigAction } from '../types';
+import React, { useCallback } from "react";
+import { ActionTypes } from "../store/configReducer";
+import { PRESET_FONTS } from "../store/constants";
+import { Slider } from "./shared/Slider";
+import { FileUpload } from "./shared/FileUpload";
+import type { ConfigAction } from "../types";
 
 interface TypographySectionProps {
   fontFamily: string;
@@ -23,39 +23,53 @@ export const TypographySection = React.memo(function TypographySection({
   customFontName,
   dispatch,
 }: TypographySectionProps) {
-  const handleFontSelect = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch({ type: ActionTypes.SET_FONT_FAMILY, payload: e.target.value });
-  }, [dispatch]);
+  const handleFontSelect = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      dispatch({ type: ActionTypes.SET_FONT_FAMILY, payload: e.target.value });
+    },
+    [dispatch],
+  );
 
-  const handleFontSize = useCallback((val: number) => {
-    dispatch({ type: ActionTypes.SET_FONT_SIZE, payload: val });
-  }, [dispatch]);
+  const handleFontSize = useCallback(
+    (val: number) => {
+      dispatch({ type: ActionTypes.SET_FONT_SIZE, payload: val });
+    },
+    [dispatch],
+  );
 
-  const handleFontUpload = useCallback(async (file: File) => {
-    try {
-      const fontName = `CustomFont_${Date.now()}`;
-      const buffer = await file.arrayBuffer();
-      const font = new FontFace(fontName, buffer);
-      await font.load();
-      document.fonts.add(font);
-      dispatch({ type: ActionTypes.SET_CUSTOM_FONT_NAME, payload: fontName });
-      dispatch({ type: ActionTypes.SET_FONT_FAMILY, payload: fontName });
-    } catch (err) {
-      console.error('Font load failed:', err);
-    }
-  }, [dispatch]);
+  const handleFontUpload = useCallback(
+    async (file: File) => {
+      try {
+        const fontName = `CustomFont_${Date.now()}`;
+        const buffer = await file.arrayBuffer();
+        const font = new FontFace(fontName, buffer);
+        await font.load();
+        document.fonts.add(font);
+        dispatch({ type: ActionTypes.SET_CUSTOM_FONT_NAME, payload: fontName });
+        dispatch({ type: ActionTypes.SET_FONT_FAMILY, payload: fontName });
+      } catch (err) {
+        console.error("Font load failed:", err);
+      }
+    },
+    [dispatch],
+  );
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "var(--space-5)",
+      }}
+    >
       {/* Font family select */}
       <div className="cf-input-group">
         <label className="cf-input-label">Typeface</label>
-        <select
-          value={fontFamily}
-          onChange={handleFontSelect}
-        >
+        <select value={fontFamily} onChange={handleFontSelect}>
           {PRESET_FONTS.map((f) => (
-            <option key={f.value} value={f.value}>{f.name}</option>
+            <option key={f.value} value={f.value}>
+              {f.name}
+            </option>
           ))}
           {customFontName && (
             <option value={customFontName}>Custom Uploaded</option>
@@ -64,10 +78,21 @@ export const TypographySection = React.memo(function TypographySection({
       </div>
 
       {/* Font upload */}
-      <FileUpload label="Upload Font (.ttf, .otf, .woff, .woff2)" accept=".ttf,.otf,.woff,.woff2" onFile={handleFontUpload} />
+      <FileUpload
+        label="Upload Font (.ttf, .otf, .woff, .woff2)"
+        accept=".ttf,.otf,.woff,.woff2"
+        onFile={handleFontUpload}
+      />
 
       {/* Font size slider */}
-      <Slider label="Font Size" value={fontSize} min={24} max={200} step={1} onChange={handleFontSize} />
+      <Slider
+        label="Font Size"
+        value={fontSize}
+        min={24}
+        max={200}
+        step={1}
+        onChange={handleFontSize}
+      />
     </div>
   );
 });

@@ -2,9 +2,9 @@
    usePresets — Built-in + persisted presets.
    ======================================== */
 
-import { useState } from 'react';
-import type { Preset } from '../types';
-import { BUILT_IN_PRESETS, USER_PRESETS_KEY } from '../store/presets';
+import { useState } from "react";
+import type { Preset } from "../types";
+import { BUILT_IN_PRESETS, USER_PRESETS_KEY } from "../store/presets";
 
 function loadUserPresets(): Preset[] {
   try {

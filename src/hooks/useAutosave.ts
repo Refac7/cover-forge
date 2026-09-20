@@ -3,10 +3,10 @@
    Debounced write, restore prompt on mount.
    ======================================== */
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import type { CoverConfig } from '../types';
+import { useState, useEffect, useRef, useCallback } from "react";
+import type { CoverConfig } from "../types";
 
-const AUTOSAVE_KEY = 'coverforge-autosave';
+const AUTOSAVE_KEY = "coverforge-autosave";
 const AUTOSAVE_DELAY = 1000;
 
 interface SavedData {
@@ -20,7 +20,10 @@ export interface AutosaveAPI {
   dismissRestore: () => void;
 }
 
-export function useAutosave(state: CoverConfig, clearHistory: () => void): AutosaveAPI {
+export function useAutosave(
+  state: CoverConfig,
+  clearHistory: () => void,
+): AutosaveAPI {
   const [showRestorePrompt, setShowRestorePrompt] = useState(false);
   const [savedConfig, setSavedConfig] = useState<CoverConfig | null>(null);
   const isRestoring = useRef(false);
@@ -53,10 +56,13 @@ export function useAutosave(state: CoverConfig, clearHistory: () => void): Autos
 
     timerRef.current = setTimeout(() => {
       try {
-        localStorage.setItem(AUTOSAVE_KEY, JSON.stringify({
-          config: state,
-          timestamp: Date.now(),
-        }));
+        localStorage.setItem(
+          AUTOSAVE_KEY,
+          JSON.stringify({
+            config: state,
+            timestamp: Date.now(),
+          }),
+        );
       } catch {
         /* quota exceeded — silently fail */
       }
@@ -80,7 +86,11 @@ export function useAutosave(state: CoverConfig, clearHistory: () => void): Autos
   const dismissRestore = useCallback(() => {
     setShowRestorePrompt(false);
     /* Clear saved state so it doesn't prompt again next load */
-    try { localStorage.removeItem(AUTOSAVE_KEY); } catch { /* ignore */ }
+    try {
+      localStorage.removeItem(AUTOSAVE_KEY);
+    } catch {
+      /* ignore */
+    }
   }, []);
 
   return { showRestorePrompt, restore, dismissRestore };

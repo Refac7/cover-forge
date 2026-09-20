@@ -3,29 +3,36 @@
    of built-in + user presets.
    ======================================== */
 
-import React, { useCallback } from 'react';
-import { usePresets } from '../hooks/usePresets';
-import type { CoverConfig, Preset } from '../types';
+import React, { useCallback } from "react";
+import { usePresets } from "../hooks/usePresets";
+import type { CoverConfig, Preset } from "../types";
 
 interface PresetBarProps {
   onApply: (values: Partial<CoverConfig>) => void;
 }
 
-export const PresetBar = React.memo(function PresetBar({ onApply }: PresetBarProps) {
+export const PresetBar = React.memo(function PresetBar({
+  onApply,
+}: PresetBarProps) {
   const { allPresets } = usePresets();
 
-  const handleClick = useCallback((preset: Preset) => {
-    onApply(preset.values);
-  }, [onApply]);
+  const handleClick = useCallback(
+    (preset: Preset) => {
+      onApply(preset.values);
+    },
+    [onApply],
+  );
 
   if (allPresets.length === 0) return null;
 
   return (
-    <div style={{
-      display: 'flex',
-      flexWrap: 'wrap',
-      gap: 'var(--space-2)',
-    }}>
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "var(--space-2)",
+      }}
+    >
       {allPresets.map((preset) => (
         <button
           key={preset.id}

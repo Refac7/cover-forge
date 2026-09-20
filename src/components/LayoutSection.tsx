@@ -3,11 +3,11 @@
    toggle. Compact, visual-first controls.
    ======================================== */
 
-import React, { useCallback } from 'react';
-import { ActionTypes } from '../store/configReducer';
-import { AlignmentGrid } from './shared/AlignmentGrid';
-import { Toggle } from './shared/Toggle';
-import type { ConfigAction, AlignmentKey } from '../types';
+import React, { useCallback } from "react";
+import { ActionTypes } from "../store/configReducer";
+import { AlignmentGrid } from "./shared/AlignmentGrid";
+import { Toggle } from "./shared/Toggle";
+import type { ConfigAction, AlignmentKey } from "../types";
 
 interface LayoutSectionProps {
   alignment: string;
@@ -20,18 +20,33 @@ export const LayoutSection = React.memo(function LayoutSection({
   showDecorations,
   dispatch,
 }: LayoutSectionProps) {
-  const handleAlignment = useCallback((key: AlignmentKey) => {
-    dispatch({ type: ActionTypes.SET_ALIGNMENT, payload: key });
-  }, [dispatch]);
+  const handleAlignment = useCallback(
+    (key: AlignmentKey) => {
+      dispatch({ type: ActionTypes.SET_ALIGNMENT, payload: key });
+    },
+    [dispatch],
+  );
 
   const handleToggleDecorations = useCallback(() => {
     dispatch({ type: ActionTypes.TOGGLE_DECORATIONS });
   }, [dispatch]);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "var(--space-6)",
+      }}
+    >
       {/* Alignment */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+        }}
+      >
         <span className="cf-input-label">Alignment</span>
         <AlignmentGrid value={alignment} onChange={handleAlignment} />
       </div>

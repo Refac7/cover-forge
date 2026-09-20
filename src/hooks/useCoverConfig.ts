@@ -4,10 +4,10 @@
    The single hook consumed by App.tsx.
    ======================================== */
 
-import type { CoverConfig, ConfigAction } from '../types';
-import { configReducer, getInitialConfig } from '../store/configReducer';
-import { useHistory } from './useHistory';
-import { useAutosave } from './useAutosave';
+import type { CoverConfig, ConfigAction } from "../types";
+import { configReducer, getInitialConfig } from "../store/configReducer";
+import { useHistory } from "./useHistory";
+import { useAutosave } from "./useAutosave";
 
 export interface CoverConfigAPI {
   config: CoverConfig;
@@ -34,9 +34,16 @@ export function useCoverConfig(): CoverConfigAPI {
     undoCount,
     redoCount,
     clearHistory,
-  } = useHistory<CoverConfig, ConfigAction>(configReducer, getInitialConfig, undefined);
+  } = useHistory<CoverConfig, ConfigAction>(
+    configReducer,
+    getInitialConfig,
+    undefined,
+  );
 
-  const { showRestorePrompt, restore, dismissRestore } = useAutosave(config, clearHistory);
+  const { showRestorePrompt, restore, dismissRestore } = useAutosave(
+    config,
+    clearHistory,
+  );
 
   return {
     config,

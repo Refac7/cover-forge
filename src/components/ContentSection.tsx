@@ -4,11 +4,11 @@
    dispatches debounced value upstream.
    ======================================== */
 
-import React, { useState, useCallback } from 'react';
-import { useDebounce } from '../hooks/useDebounce';
-import { ActionTypes } from '../store/configReducer';
-import { TextInput } from './shared/TextInput';
-import type { ConfigAction } from '../types';
+import React, { useState, useCallback } from "react";
+import { useDebounce } from "../hooks/useDebounce";
+import { ActionTypes } from "../store/configReducer";
+import { TextInput } from "./shared/TextInput";
+import type { ConfigAction } from "../types";
 
 const DEBOUNCE_MS = 200;
 
@@ -18,7 +18,11 @@ interface ContentSectionProps {
   dispatch: (action: ConfigAction) => void;
 }
 
-export const ContentSection = React.memo(function ContentSection({ title, subtitle, dispatch }: ContentSectionProps) {
+export const ContentSection = React.memo(function ContentSection({
+  title,
+  subtitle,
+  dispatch,
+}: ContentSectionProps) {
   const [localTitle, setLocalTitle] = useState(title);
   const [localSubtitle, setLocalSubtitle] = useState(subtitle);
 
@@ -39,11 +43,25 @@ export const ContentSection = React.memo(function ContentSection({ title, subtit
     dispatch({ type: ActionTypes.SET_SUBTITLE, payload: debouncedSubtitle });
   }, [debouncedSubtitle, dispatch]);
 
-  const handleTitleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setLocalTitle(e.target.value), []);
-  const handleSubtitleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setLocalSubtitle(e.target.value), []);
+  const handleTitleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setLocalTitle(e.target.value),
+    [],
+  );
+  const handleSubtitleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setLocalSubtitle(e.target.value),
+    [],
+  );
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "var(--space-5)",
+      }}
+    >
       <TextInput
         label="Title"
         value={localTitle}

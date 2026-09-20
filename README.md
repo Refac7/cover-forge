@@ -25,13 +25,13 @@
 
 ## 技术栈
 
-| 分类     | 技术 |
-| -------- | ---- |
+| 分类     | 技术                                                             |
+| -------- | ---------------------------------------------------------------- |
 | 框架     | [Astro](https://astro.build/) 5 + [React](https://react.dev/) 19 |
-| 样式     | 纯 CSS 自定义属性（shadcn/ui HSL 设计令牌约定） |
+| 样式     | 纯 CSS 自定义属性（shadcn/ui HSL 设计令牌约定）                  |
 | 导出     | [html2canvas-pro](https://www.npmjs.com/package/html2canvas-pro) |
-| 语言     | TypeScript（strict 模式） |
-| 包管理器 | pnpm |
+| 语言     | TypeScript（strict 模式）                                        |
+| 包管理器 | pnpm                                                             |
 
 样式层为**纯 CSS**，无运行时 CSS-in-JS 或工具类库。设计令牌以 HSL 自定义属性形式定义在 `src/styles/tokens.css`。
 
@@ -154,15 +154,15 @@ const MIN_CANVAS_DIMENSION = 200;
 const MAX_CANVAS_DIMENSION = 7680;
 
 const DEFAULT_CONFIG: CoverConfig = {
-  title: 'Design is Intentional',
-  subtitle: 'Every pixel tells a story. Every decision has purpose.',
-  bgType: 'color',
-  bgColor: '#0a0a0a',
-  themeColor: '#4f46e5',
-  textColor: '#ffffff',
-  fontFamily: 'system-ui, ...',
+  title: "Design is Intentional",
+  subtitle: "Every pixel tells a story. Every decision has purpose.",
+  bgType: "color",
+  bgColor: "#0a0a0a",
+  themeColor: "#4f46e5",
+  textColor: "#ffffff",
+  fontFamily: "system-ui, ...",
   fontSize: 84,
-  alignment: 'center',
+  alignment: "center",
   showDecorations: true,
   canvasWidth: BASE_WIDTH,
   canvasHeight: BASE_HEIGHT,

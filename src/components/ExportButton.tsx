@@ -4,41 +4,56 @@
    Shows processing state with spinner.
    ======================================== */
 
-import React from 'react';
+import React from "react";
 
 interface ExportButtonProps {
   isProcessing: boolean;
   onExport: () => void;
 }
 
-export const ExportButton = React.memo(function ExportButton({ isProcessing, onExport }: ExportButtonProps) {
+export const ExportButton = React.memo(function ExportButton({
+  isProcessing,
+  onExport,
+}: ExportButtonProps) {
   return (
     <button
       onClick={onExport}
       disabled={isProcessing}
       className="cf-btn cf-btn--primary"
       style={{
-        width: '100%',
-        padding: 'var(--space-3) var(--space-5)',
-        fontSize: 'var(--text-sm)',
+        width: "100%",
+        padding: "var(--space-3) var(--space-5)",
+        fontSize: "var(--text-sm)",
       }}
     >
       {isProcessing ? (
         <>
-          <span style={{
-            width: 14,
-            height: 14,
-            border: '2px solid rgba(255,255,255,0.3)',
-            borderTopColor: '#fff',
-            borderRadius: 'var(--radius-full)',
-            animation: 'cf-spin 0.6s linear infinite',
-          }} />
+          <span
+            style={{
+              width: 14,
+              height: 14,
+              border: "2px solid currentColor",
+              borderTopColor: "transparent",
+              opacity: 0.7,
+              borderRadius: "var(--radius-full)",
+              animation: "cf-spin 0.6s linear infinite",
+            }}
+          />
           Processing...
         </>
       ) : (
         <>
           Export PNG
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M8 2v10M4 8l4 4 4-4M2 14h12" />
           </svg>
         </>

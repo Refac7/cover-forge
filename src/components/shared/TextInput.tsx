@@ -3,12 +3,14 @@
    Memo-friendly: only value + onChange.
    ======================================== */
 
-import React from 'react';
+import React from "react";
 
 interface TextInputProps {
   label: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
   placeholder?: string;
   isTextarea?: boolean;
   rows?: number;
@@ -18,15 +20,17 @@ export const TextInput = React.memo(function TextInput({
   label,
   value,
   onChange,
-  placeholder = '',
+  placeholder = "",
   isTextarea = false,
   rows = 2,
 }: TextInputProps) {
-  const inputId = `input-${label.toLowerCase().replace(/\s+/g, '-')}`;
+  const inputId = `input-${label.toLowerCase().replace(/\s+/g, "-")}`;
 
   return (
     <div className="cf-input-group">
-      <label className="cf-input-label" htmlFor={inputId}>{label}</label>
+      <label className="cf-input-label" htmlFor={inputId}>
+        {label}
+      </label>
       {isTextarea ? (
         <textarea
           id={inputId}
@@ -35,7 +39,7 @@ export const TextInput = React.memo(function TextInput({
           onChange={onChange}
           placeholder={placeholder}
           rows={rows}
-          style={{ resize: 'vertical' }}
+          style={{ resize: "vertical" }}
         />
       ) : (
         <input
