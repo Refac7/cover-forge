@@ -3,12 +3,12 @@
    image upload, blur, brightness controls.
    ======================================== */
 
-import React, { useCallback } from "react";
-import { ActionTypes } from "../store/configReducer";
-import { ColorPicker } from "./shared/ColorPicker";
-import { Slider } from "./shared/Slider";
-import { FileUpload } from "./shared/FileUpload";
-import type { ConfigAction } from "../types";
+import React, { useCallback } from 'react';
+import { ActionTypes } from '../store/configReducer';
+import { ColorPicker } from './shared/ColorPicker';
+import { Slider } from './shared/Slider';
+import { FileUpload } from './shared/FileUpload';
+import type { ConfigAction } from '../types';
 
 interface AppearanceSectionProps {
   bgType: string;
@@ -35,7 +35,7 @@ export const AppearanceSection = React.memo(function AppearanceSection({
     (type: string) => {
       dispatch({
         type: ActionTypes.SET_BG_TYPE,
-        payload: type as "color" | "image",
+        payload: type as 'color' | 'image',
       });
     },
     [dispatch],
@@ -45,7 +45,7 @@ export const AppearanceSection = React.memo(function AppearanceSection({
     (file: File) => {
       const url = URL.createObjectURL(file);
       dispatch({ type: ActionTypes.SET_BG_IMAGE, payload: url });
-      dispatch({ type: ActionTypes.SET_BG_TYPE, payload: "image" });
+      dispatch({ type: ActionTypes.SET_BG_TYPE, payload: 'image' });
     },
     [dispatch],
   );
@@ -64,27 +64,26 @@ export const AppearanceSection = React.memo(function AppearanceSection({
   );
 
   const handleSlider = useCallback(
-    (action: typeof ActionTypes.SET_BLUR | typeof ActionTypes.SET_BRIGHTNESS) =>
-      (val: number) => {
-        dispatch({ type: action, payload: val });
-      },
+    (action: typeof ActionTypes.SET_BLUR | typeof ActionTypes.SET_BRIGHTNESS) => (val: number) => {
+      dispatch({ type: action, payload: val });
+    },
     [dispatch],
   );
 
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "var(--space-5)",
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--space-5)',
       }}
     >
       {/* Color pickers */}
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "var(--space-3)",
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 'var(--space-3)',
         }}
       >
         <ColorPicker
@@ -102,32 +101,32 @@ export const AppearanceSection = React.memo(function AppearanceSection({
       {/* Background type */}
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "var(--space-4)",
-          padding: "var(--space-4)",
-          background: "hsl(var(--card))",
-          border: "1px solid hsl(var(--border))",
-          borderRadius: "var(--radius-md)",
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--space-4)',
+          padding: 'var(--space-4)',
+          background: 'hsl(var(--card))',
+          border: '1px solid hsl(var(--border))',
+          borderRadius: 'var(--radius-md)',
         }}
       >
         {/* Radio group */}
-        <div style={{ display: "flex", gap: "var(--space-6)" }}>
+        <div style={{ display: 'flex', gap: 'var(--space-6)' }}>
           {[
-            { value: "color", label: "Solid Color" },
-            { value: "image", label: "Image" },
+            { value: 'color', label: 'Solid Color' },
+            { value: 'image', label: 'Image' },
           ].map(({ value, label }) => {
             const isActive = bgType === value;
             return (
               <label
                 key={value}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "var(--space-2)",
-                  cursor: "pointer",
-                  fontSize: "var(--text-sm)",
-                  color: "hsl(var(--foreground))",
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 'var(--space-2)',
+                  cursor: 'pointer',
+                  fontSize: 'var(--text-sm)',
+                  color: 'hsl(var(--foreground))',
                 }}
               >
                 <div
@@ -135,15 +134,12 @@ export const AppearanceSection = React.memo(function AppearanceSection({
                   style={{
                     width: 12,
                     height: 12,
-                    borderRadius: "var(--radius-full)",
+                    borderRadius: 'var(--radius-full)',
                     border: isActive
-                      ? "4px solid hsl(var(--primary))"
-                      : "1px solid hsl(var(--border))",
-                    background: isActive
-                      ? "hsl(var(--background))"
-                      : "hsl(var(--card))",
-                    transition:
-                      "border-width var(--duration-fast) var(--ease-out)",
+                      ? '4px solid hsl(var(--primary))'
+                      : '1px solid hsl(var(--border))',
+                    background: isActive ? 'hsl(var(--background))' : 'hsl(var(--card))',
+                    transition: 'border-width var(--duration-fast) var(--ease-out)',
                   }}
                 />
                 {label}
@@ -152,7 +148,7 @@ export const AppearanceSection = React.memo(function AppearanceSection({
           })}
         </div>
 
-        {bgType === "color" ? (
+        {bgType === 'color' ? (
           <ColorPicker
             label="Background"
             value={bgColor}
@@ -161,9 +157,9 @@ export const AppearanceSection = React.memo(function AppearanceSection({
         ) : (
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "var(--space-4)",
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--space-4)',
             }}
           >
             <FileUpload

@@ -3,11 +3,11 @@
    toggle. Compact, visual-first controls.
    ======================================== */
 
-import React, { useCallback } from "react";
-import { ActionTypes } from "../store/configReducer";
-import { AlignmentGrid } from "./shared/AlignmentGrid";
-import { Toggle } from "./shared/Toggle";
-import type { ConfigAction, AlignmentKey } from "../types";
+import React, { useCallback } from 'react';
+import { ActionTypes } from '../store/configReducer';
+import { AlignmentGrid } from './shared/AlignmentGrid';
+import { Toggle } from './shared/Toggle';
+import type { ConfigAction, AlignmentKey } from '../types';
 
 interface LayoutSectionProps {
   alignment: string;
@@ -34,17 +34,17 @@ export const LayoutSection = React.memo(function LayoutSection({
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "var(--space-6)",
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--space-6)',
       }}
     >
       {/* Alignment */}
       <div
         style={{
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
         }}
       >
         <span className="cf-input-label">Alignment</span>

@@ -4,7 +4,7 @@
    Shows processing state with spinner.
    ======================================== */
 
-import React from "react";
+import React from 'react';
 
 interface ExportButtonProps {
   isProcessing: boolean;
@@ -21,9 +21,9 @@ export const ExportButton = React.memo(function ExportButton({
       disabled={isProcessing}
       className="cf-btn cf-btn--primary"
       style={{
-        width: "100%",
-        padding: "var(--space-3) var(--space-5)",
-        fontSize: "var(--text-sm)",
+        width: '100%',
+        padding: 'var(--space-3) var(--space-5)',
+        fontSize: 'var(--text-sm)',
       }}
     >
       {isProcessing ? (
@@ -32,11 +32,11 @@ export const ExportButton = React.memo(function ExportButton({
             style={{
               width: 14,
               height: 14,
-              border: "2px solid currentColor",
-              borderTopColor: "transparent",
+              border: '2px solid currentColor',
+              borderTopColor: 'transparent',
               opacity: 0.7,
-              borderRadius: "var(--radius-full)",
-              animation: "cf-spin 0.6s linear infinite",
+              borderRadius: 'var(--radius-full)',
+              animation: 'cf-spin 0.6s linear infinite',
             }}
           />
           Processing...

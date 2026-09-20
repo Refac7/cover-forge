@@ -4,46 +4,36 @@
    is an undo/redo-able state mutation.
    ======================================== */
 
-import type { CoverConfig, ConfigAction } from "../types";
-import {
-  DEFAULT_CONFIG,
-  MIN_CANVAS_DIMENSION,
-  MAX_CANVAS_DIMENSION,
-} from "./constants";
+import type { CoverConfig, ConfigAction } from '../types';
+import { DEFAULT_CONFIG, MIN_CANVAS_DIMENSION, MAX_CANVAS_DIMENSION } from './constants';
 
 export const ActionTypes = {
-  SET_TITLE: "SET_TITLE",
-  SET_SUBTITLE: "SET_SUBTITLE",
-  SET_BG_TYPE: "SET_BG_TYPE",
-  SET_BG_COLOR: "SET_BG_COLOR",
-  SET_BG_IMAGE: "SET_BG_IMAGE",
-  SET_THEME_COLOR: "SET_THEME_COLOR",
-  SET_TEXT_COLOR: "SET_TEXT_COLOR",
-  SET_BLUR: "SET_BLUR",
-  SET_BRIGHTNESS: "SET_BRIGHTNESS",
-  SET_FONT_FAMILY: "SET_FONT_FAMILY",
-  SET_FONT_SIZE: "SET_FONT_SIZE",
-  SET_ALIGNMENT: "SET_ALIGNMENT",
-  TOGGLE_DECORATIONS: "TOGGLE_DECORATIONS",
-  SET_CUSTOM_FONT_NAME: "SET_CUSTOM_FONT_NAME",
-  SET_CANVAS_WIDTH: "SET_CANVAS_WIDTH",
-  SET_CANVAS_HEIGHT: "SET_CANVAS_HEIGHT",
-  SET_CANVAS_SIZE: "SET_CANVAS_SIZE",
-  LOAD_PRESET: "LOAD_PRESET",
-  RESTORE_STATE: "RESTORE_STATE",
+  SET_TITLE: 'SET_TITLE',
+  SET_SUBTITLE: 'SET_SUBTITLE',
+  SET_BG_TYPE: 'SET_BG_TYPE',
+  SET_BG_COLOR: 'SET_BG_COLOR',
+  SET_BG_IMAGE: 'SET_BG_IMAGE',
+  SET_THEME_COLOR: 'SET_THEME_COLOR',
+  SET_TEXT_COLOR: 'SET_TEXT_COLOR',
+  SET_BLUR: 'SET_BLUR',
+  SET_BRIGHTNESS: 'SET_BRIGHTNESS',
+  SET_FONT_FAMILY: 'SET_FONT_FAMILY',
+  SET_FONT_SIZE: 'SET_FONT_SIZE',
+  SET_ALIGNMENT: 'SET_ALIGNMENT',
+  TOGGLE_DECORATIONS: 'TOGGLE_DECORATIONS',
+  SET_CUSTOM_FONT_NAME: 'SET_CUSTOM_FONT_NAME',
+  SET_CANVAS_WIDTH: 'SET_CANVAS_WIDTH',
+  SET_CANVAS_HEIGHT: 'SET_CANVAS_HEIGHT',
+  SET_CANVAS_SIZE: 'SET_CANVAS_SIZE',
+  LOAD_PRESET: 'LOAD_PRESET',
+  RESTORE_STATE: 'RESTORE_STATE',
 } as const;
 
 function clampDimension(value: number): number {
-  return Math.min(
-    MAX_CANVAS_DIMENSION,
-    Math.max(MIN_CANVAS_DIMENSION, Math.round(value)),
-  );
+  return Math.min(MAX_CANVAS_DIMENSION, Math.max(MIN_CANVAS_DIMENSION, Math.round(value)));
 }
 
-export function configReducer(
-  state: CoverConfig,
-  action: ConfigAction,
-): CoverConfig {
+export function configReducer(state: CoverConfig, action: ConfigAction): CoverConfig {
   switch (action.type) {
     case ActionTypes.SET_TITLE:
       return { ...state, title: action.payload };

@@ -51,9 +51,8 @@
 
   /* === Typography — clean grotesque + mono === */
   --font-sans:
-    "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+    'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 
   --text-xs: 0.75rem;
   --text-sm: 0.8125rem;
@@ -93,10 +92,8 @@
   /* === Shadows (soft — refined, not hard offset) === */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg:
-    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl:
-    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 
   /* === Motion === */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -120,15 +117,11 @@
   --z-toast: 50;
 
   /* === Dot-matrix backdrop pattern (subtle) === */
-  --dot-grid: radial-gradient(
-    circle,
-    hsl(var(--foreground) / 0.06) 1px,
-    transparent 1px
-  );
+  --dot-grid: radial-gradient(circle, hsl(var(--foreground) / 0.06) 1px, transparent 1px);
   --dot-grid-size: 18px;
 }
 
-[data-theme="dark"],
+[data-theme='dark'],
 .dark {
   --background: 0 0% 4%;
   --foreground: 0 0% 97%;
@@ -157,23 +150,17 @@
 
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-  --shadow-lg:
-    0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-  --shadow-xl:
-    0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
 
-  --dot-grid: radial-gradient(
-    circle,
-    hsl(var(--foreground) / 0.05) 1px,
-    transparent 1px
-  );
+  --dot-grid: radial-gradient(circle, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
 }
 
 /* ========================================
    AUTO DARK MODE — when no explicit theme is set
    ======================================== */
 @media (prefers-color-scheme: dark) {
-  :root:not(.light):not([data-theme="light"]) {
+  :root:not(.light):not([data-theme='light']) {
     --background: 0 0% 4%;
     --foreground: 0 0% 97%;
     --card: 0 0% 6%;
@@ -200,18 +187,11 @@
     --destructive-foreground: 0 0% 100%;
 
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-    --shadow-md:
-      0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-    --shadow-lg:
-      0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-    --shadow-xl:
-      0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
 
-    --dot-grid: radial-gradient(
-      circle,
-      hsl(var(--foreground) / 0.05) 1px,
-      transparent 1px
-    );
+    --dot-grid: radial-gradient(circle, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
   }
 }
 

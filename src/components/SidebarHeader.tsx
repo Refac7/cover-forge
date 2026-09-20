@@ -3,39 +3,39 @@
    undo/redo, mobile close button.
    ======================================== */
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from 'react';
 
-type Theme = "system" | "light" | "dark";
+type Theme = 'system' | 'light' | 'dark';
 
-const THEME_KEY = "coverforge-theme";
-const THEME_CYCLE: Theme[] = ["system", "light", "dark"];
+const THEME_KEY = 'coverforge-theme';
+const THEME_CYCLE: Theme[] = ['system', 'light', 'dark'];
 
 function getStoredTheme(): Theme {
-  if (typeof document === "undefined") return "system";
+  if (typeof document === 'undefined') return 'system';
   const stored = localStorage.getItem(THEME_KEY);
-  if (stored === "light" || stored === "dark") return stored;
-  return "system";
+  if (stored === 'light' || stored === 'dark') return stored;
+  return 'system';
 }
 
 function getSystemIsDark(): boolean {
-  if (typeof document === "undefined") return true;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  if (typeof document === 'undefined') return true;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
 function applyTheme(theme: Theme): void {
   const root = document.documentElement;
-  if (theme === "dark") {
-    root.setAttribute("data-theme", "dark");
-    root.classList.add("dark");
-    root.classList.remove("light");
-  } else if (theme === "light") {
-    root.setAttribute("data-theme", "light");
-    root.classList.add("light");
-    root.classList.remove("dark");
+  if (theme === 'dark') {
+    root.setAttribute('data-theme', 'dark');
+    root.classList.add('dark');
+    root.classList.remove('light');
+  } else if (theme === 'light') {
+    root.setAttribute('data-theme', 'light');
+    root.classList.add('light');
+    root.classList.remove('dark');
   } else {
     // System mode — let CSS @media (prefers-color-scheme) handle it
-    root.removeAttribute("data-theme");
-    root.classList.remove("dark", "light");
+    root.removeAttribute('data-theme');
+    root.classList.remove('dark', 'light');
   }
 }
 
@@ -63,16 +63,16 @@ export const SidebarHeader = React.memo(function SidebarHeader({
 
   // Listen for system color-scheme changes (for icon updates when in "system" mode)
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
     const handler = (e: MediaQueryListEvent) => setSystemIsDark(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   }, []);
 
   // Apply theme classes/attributes to <html> whenever theme changes
   useEffect(() => {
     applyTheme(theme);
-    if (theme === "system") {
+    if (theme === 'system') {
       localStorage.removeItem(THEME_KEY);
     } else {
       localStorage.setItem(THEME_KEY, theme);
@@ -87,60 +87,59 @@ export const SidebarHeader = React.memo(function SidebarHeader({
   }, []);
 
   // The visually active theme — used for the icon shown in the button
-  const effectiveIsDark = theme === "system" ? systemIsDark : theme === "dark";
+  const effectiveIsDark = theme === 'system' ? systemIsDark : theme === 'dark';
 
-  const nextTheme =
-    THEME_CYCLE[(THEME_CYCLE.indexOf(theme) + 1) % THEME_CYCLE.length];
+  const nextTheme = THEME_CYCLE[(THEME_CYCLE.indexOf(theme) + 1) % THEME_CYCLE.length];
 
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "var(--space-6)",
-        padding: "var(--space-6) var(--space-5) var(--space-4)",
-        borderBottom: "1px solid hsl(var(--border))",
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--space-6)',
+        padding: 'var(--space-6) var(--space-5) var(--space-4)',
+        borderBottom: '1px solid hsl(var(--border))',
         flexShrink: 0,
       }}
     >
       {/* Logo row */}
       <div
         style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "var(--space-3)",
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-3)',
           }}
         >
           <div
             style={{
               width: 28,
               height: 28,
-              background: "hsl(var(--primary))",
-              borderRadius: "var(--radius-md)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              background: 'hsl(var(--primary))',
+              borderRadius: 'var(--radius-md)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               fontSize: 13,
-              fontWeight: "var(--font-bold)",
-              color: "hsl(var(--primary-foreground))",
-              letterSpacing: "-0.02em",
+              fontWeight: 'var(--font-bold)',
+              color: 'hsl(var(--primary-foreground))',
+              letterSpacing: '-0.02em',
             }}
           >
             C
           </div>
           <span
             style={{
-              fontSize: "var(--text-md)",
-              fontWeight: "var(--font-semibold)",
-              color: "hsl(var(--foreground))",
-              letterSpacing: "var(--tracking-tight)",
+              fontSize: 'var(--text-md)',
+              fontWeight: 'var(--font-semibold)',
+              color: 'hsl(var(--foreground))',
+              letterSpacing: 'var(--tracking-tight)',
             }}
           >
             CoverForge
@@ -149,18 +148,18 @@ export const SidebarHeader = React.memo(function SidebarHeader({
 
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "var(--space-1)",
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-1)',
           }}
         >
           <button
             onClick={toggleTheme}
             className="cf-btn--icon"
-            title={`Theme: ${theme === "system" ? "Auto (follow system)" : theme === "light" ? "Light" : "Dark"} — click for ${nextTheme === "system" ? "auto" : nextTheme}`}
+            title={`Theme: ${theme === 'system' ? 'Auto (follow system)' : theme === 'light' ? 'Light' : 'Dark'} — click for ${nextTheme === 'system' ? 'auto' : nextTheme}`}
             aria-label="Toggle theme"
           >
-            {theme === "system" ? (
+            {theme === 'system' ? (
               <svg
                 width="14"
                 height="14"
@@ -226,14 +225,14 @@ export const SidebarHeader = React.memo(function SidebarHeader({
       </div>
 
       {/* Undo/Redo row */}
-      <div style={{ display: "flex", gap: "var(--space-2)" }}>
+      <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
         <button
           onClick={onUndo}
           disabled={!canUndo}
           className="cf-btn--icon"
           title="Undo (Ctrl+Z)"
           aria-label="Undo"
-          style={{ position: "relative" }}
+          style={{ position: 'relative' }}
         >
           <svg
             width="14"
@@ -252,7 +251,7 @@ export const SidebarHeader = React.memo(function SidebarHeader({
             <span
               className="cf-badge"
               style={{
-                position: "absolute",
+                position: 'absolute',
                 top: -2,
                 right: -2,
                 minWidth: 14,
@@ -271,7 +270,7 @@ export const SidebarHeader = React.memo(function SidebarHeader({
           className="cf-btn--icon"
           title="Redo (Ctrl+Shift+Z)"
           aria-label="Redo"
-          style={{ position: "relative" }}
+          style={{ position: 'relative' }}
         >
           <svg
             width="14"
@@ -290,7 +289,7 @@ export const SidebarHeader = React.memo(function SidebarHeader({
             <span
               className="cf-badge"
               style={{
-                position: "absolute",
+                position: 'absolute',
                 top: -2,
                 right: -2,
                 minWidth: 14,

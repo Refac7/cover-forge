@@ -3,7 +3,7 @@
    marks overlay: rule line, label, corner mark.
    ======================================== */
 
-import React from "react";
+import React from 'react';
 
 interface DecorationLayerProps {
   showDecorations: boolean;
@@ -23,22 +23,22 @@ export const DecorationLayer = React.memo(function DecorationLayer({
   return (
     <div
       style={{
-        position: "absolute",
+        position: 'absolute',
         inset: 0,
-        pointerEvents: "none",
+        pointerEvents: 'none',
         zIndex: 0,
-        padding: "64px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
+        padding: '64px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
       }}
     >
       {/* Top: rule line + label */}
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
         }}
       >
         <div
@@ -51,10 +51,10 @@ export const DecorationLayer = React.memo(function DecorationLayer({
         />
         <span
           style={{
-            fontFamily: "var(--font-mono)",
+            fontFamily: 'var(--font-mono)',
             fontSize: 11,
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
             color: textColor,
             opacity: 0.25,
           }}
@@ -66,17 +66,17 @@ export const DecorationLayer = React.memo(function DecorationLayer({
       {/* Bottom: year + corner mark */}
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-end',
         }}
       >
         <span
           style={{
-            fontFamily: "var(--font-mono)",
+            fontFamily: 'var(--font-mono)',
             fontSize: 9,
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
             color: textColor,
             opacity: 0.25,
           }}

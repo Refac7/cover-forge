@@ -34,9 +34,9 @@ body {
 }
 
 /* Form elements */
-input[type="text"],
-input[type="search"],
-input[type="number"],
+input[type='text'],
+input[type='search'],
+input[type='number'],
 textarea {
   background: hsl(var(--background));
   border: 1px solid hsl(var(--input));
@@ -49,9 +49,9 @@ textarea {
     border-color var(--duration-fast) var(--ease-out),
     box-shadow var(--duration-fast) var(--ease-out);
 }
-input[type="text"]:focus,
-input[type="search"]:focus,
-input[type="number"]:focus,
+input[type='text']:focus,
+input[type='search']:focus,
+input[type='number']:focus,
 textarea:focus {
   border-color: hsl(var(--ring));
   box-shadow: 0 0 0 3px hsl(var(--ring) / 0.2);
@@ -62,7 +62,7 @@ textarea::placeholder {
 }
 
 /* Range */
-input[type="range"] {
+input[type='range'] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
@@ -70,7 +70,7 @@ input[type="range"] {
   background: hsl(var(--border));
   border-radius: var(--radius-full);
 }
-input[type="range"]::-webkit-slider-thumb {
+input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 14px;
@@ -82,11 +82,11 @@ input[type="range"]::-webkit-slider-thumb {
     transform var(--duration-fast) var(--ease-out),
     box-shadow var(--duration-fast) var(--ease-out);
 }
-input[type="range"]::-webkit-slider-thumb:hover {
+input[type='range']::-webkit-slider-thumb:hover {
   transform: scale(1.15);
   box-shadow: 0 0 0 4px hsl(var(--ring) / 0.2);
 }
-input[type="range"]::-moz-range-thumb {
+input[type='range']::-moz-range-thumb {
   width: 14px;
   height: 14px;
   border-radius: var(--radius-full);
@@ -96,7 +96,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 /* File input — hidden */
-input[type="file"] {
+input[type='file'] {
   display: none;
 }
 
@@ -124,7 +124,7 @@ select:focus {
 }
 
 /* Color input */
-input[type="color"] {
+input[type='color'] {
   -webkit-appearance: none;
   appearance: none;
   border: none;
@@ -133,10 +133,10 @@ input[type="color"] {
   height: 100%;
   background: transparent;
 }
-input[type="color"]::-webkit-color-swatch-wrapper {
+input[type='color']::-webkit-color-swatch-wrapper {
   padding: 0;
 }
-input[type="color"]::-webkit-color-swatch {
+input[type='color']::-webkit-color-swatch {
   border: none;
   border-radius: var(--radius-sm);
 }

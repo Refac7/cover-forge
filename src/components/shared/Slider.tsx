@@ -3,7 +3,7 @@
    Uses rAF-batched onChange for performance.
    ======================================== */
 
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 
 interface SliderProps {
   label: string;
@@ -45,18 +45,18 @@ export const Slider = React.memo(function Slider({
     <div className="cf-input-group">
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "baseline",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
         }}
       >
         <span className="cf-input-label">{label}</span>
         <span
           style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "var(--text-xs)",
-            color: "hsl(var(--muted-foreground) / 0.6)",
-            fontVariantNumeric: "tabular-nums",
+            fontFamily: 'var(--font-mono)',
+            fontSize: 'var(--text-xs)',
+            color: 'hsl(var(--muted-foreground) / 0.6)',
+            fontVariantNumeric: 'tabular-nums',
           }}
         >
           {localValue}

@@ -3,14 +3,10 @@
    custom resolution (width × height).
    ======================================== */
 
-import React, { useState, useEffect, useCallback } from "react";
-import { ActionTypes } from "../store/configReducer";
-import {
-  ASPECT_RATIOS,
-  MIN_CANVAS_DIMENSION,
-  MAX_CANVAS_DIMENSION,
-} from "../store/constants";
-import type { ConfigAction } from "../types";
+import React, { useState, useEffect, useCallback } from 'react';
+import { ActionTypes } from '../store/configReducer';
+import { ASPECT_RATIOS, MIN_CANVAS_DIMENSION, MAX_CANVAS_DIMENSION } from '../store/constants';
+import type { ConfigAction } from '../types';
 
 interface CanvasSectionProps {
   canvasWidth: number;
@@ -49,14 +45,12 @@ export const CanvasSection = React.memo(function CanvasSection({
     (
       raw: string,
       setter: React.Dispatch<React.SetStateAction<string>>,
-      action:
-        | typeof ActionTypes.SET_CANVAS_WIDTH
-        | typeof ActionTypes.SET_CANVAS_HEIGHT,
+      action: typeof ActionTypes.SET_CANVAS_WIDTH | typeof ActionTypes.SET_CANVAS_HEIGHT,
     ) => {
       setter(raw);
       const value = Math.round(Number(raw));
       if (
-        raw !== "" &&
+        raw !== '' &&
         !Number.isNaN(value) &&
         value >= MIN_CANVAS_DIMENSION &&
         value <= MAX_CANVAS_DIMENSION
@@ -69,37 +63,27 @@ export const CanvasSection = React.memo(function CanvasSection({
 
   const handleWidth = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      commitDimension(
-        e.target.value,
-        setWidthInput,
-        ActionTypes.SET_CANVAS_WIDTH,
-      );
+      commitDimension(e.target.value, setWidthInput, ActionTypes.SET_CANVAS_WIDTH);
     },
     [commitDimension],
   );
 
   const handleHeight = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      commitDimension(
-        e.target.value,
-        setHeightInput,
-        ActionTypes.SET_CANVAS_HEIGHT,
-      );
+      commitDimension(e.target.value, setHeightInput, ActionTypes.SET_CANVAS_HEIGHT);
     },
     [commitDimension],
   );
 
   const activeRatio =
-    ASPECT_RATIOS.find(
-      (r) => r.width === canvasWidth && r.height === canvasHeight,
-    )?.id ?? null;
+    ASPECT_RATIOS.find((r) => r.width === canvasWidth && r.height === canvasHeight)?.id ?? null;
 
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "var(--space-5)",
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--space-5)',
       }}
     >
       {/* Aspect ratio */}
@@ -107,9 +91,9 @@ export const CanvasSection = React.memo(function CanvasSection({
         <label className="cf-input-label">Aspect Ratio</label>
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "var(--space-2)",
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: 'var(--space-2)',
           }}
         >
           {ASPECT_RATIOS.map((ratio) => {
@@ -121,21 +105,17 @@ export const CanvasSection = React.memo(function CanvasSection({
                 aria-pressed={active}
                 title={`${ratio.label} (${ratio.width} × ${ratio.height})`}
                 style={{
-                  padding: "var(--space-1) var(--space-2)",
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "var(--text-xs)",
-                  fontWeight: "var(--font-medium)",
-                  color: active
-                    ? "hsl(var(--primary))"
-                    : "hsl(var(--muted-foreground))",
-                  background: active
-                    ? "hsl(var(--primary) / 0.1)"
-                    : "hsl(var(--card))",
-                  border: `1px solid ${active ? "hsl(var(--primary))" : "hsl(var(--border))"}`,
-                  borderRadius: "var(--radius-sm)",
-                  cursor: "pointer",
+                  padding: 'var(--space-1) var(--space-2)',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 'var(--text-xs)',
+                  fontWeight: 'var(--font-medium)',
+                  color: active ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground))',
+                  background: active ? 'hsl(var(--primary) / 0.1)' : 'hsl(var(--card))',
+                  border: `1px solid ${active ? 'hsl(var(--primary))' : 'hsl(var(--border))'}`,
+                  borderRadius: 'var(--radius-sm)',
+                  cursor: 'pointer',
                   transition:
-                    "background var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out)",
+                    'background var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out)',
                 }}
               >
                 {ratio.label}
@@ -150,10 +130,10 @@ export const CanvasSection = React.memo(function CanvasSection({
         <label className="cf-input-label">Resolution (px)</label>
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr auto 1fr",
-            gap: "var(--space-2)",
-            alignItems: "center",
+            display: 'grid',
+            gridTemplateColumns: '1fr auto 1fr',
+            gap: 'var(--space-2)',
+            alignItems: 'center',
           }}
         >
           <input
@@ -167,8 +147,8 @@ export const CanvasSection = React.memo(function CanvasSection({
           />
           <span
             style={{
-              color: "hsl(var(--muted-foreground))",
-              fontSize: "var(--text-sm)",
+              color: 'hsl(var(--muted-foreground))',
+              fontSize: 'var(--text-sm)',
             }}
           >
             ×

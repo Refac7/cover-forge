@@ -2,7 +2,7 @@
    Toggle — Custom toggle switch.
    ======================================== */
 
-import React, { useCallback } from "react";
+import React, { useCallback } from 'react';
 
 interface ToggleProps {
   label: string;
@@ -10,18 +10,14 @@ interface ToggleProps {
   onChange: () => void;
 }
 
-export const Toggle = React.memo(function Toggle({
-  label,
-  checked,
-  onChange,
-}: ToggleProps) {
+export const Toggle = React.memo(function Toggle({ label, checked, onChange }: ToggleProps) {
   const handleClick = useCallback(() => {
     onChange();
   }, [onChange]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
-      if (e.key === "Enter" || e.key === " ") {
+      if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         onChange();
       }
@@ -32,15 +28,15 @@ export const Toggle = React.memo(function Toggle({
   return (
     <div
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
       }}
     >
       <span
         style={{
-          fontSize: "var(--text-sm)",
-          color: "hsl(var(--foreground))",
+          fontSize: 'var(--text-sm)',
+          color: 'hsl(var(--foreground))',
         }}
       >
         {label}
@@ -52,28 +48,28 @@ export const Toggle = React.memo(function Toggle({
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         style={{
-          position: "relative",
+          position: 'relative',
           width: 40,
           height: 22,
-          borderRadius: "var(--radius-full)",
-          background: checked ? "hsl(var(--primary))" : "hsl(var(--border))",
-          cursor: "pointer",
-          transition: "background var(--duration-fast) var(--ease-out)",
+          borderRadius: 'var(--radius-full)',
+          background: checked ? 'hsl(var(--primary))' : 'hsl(var(--border))',
+          cursor: 'pointer',
+          transition: 'background var(--duration-fast) var(--ease-out)',
           flexShrink: 0,
         }}
       >
         <div
           style={{
-            position: "absolute",
+            position: 'absolute',
             top: 2,
             left: checked ? 20 : 2,
             width: 18,
             height: 18,
-            borderRadius: "var(--radius-full)",
-            background: "hsl(var(--card))",
-            border: "1px solid hsl(var(--border) / 0.4)",
-            boxShadow: "var(--shadow-sm)",
-            transition: "left var(--duration-fast) var(--ease-spring)",
+            borderRadius: 'var(--radius-full)',
+            background: 'hsl(var(--card))',
+            border: '1px solid hsl(var(--border) / 0.4)',
+            boxShadow: 'var(--shadow-sm)',
+            transition: 'left var(--duration-fast) var(--ease-spring)',
           }}
         />
       </div>

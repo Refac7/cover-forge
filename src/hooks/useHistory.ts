@@ -7,7 +7,7 @@
    Max depth: 50 entries.
    ======================================== */
 
-import { useReducer, useCallback, useRef, type Reducer } from "react";
+import { useReducer, useCallback, useRef, type Reducer } from 'react';
 
 const MAX_HISTORY = 50;
 
@@ -58,9 +58,7 @@ export function useHistory<S, A>(
 
   /* Stable dispatch — never changes */
   const dispatch = useCallback((action: A) => {
-    pastRef.current = [...pastRef.current, stateRef.current].slice(
-      -MAX_HISTORY,
-    );
+    pastRef.current = [...pastRef.current, stateRef.current].slice(-MAX_HISTORY);
     futureRef.current = [];
     rawDispatch(action);
     updateCounts();
@@ -72,10 +70,8 @@ export function useHistory<S, A>(
     if (pastRef.current.length === 0) return;
     const previous = pastRef.current[pastRef.current.length - 1];
     pastRef.current = pastRef.current.slice(0, -1);
-    futureRef.current = [...futureRef.current, stateRef.current].slice(
-      -MAX_HISTORY,
-    );
-    rawDispatch({ type: "RESTORE_STATE", payload: previous } as unknown as A);
+    futureRef.current = [...futureRef.current, stateRef.current].slice(-MAX_HISTORY);
+    rawDispatch({ type: 'RESTORE_STATE', payload: previous } as unknown as A);
     updateCounts();
     forceUpdate();
   }, []);
@@ -85,10 +81,8 @@ export function useHistory<S, A>(
     if (futureRef.current.length === 0) return;
     const next = futureRef.current[futureRef.current.length - 1];
     futureRef.current = futureRef.current.slice(0, -1);
-    pastRef.current = [...pastRef.current, stateRef.current].slice(
-      -MAX_HISTORY,
-    );
-    rawDispatch({ type: "RESTORE_STATE", payload: next } as unknown as A);
+    pastRef.current = [...pastRef.current, stateRef.current].slice(-MAX_HISTORY);
+    rawDispatch({ type: 'RESTORE_STATE', payload: next } as unknown as A);
     updateCounts();
     forceUpdate();
   }, []);

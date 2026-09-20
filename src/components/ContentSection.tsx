@@ -4,11 +4,11 @@
    dispatches debounced value upstream.
    ======================================== */
 
-import React, { useState, useCallback } from "react";
-import { useDebounce } from "../hooks/useDebounce";
-import { ActionTypes } from "../store/configReducer";
-import { TextInput } from "./shared/TextInput";
-import type { ConfigAction } from "../types";
+import React, { useState, useCallback } from 'react';
+import { useDebounce } from '../hooks/useDebounce';
+import { ActionTypes } from '../store/configReducer';
+import { TextInput } from './shared/TextInput';
+import type { ConfigAction } from '../types';
 
 const DEBOUNCE_MS = 200;
 
@@ -44,8 +44,7 @@ export const ContentSection = React.memo(function ContentSection({
   }, [debouncedSubtitle, dispatch]);
 
   const handleTitleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setLocalTitle(e.target.value),
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setLocalTitle(e.target.value),
     [],
   );
   const handleSubtitleChange = useCallback(
@@ -57,9 +56,9 @@ export const ContentSection = React.memo(function ContentSection({
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "var(--space-5)",
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--space-5)',
       }}
     >
       <TextInput

@@ -1,0 +1,12 @@
+dist
+node_modules
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+public
+.env
+.env.*
+astro.config.ts
+tsconfig.json
+README.md
+LICENSE

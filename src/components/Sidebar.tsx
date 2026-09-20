@@ -3,16 +3,16 @@
    + export. Desktop: sticky. Mobile: overlay.
    ======================================== */
 
-import React from "react";
-import { SidebarHeader } from "./SidebarHeader";
-import { ContentSection } from "./ContentSection";
-import { AppearanceSection } from "./AppearanceSection";
-import { TypographySection } from "./TypographySection";
-import { LayoutSection } from "./LayoutSection";
-import { CanvasSection } from "./CanvasSection";
-import { PresetBar } from "./PresetBar";
-import { ExportButton } from "./ExportButton";
-import type { CoverConfig, ConfigAction } from "../types";
+import React from 'react';
+import { SidebarHeader } from './SidebarHeader';
+import { ContentSection } from './ContentSection';
+import { AppearanceSection } from './AppearanceSection';
+import { TypographySection } from './TypographySection';
+import { LayoutSection } from './LayoutSection';
+import { CanvasSection } from './CanvasSection';
+import { PresetBar } from './PresetBar';
+import { ExportButton } from './ExportButton';
+import type { CoverConfig, ConfigAction } from '../types';
 
 interface SidebarContentProps {
   config: CoverConfig;
@@ -43,9 +43,9 @@ const CollapsibleSection = React.memo(function CollapsibleSection({
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: isOpen ? "var(--space-4)" : "0",
+        display: 'flex',
+        flexDirection: 'column',
+        gap: isOpen ? 'var(--space-4)' : '0',
       }}
     >
       <button
@@ -63,16 +63,14 @@ const CollapsibleSection = React.memo(function CollapsibleSection({
           strokeWidth="1.5"
           strokeLinecap="round"
           style={{
-            transform: isOpen ? "rotate(90deg)" : "rotate(0deg)",
-            transition: "transform var(--duration-normal) var(--ease-out)",
+            transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+            transition: 'transform var(--duration-normal) var(--ease-out)',
           }}
         >
           <path d="M4 2L8 6L4 10" />
         </svg>
       </button>
-      {isOpen && (
-        <div style={{ padding: "0 0 var(--space-2)" }}>{children}</div>
-      )}
+      {isOpen && <div style={{ padding: '0 0 var(--space-2)' }}>{children}</div>}
     </div>
   );
 });
@@ -106,22 +104,18 @@ const SidebarContent = React.memo(function SidebarContent({
       <div
         style={{
           flex: 1,
-          overflowY: "auto",
-          padding: "var(--space-5)",
-          display: "flex",
-          flexDirection: "column",
-          gap: "var(--space-2)",
+          overflowY: 'auto',
+          padding: 'var(--space-5)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--space-2)',
         }}
       >
         <PresetBar onApply={onApplyPreset} />
         <hr className="cf-divider" />
 
         <CollapsibleSection title="Content">
-          <ContentSection
-            title={config.title}
-            subtitle={config.subtitle}
-            dispatch={dispatch}
-          />
+          <ContentSection title={config.title} subtitle={config.subtitle} dispatch={dispatch} />
         </CollapsibleSection>
         <hr className="cf-divider" />
 
@@ -170,9 +164,9 @@ const SidebarContent = React.memo(function SidebarContent({
       <div
         className="cf-sidebar-export"
         style={{
-          padding: "var(--space-4) var(--space-5)",
-          borderTop: "1px solid hsl(var(--border))",
-          background: "hsl(var(--card))",
+          padding: 'var(--space-4) var(--space-5)',
+          borderTop: '1px solid hsl(var(--border))',
+          background: 'hsl(var(--card))',
           flexShrink: 0,
         }}
       >
@@ -222,17 +216,17 @@ export const Sidebar = React.memo(function Sidebar({
       <aside
         className="cf-sidebar-desktop"
         style={{
-          width: "var(--sidebar-width)",
-          height: "100vh",
-          position: "sticky",
+          width: 'var(--sidebar-width)',
+          height: '100vh',
+          position: 'sticky',
           top: 0,
-          flexDirection: "column",
-          background: "hsl(var(--background))",
-          backgroundImage: "var(--dot-grid)",
-          backgroundSize: "var(--dot-grid-size) var(--dot-grid-size)",
-          borderRight: "1px solid hsl(var(--border))",
-          zIndex: "var(--z-sticky)",
-          overflow: "hidden",
+          flexDirection: 'column',
+          background: 'hsl(var(--background))',
+          backgroundImage: 'var(--dot-grid)',
+          backgroundSize: 'var(--dot-grid-size) var(--dot-grid-size)',
+          borderRight: '1px solid hsl(var(--border))',
+          zIndex: 'var(--z-sticky)',
+          overflow: 'hidden',
         }}
       >
         <SidebarContent {...sharedProps} />
@@ -240,13 +234,13 @@ export const Sidebar = React.memo(function Sidebar({
 
       {/* Mobile sidebar (overlay) — visibility via CSS class */}
       <aside
-        className={`cf-sidebar--mobile ${isMobileOpen ? "cf-sidebar--open" : ""}`}
+        className={`cf-sidebar--mobile ${isMobileOpen ? 'cf-sidebar--open' : ''}`}
         style={{
-          flexDirection: "column",
-          background: "hsl(var(--background))",
-          borderRight: "1px solid hsl(var(--border))",
-          boxShadow: isMobileOpen ? "var(--shadow-xl)" : "none",
-          height: "100dvh",
+          flexDirection: 'column',
+          background: 'hsl(var(--background))',
+          borderRight: '1px solid hsl(var(--border))',
+          boxShadow: isMobileOpen ? 'var(--shadow-xl)' : 'none',
+          height: '100dvh',
         }}
       >
         <SidebarContent {...sharedProps} onMobileClose={onMobileClose} />

@@ -4,8 +4,8 @@
    Uses inline flex styles (no Tailwind).
    ======================================== */
 
-import React from "react";
-import { ALIGNMENTS } from "../store/constants";
+import React from 'react';
+import { ALIGNMENTS } from '../store/constants';
 
 interface TextLayerProps {
   title: string;
@@ -26,20 +26,19 @@ export const TextLayer = React.memo(function TextLayer({
   fontSize,
   alignment,
 }: TextLayerProps) {
-  const align =
-    ALIGNMENTS[alignment as keyof typeof ALIGNMENTS] || ALIGNMENTS.center;
+  const align = ALIGNMENTS[alignment as keyof typeof ALIGNMENTS] || ALIGNMENTS.center;
 
   return (
     <div
       style={{
-        position: "relative",
+        position: 'relative',
         zIndex: 10,
-        width: "100%",
-        height: "100%",
-        padding: "96px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "24px",
+        width: '100%',
+        height: '100%',
+        padding: '96px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '24px',
         justifyContent: align.justifyContent,
         alignItems: align.alignItems,
       }}
@@ -51,10 +50,10 @@ export const TextLayer = React.memo(function TextLayer({
           fontSize: `${fontSize}px`,
           fontWeight: 700,
           lineHeight: 1.05,
-          letterSpacing: "-0.02em",
-          maxWidth: "85%",
-          whiteSpace: "pre-wrap",
-          wordBreak: "break-word",
+          letterSpacing: '-0.02em',
+          maxWidth: '85%',
+          whiteSpace: 'pre-wrap',
+          wordBreak: 'break-word',
         }}
       >
         {title}
@@ -71,7 +70,7 @@ export const TextLayer = React.memo(function TextLayer({
               fontWeight: 400,
               lineHeight: 1.45,
               opacity: 0.75,
-              wordBreak: "break-word",
+              wordBreak: 'break-word',
             }}
           >
             {subtitle}

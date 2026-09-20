@@ -3,12 +3,12 @@
    custom font upload (FontFace API), font size.
    ======================================== */
 
-import React, { useCallback } from "react";
-import { ActionTypes } from "../store/configReducer";
-import { PRESET_FONTS } from "../store/constants";
-import { Slider } from "./shared/Slider";
-import { FileUpload } from "./shared/FileUpload";
-import type { ConfigAction } from "../types";
+import React, { useCallback } from 'react';
+import { ActionTypes } from '../store/configReducer';
+import { PRESET_FONTS } from '../store/constants';
+import { Slider } from './shared/Slider';
+import { FileUpload } from './shared/FileUpload';
+import type { ConfigAction } from '../types';
 
 interface TypographySectionProps {
   fontFamily: string;
@@ -48,7 +48,7 @@ export const TypographySection = React.memo(function TypographySection({
         dispatch({ type: ActionTypes.SET_CUSTOM_FONT_NAME, payload: fontName });
         dispatch({ type: ActionTypes.SET_FONT_FAMILY, payload: fontName });
       } catch (err) {
-        console.error("Font load failed:", err);
+        console.error('Font load failed:', err);
       }
     },
     [dispatch],
@@ -57,9 +57,9 @@ export const TypographySection = React.memo(function TypographySection({
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "var(--space-5)",
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--space-5)',
       }}
     >
       {/* Font family select */}
@@ -71,9 +71,7 @@ export const TypographySection = React.memo(function TypographySection({
               {f.name}
             </option>
           ))}
-          {customFontName && (
-            <option value={customFontName}>Custom Uploaded</option>
-          )}
+          {customFontName && <option value={customFontName}>Custom Uploaded</option>}
         </select>
       </div>
 

@@ -6,7 +6,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
@@ -16,5 +18,9 @@
     "html2canvas-pro": "^1.6.4",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.8",
+    "prettier-plugin-astro": "^1.0.1"
   }
 }

@@ -3,10 +3,10 @@
    Debounced write, restore prompt on mount.
    ======================================== */
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import type { CoverConfig } from "../types";
+import { useState, useEffect, useRef, useCallback } from 'react';
+import type { CoverConfig } from '../types';
 
-const AUTOSAVE_KEY = "coverforge-autosave";
+const AUTOSAVE_KEY = 'coverforge-autosave';
 const AUTOSAVE_DELAY = 1000;
 
 interface SavedData {
@@ -20,10 +20,7 @@ export interface AutosaveAPI {
   dismissRestore: () => void;
 }
 
-export function useAutosave(
-  state: CoverConfig,
-  clearHistory: () => void,
-): AutosaveAPI {
+export function useAutosave(state: CoverConfig, clearHistory: () => void): AutosaveAPI {
   const [showRestorePrompt, setShowRestorePrompt] = useState(false);
   const [savedConfig, setSavedConfig] = useState<CoverConfig | null>(null);
   const isRestoring = useRef(false);
