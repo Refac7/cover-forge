@@ -63,12 +63,14 @@ export const FileUpload = React.memo(function FileUpload({
         justifyContent: 'center',
         width: '100%',
         padding: 'var(--space-3)',
-        background: isDragOver ? 'hsl(var(--primary) / 0.1)' : 'hsl(var(--secondary))',
-        border: `1px dashed ${isDragOver ? 'hsl(var(--primary))' : 'hsl(var(--border))'}`,
+        background: isDragOver
+          ? 'hsl(var(--md-primary) / 0.12)'
+          : 'hsl(var(--md-surface-container-high))',
+        border: `1px dashed ${isDragOver ? 'hsl(var(--md-primary))' : 'hsl(var(--md-outline))'}`,
         borderRadius: 'var(--radius-md)',
         cursor: 'pointer',
         transition:
-          'border-color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out)',
+          'border-color var(--duration-short) var(--ease-standard), background var(--duration-short) var(--ease-standard)',
       }}
     >
       <span

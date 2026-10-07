@@ -98,7 +98,7 @@ export const SidebarHeader = React.memo(function SidebarHeader({
         flexDirection: 'column',
         gap: 'var(--space-6)',
         padding: 'var(--space-6) var(--space-5) var(--space-4)',
-        borderBottom: '1px solid hsl(var(--border))',
+        borderBottom: '1px solid hsl(var(--md-outline-variant))',
         flexShrink: 0,
       }}
     >
@@ -121,14 +121,14 @@ export const SidebarHeader = React.memo(function SidebarHeader({
             style={{
               width: 28,
               height: 28,
-              background: 'hsl(var(--primary))',
+              background: 'hsl(var(--md-primary-container))',
               borderRadius: 'var(--radius-md)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: 13,
               fontWeight: 'var(--font-bold)',
-              color: 'hsl(var(--primary-foreground))',
+              color: 'hsl(var(--md-on-primary-container))',
               letterSpacing: '-0.02em',
             }}
           >

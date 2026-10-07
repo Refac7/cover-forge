@@ -17,7 +17,7 @@
 - **撤销 / 重做** — 完整状态历史记录，最多 50 层，带计数徽章。
 - **自动保存** — 刷新页面不丢失工作进度。下次打开时提示恢复上次会话。
 - **键盘快捷键** — `⌘E` 导出，`⌘Z` 撤销，`⌘⇧Z` 重做，`⌘D` 切换装饰条，`⌘B` 切换背景类型，`1–9` 文字对齐，`?` 查看所有快捷键。
-- **主题切换** — 三态切换：跟随系统 / 浅色 / 深色。设计令牌遵循 shadcn/ui HSL 约定，完整覆盖深色模式。
+- **主题切换** — 三态切换：跟随系统 / 浅色 / 深色。完整的 Material You（Material Design 3）色调系统，含浅色与深色配色角色。
 - **响应式布局** — 桌面端固定侧边栏，移动端浮层抽屉，小屏设备底部悬浮导出按钮。
 - **高清导出** — 通过 `html2canvas-pro` 以 1.5× 倍率渲染，输出分辨率与画布尺寸成正比，在视网膜屏幕上清晰锐利。
 
@@ -28,12 +28,12 @@
 | 分类     | 技术                                                             |
 | -------- | ---------------------------------------------------------------- |
 | 框架     | [Astro](https://astro.build/) 5 + [React](https://react.dev/) 19 |
-| 样式     | 纯 CSS 自定义属性（shadcn/ui HSL 设计令牌约定）                  |
+| 样式     | 纯 CSS 自定义属性（Material Design 3 色调令牌）                   |
 | 导出     | [html2canvas-pro](https://www.npmjs.com/package/html2canvas-pro) |
 | 语言     | TypeScript（strict 模式）                                        |
 | 包管理器 | pnpm                                                             |
 
-样式层为**纯 CSS**，无运行时 CSS-in-JS 或工具类库。设计令牌以 HSL 自定义属性形式定义在 `src/styles/tokens.css`。
+样式层为**纯 CSS**，无运行时 CSS-in-JS 或工具类库。设计令牌以 HSL 自定义属性形式定义在 `src/styles/tokens.css`，遵循 Material You（Material Design 3）的色调角色命名（`--md-primary`、`--md-surface-container-*`、`--md-on-surface` 等），并保留一套向后兼容的别名。
 
 ---
 
@@ -97,7 +97,7 @@ pnpm preview
 - `data-theme="system"` — 跟随系统 `prefers-color-scheme`
 - `data-theme="light"` / `data-theme="dark"` — 强制指定
 
-所有颜色令牌位于 `src/styles/tokens.css`，遵循 shadcn/ui HSL 约定（如 `--background: 0 0% 100%`）。
+所有颜色令牌位于 `src/styles/tokens.css`，遵循 Material You（Material Design 3）的色调角色体系（如 `--md-primary: 258 37% 48%`、`--md-surface-container-high`）。形状、海拔阴影（elevation）与动效缓动同样采用 M3 规范。
 
 ---
 

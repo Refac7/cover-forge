@@ -109,13 +109,17 @@ export const CanvasSection = React.memo(function CanvasSection({
                   fontFamily: 'var(--font-mono)',
                   fontSize: 'var(--text-xs)',
                   fontWeight: 'var(--font-medium)',
-                  color: active ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground))',
-                  background: active ? 'hsl(var(--primary) / 0.1)' : 'hsl(var(--card))',
-                  border: `1px solid ${active ? 'hsl(var(--primary))' : 'hsl(var(--border))'}`,
+                  color: active
+                    ? 'hsl(var(--md-on-secondary-container))'
+                    : 'hsl(var(--md-on-surface-variant))',
+                  background: active
+                    ? 'hsl(var(--md-secondary-container))'
+                    : 'hsl(var(--md-surface-container))',
+                  border: `1px solid ${active ? 'transparent' : 'hsl(var(--md-outline-variant))'}`,
                   borderRadius: 'var(--radius-sm)',
                   cursor: 'pointer',
                   transition:
-                    'background var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out)',
+                    'background var(--duration-short) var(--ease-standard), border-color var(--duration-short) var(--ease-standard), color var(--duration-short) var(--ease-standard)',
                 }}
               >
                 {ratio.label}

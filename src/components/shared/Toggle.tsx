@@ -49,27 +49,29 @@ export const Toggle = React.memo(function Toggle({ label, checked, onChange }: T
         onKeyDown={handleKeyDown}
         style={{
           position: 'relative',
-          width: 40,
-          height: 22,
+          width: 52,
+          height: 32,
           borderRadius: 'var(--radius-full)',
-          background: checked ? 'hsl(var(--primary))' : 'hsl(var(--border))',
+          background: checked ? 'hsl(var(--md-primary))' : 'hsl(var(--md-surface-variant))',
+          border: checked ? 'none' : '2px solid hsl(var(--md-outline))',
+          boxSizing: 'border-box',
           cursor: 'pointer',
-          transition: 'background var(--duration-fast) var(--ease-out)',
+          transition: 'background var(--duration-short) var(--ease-standard)',
           flexShrink: 0,
         }}
       >
         <div
           style={{
             position: 'absolute',
-            top: 2,
-            left: checked ? 20 : 2,
-            width: 18,
-            height: 18,
+            top: checked ? 4 : 8,
+            left: checked ? 24 : 6,
+            width: checked ? 24 : 16,
+            height: checked ? 24 : 16,
             borderRadius: 'var(--radius-full)',
-            background: 'hsl(var(--card))',
-            border: '1px solid hsl(var(--border) / 0.4)',
-            boxShadow: 'var(--shadow-sm)',
-            transition: 'left var(--duration-fast) var(--ease-spring)',
+            background: checked ? 'hsl(var(--md-on-primary))' : 'hsl(var(--md-outline))',
+            boxShadow: 'var(--elevation-1)',
+            transition:
+              'left var(--duration-medium) var(--ease-emphasized), top var(--duration-medium) var(--ease-emphasized), width var(--duration-medium) var(--ease-emphasized), height var(--duration-medium) var(--ease-emphasized)',
           }}
         />
       </div>

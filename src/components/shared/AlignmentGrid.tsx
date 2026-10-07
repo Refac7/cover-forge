@@ -58,12 +58,14 @@ export const AlignmentGrid = React.memo(function AlignmentGrid({
               position: 'relative',
               width: 36,
               height: 36,
-              background: isActive ? 'hsl(var(--primary) / 0.1)' : 'hsl(var(--card))',
-              border: `1px solid ${isActive ? 'hsl(var(--primary))' : 'hsl(var(--border))'}`,
+              background: isActive
+                ? 'hsl(var(--md-secondary-container))'
+                : 'hsl(var(--md-surface-container))',
+              border: `1px solid ${isActive ? 'transparent' : 'hsl(var(--md-outline-variant))'}`,
               borderRadius: 'var(--radius-sm)',
               cursor: 'pointer',
               transition:
-                'background var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out)',
+                'background var(--duration-short) var(--ease-standard), border-color var(--duration-short) var(--ease-standard)',
             }}
           >
             <span
@@ -72,9 +74,11 @@ export const AlignmentGrid = React.memo(function AlignmentGrid({
                 width: 6,
                 height: 6,
                 borderRadius: 'var(--radius-full)',
-                background: isActive ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground) / 0.6)',
+                background: isActive
+                  ? 'hsl(var(--md-on-secondary-container))'
+                  : 'hsl(var(--md-on-surface-variant))',
                 transform: 'translate(-50%, -50%)',
-                transition: 'background var(--duration-fast) var(--ease-out)',
+                transition: 'background var(--duration-short) var(--ease-standard)',
                 ...dot,
               }}
             />

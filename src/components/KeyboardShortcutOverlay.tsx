@@ -51,7 +51,7 @@ export const KeyboardShortcutOverlay = React.memo(function KeyboardShortcutOverl
         position: 'fixed',
         inset: 0,
         zIndex: 'var(--z-modal)',
-        background: 'rgba(0,0,0,0.6)',
+        background: 'hsl(var(--md-scrim) / 0.5)',
         backdropFilter: 'blur(4px)',
         display: 'flex',
         alignItems: 'center',
@@ -62,14 +62,14 @@ export const KeyboardShortcutOverlay = React.memo(function KeyboardShortcutOverl
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: 'hsl(var(--card))',
-          border: '1px solid hsl(var(--border))',
+          background: 'hsl(var(--md-surface-container-high))',
+          border: 'none',
           borderRadius: 'var(--radius-xl)',
           padding: 'var(--space-8)',
           minWidth: 400,
           maxWidth: '90vw',
-          boxShadow: 'var(--shadow-xl)',
-          animation: 'cf-scale-in 0.2s var(--ease-out)',
+          boxShadow: 'var(--elevation-3)',
+          animation: 'cf-scale-in 0.2s var(--ease-emphasized-decelerate)',
         }}
       >
         <div

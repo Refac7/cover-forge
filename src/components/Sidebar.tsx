@@ -221,10 +221,8 @@ export const Sidebar = React.memo(function Sidebar({
           position: 'sticky',
           top: 0,
           flexDirection: 'column',
-          background: 'hsl(var(--background))',
-          backgroundImage: 'var(--dot-grid)',
-          backgroundSize: 'var(--dot-grid-size) var(--dot-grid-size)',
-          borderRight: '1px solid hsl(var(--border))',
+          background: 'hsl(var(--md-surface-container-low))',
+          borderRight: '1px solid hsl(var(--md-outline-variant))',
           zIndex: 'var(--z-sticky)',
           overflow: 'hidden',
         }}
@@ -237,9 +235,9 @@ export const Sidebar = React.memo(function Sidebar({
         className={`cf-sidebar--mobile ${isMobileOpen ? 'cf-sidebar--open' : ''}`}
         style={{
           flexDirection: 'column',
-          background: 'hsl(var(--background))',
-          borderRight: '1px solid hsl(var(--border))',
-          boxShadow: isMobileOpen ? 'var(--shadow-xl)' : 'none',
+          background: 'hsl(var(--md-surface-container-low))',
+          borderRight: '1px solid hsl(var(--md-outline-variant))',
+          boxShadow: isMobileOpen ? 'var(--elevation-2)' : 'none',
           height: '100dvh',
         }}
       >

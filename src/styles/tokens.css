@@ -1,83 +1,146 @@
 /* ========================================
    CoverForge Design Tokens
-   Nothing Design · 红白黑（克制的 Nothing 风格）
-   Monochrome + signature red accent. Keeps the
-   refined radius / soft shadcn-inspired layout,
-   colored and textured like the RefactX theme.
+   Material You · Material Design 3 (M3)
+   Tonal color roles, expressive shape scale,
+   Roboto type, M3 elevation & motion.
    ======================================== */
 
 :root {
-  /* === Base (monochrome) === */
-  --background: 0 0% 99.5%;
-  --foreground: 0 0% 6%;
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 6%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 6%;
+  /* ========================================
+     M3 COLOR ROLES — Light
+     Baseline Material You palette. Every role
+     is stored as a raw HSL triplet so it can be
+     composed with hsl(var(--token) / <alpha>).
+     ======================================== */
+  --md-primary: 258 37% 48%;
+  --md-on-primary: 0 0% 100%;
+  --md-primary-container: 263 100% 93%;
+  --md-on-primary-container: 261 100% 18%;
 
-  /* === Primary (Nothing red) === */
-  --primary: 3 72% 40%;
-  --primary-foreground: 0 0% 100%;
+  --md-secondary: 259 11% 40%;
+  --md-on-secondary: 0 0% 100%;
+  --md-secondary-container: 263 65% 92%;
+  --md-on-secondary-container: 253 26% 13%;
 
-  /* === Secondary === */
-  --secondary: 0 0% 95%;
-  --secondary-foreground: 0 0% 10%;
+  --md-tertiary: 341 21% 41%;
+  --md-on-tertiary: 0 0% 100%;
+  --md-tertiary-container: 342 100% 92%;
+  --md-on-tertiary-container: 338 48% 13%;
 
-  /* === Muted === */
-  --muted: 0 0% 93%;
-  --muted-foreground: 0 0% 42%;
+  --md-error: 3 71% 41%;
+  --md-on-error: 0 0% 100%;
+  --md-error-container: 4 71% 92%;
+  --md-on-error-container: 3 71% 15%;
 
-  /* === Borders & Inputs === */
-  --border: 0 0% 88%;
-  --input: 0 0% 88%;
-  --ring: 3 72% 40%;
+  --md-surface: 300 20% 99%;
+  --md-surface-dim: 300 7% 91%;
+  --md-surface-bright: 300 20% 99%;
+  --md-on-surface: 258 7% 11%;
+  --md-surface-variant: 275 24% 90%;
+  --md-on-surface-variant: 264 7% 29%;
 
-  /* === Divider — soft hairline === */
-  --divider: 0 0% 88%;
+  --md-surface-container-lowest: 0 0% 100%;
+  --md-surface-container-low: 278 44% 96%;
+  --md-surface-container: 276 38% 95%;
+  --md-surface-container-high: 276 25% 92%;
+  --md-surface-container-highest: 280 17% 90%;
 
-  /* === Semantic === */
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 100%;
-  --success: 142 76% 36%;
-  --warning: 38 92% 50%;
+  --md-outline: 270 6% 64%;
+  --md-outline-variant: 270 14% 90%;
 
-  /* === Radius — main structural surfaces stay square, small accents are pills === */
-  --radius: 0;
-  --radius-sm: 0;
-  --radius-md: 0;
-  --radius-lg: 0;
-  --radius-xl: 0;
+  --md-inverse-surface: 264 7% 18%;
+  --md-inverse-on-surface: 300 20% 95%;
+  --md-inverse-primary: 258 100% 87%;
+  --md-scrim: 0 0% 0%;
+  --md-shadow: 0 0% 0%;
+
+  /* ========================================
+     LEGACY ALIASES — kept so existing inline
+     styles (`hsl(var(--primary))`, etc.) keep
+     working while mapping onto M3 roles.
+     ======================================== */
+  --background: var(--md-surface);
+  --foreground: var(--md-on-surface);
+  --card: var(--md-surface-container-low);
+  --card-foreground: var(--md-on-surface);
+  --popover: var(--md-surface-container);
+  --popover-foreground: var(--md-on-surface);
+
+  --primary: var(--md-primary);
+  --primary-foreground: var(--md-on-primary);
+
+  --secondary: var(--md-secondary-container);
+  --secondary-foreground: var(--md-on-secondary-container);
+
+  --muted: var(--md-surface-container-high);
+  --muted-foreground: var(--md-on-surface-variant);
+
+  --border: var(--md-outline-variant);
+  --input: var(--md-outline);
+  --ring: var(--md-primary);
+  --divider: var(--md-outline-variant);
+
+  --destructive: var(--md-error);
+  --destructive-foreground: var(--md-on-error);
+  --success: 140 55% 36%;
+  --warning: 36 92% 44%;
+
+  /* ========================================
+     SHAPE — M3 shape scale (rounded, expressive)
+     ======================================== */
+  --radius: 16px;
+  --radius-none: 0px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 28px;
   --radius-full: 9999px;
 
-  /* === Typography — clean grotesque + mono === */
+  /* ========================================
+     TYPOGRAPHY — Roboto (Material's typeface)
+     ======================================== */
   --font-sans:
-    'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+    'Roboto', 'Roboto Flex', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Roboto Mono', 'JetBrains Mono', ui-monospace, monospace;
 
-  --text-xs: 0.75rem;
-  --text-sm: 0.8125rem;
+  --text-xs: 0.6875rem;
+  --text-sm: 0.75rem;
   --text-base: 0.875rem;
   --text-md: 0.9375rem;
-  --text-lg: 1.0625rem;
+  --text-lg: 1rem;
   --text-xl: 1.25rem;
   --text-2xl: 1.5rem;
   --text-3xl: 1.875rem;
 
+  /* M3 type scale (role → size / weight) */
+  --md-display: 3.5625rem;
+  --md-headline: 2rem;
+  --md-title-large: 1.375rem;
+  --md-title-medium: 1rem;
+  --md-body-large: 1rem;
+  --md-body-medium: 0.875rem;
+  --md-label-large: 0.875rem;
+  --md-label-medium: 0.75rem;
+  --md-label-small: 0.6875rem;
+
   --font-normal: 400;
   --font-medium: 500;
-  --font-semibold: 600;
+  --font-semibold: 500;
   --font-bold: 700;
 
-  --leading-tight: 1.15;
-  --leading-snug: 1.35;
+  --leading-tight: 1.2;
+  --leading-snug: 1.4;
   --leading-normal: 1.5;
 
-  --tracking-tight: -0.02em;
+  --tracking-tight: -0.01em;
   --tracking-normal: 0;
-  --tracking-wide: 0.02em;
-  --tracking-wider: 0.05em;
+  --tracking-wide: 0.01em;
+  --tracking-wider: 0.02em;
 
-  /* === Spacing === */
+  /* ========================================
+     SPACING — 4dp grid
+     ======================================== */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -89,109 +152,166 @@
   --space-12: 3rem;
   --space-16: 4rem;
 
-  /* === Shadows (soft — refined, not hard offset) === */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  /* ========================================
+     ELEVATION — M3 tonal + shadow levels
+     ======================================== */
+  --elevation-0: none;
+  --elevation-1:
+    0 1px 2px 0 hsl(var(--md-shadow) / 0.3), 0 1px 3px 1px hsl(var(--md-shadow) / 0.15);
+  --elevation-2:
+    0 1px 2px 0 hsl(var(--md-shadow) / 0.3), 0 2px 6px 2px hsl(var(--md-shadow) / 0.15);
+  --elevation-3:
+    0 1px 3px 0 hsl(var(--md-shadow) / 0.3), 0 4px 8px 3px hsl(var(--md-shadow) / 0.15);
+  --elevation-4:
+    0 2px 3px 0 hsl(var(--md-shadow) / 0.3), 0 6px 10px 4px hsl(var(--md-shadow) / 0.15);
+  --elevation-5:
+    0 4px 4px 0 hsl(var(--md-shadow) / 0.3), 0 8px 12px 6px hsl(var(--md-shadow) / 0.15);
 
-  /* === Motion === */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-sm: var(--elevation-1);
+  --shadow-md: var(--elevation-2);
+  --shadow-lg: var(--elevation-3);
+  --shadow-xl: var(--elevation-4);
+
+  /* ========================================
+     STATE LAYERS — M3 interaction overlays
+     ======================================== */
+  --state-hover: 0.08;
+  --state-focus: 0.12;
+  --state-pressed: 0.12;
+  --state-dragged: 0.16;
+
+  /* ========================================
+     MOTION — M3 standard & emphasized easing
+     ======================================== */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --ease-out: cubic-bezier(0.05, 0.7, 0.1, 1);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-short: 150ms;
+  --duration-medium: 250ms;
+  --duration-long: 400ms;
   --duration-fast: 150ms;
-  --duration-normal: 200ms;
-  --duration-slow: 350ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
 
-  /* === Layout === */
+  /* ========================================
+     LAYOUT
+     ======================================== */
   --sidebar-width: 400px;
   --canvas-width: 1280px;
   --canvas-height: 720px;
 
-  /* === Z-Index === */
+  /* ========================================
+     Z-INDEX
+     ======================================== */
   --z-base: 0;
   --z-dropdown: 10;
   --z-sticky: 20;
   --z-overlay: 30;
   --z-modal: 40;
   --z-toast: 50;
-
-  /* === Dot-matrix backdrop pattern (subtle) === */
-  --dot-grid: radial-gradient(circle, hsl(var(--foreground) / 0.06) 1px, transparent 1px);
-  --dot-grid-size: 18px;
-}
-
-[data-theme='dark'],
-.dark {
-  --background: 0 0% 4%;
-  --foreground: 0 0% 97%;
-  --card: 0 0% 6%;
-  --card-foreground: 0 0% 97%;
-  --popover: 0 0% 6%;
-  --popover-foreground: 0 0% 97%;
-
-  --primary: 3 78% 48%;
-  --primary-foreground: 0 0% 100%;
-
-  --secondary: 0 0% 13%;
-  --secondary-foreground: 0 0% 100%;
-
-  --muted: 0 0% 13%;
-  --muted-foreground: 0 0% 55%;
-
-  --border: 0 0% 18%;
-  --input: 0 0% 18%;
-  --ring: 3 78% 48%;
-
-  --divider: 0 0% 22%;
-
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 100%;
-
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
-
-  --dot-grid: radial-gradient(circle, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
 }
 
 /* ========================================
-   AUTO DARK MODE — when no explicit theme is set
+   M3 COLOR ROLES — Dark
+   ======================================== */
+[data-theme='dark'],
+.dark {
+  --md-primary: 258 100% 87%;
+  --md-on-primary: 259 58% 28%;
+  --md-primary-container: 257 43% 38%;
+  --md-on-primary-container: 263 100% 93%;
+
+  --md-secondary: 263 27% 81%;
+  --md-on-secondary: 258 18% 22%;
+  --md-secondary-container: 258 13% 31%;
+  --md-on-secondary-container: 263 65% 92%;
+
+  --md-tertiary: 343 63% 83%;
+  --md-on-tertiary: 338 33% 22%;
+  --md-tertiary-container: 341 25% 31%;
+  --md-on-tertiary-container: 342 100% 92%;
+
+  --md-error: 3 70% 83%;
+  --md-on-error: 3 71% 22%;
+  --md-error-container: 3 71% 32%;
+  --md-on-error-container: 4 71% 92%;
+
+  --md-surface: 258 7% 11%;
+  --md-surface-dim: 258 7% 8%;
+  --md-surface-bright: 257 6% 27%;
+  --md-on-surface: 312 9% 89%;
+  --md-surface-variant: 264 7% 29%;
+  --md-on-surface-variant: 270 11% 79%;
+
+  --md-surface-container-lowest: 260 19% 6%;
+  --md-surface-container-low: 264 8% 12%;
+  --md-surface-container: 257 10% 14%;
+  --md-surface-container-high: 257 8% 17%;
+  --md-surface-container-highest: 257 6% 22%;
+
+  --md-outline: 264 6% 46%;
+  --md-outline-variant: 264 8% 25%;
+
+  --md-inverse-surface: 312 9% 89%;
+  --md-inverse-on-surface: 258 7% 11%;
+  --md-inverse-primary: 258 37% 48%;
+
+  --success: 140 55% 68%;
+  --warning: 36 92% 68%;
+}
+
+/* ========================================
+   AUTO DARK MODE — follows system when no
+   explicit theme is set
    ======================================== */
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not([data-theme='light']) {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 97%;
-    --card: 0 0% 6%;
-    --card-foreground: 0 0% 97%;
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 97%;
+    --md-primary: 258 100% 87%;
+    --md-on-primary: 259 58% 28%;
+    --md-primary-container: 257 43% 38%;
+    --md-on-primary-container: 263 100% 93%;
 
-    --primary: 3 78% 48%;
-    --primary-foreground: 0 0% 100%;
+    --md-secondary: 263 27% 81%;
+    --md-on-secondary: 258 18% 22%;
+    --md-secondary-container: 258 13% 31%;
+    --md-on-secondary-container: 263 65% 92%;
 
-    --secondary: 0 0% 13%;
-    --secondary-foreground: 0 0% 100%;
+    --md-tertiary: 343 63% 83%;
+    --md-on-tertiary: 338 33% 22%;
+    --md-tertiary-container: 341 25% 31%;
+    --md-on-tertiary-container: 342 100% 92%;
 
-    --muted: 0 0% 13%;
-    --muted-foreground: 0 0% 55%;
+    --md-error: 3 70% 83%;
+    --md-on-error: 3 71% 22%;
+    --md-error-container: 3 71% 32%;
+    --md-on-error-container: 4 71% 92%;
 
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 3 78% 48%;
+    --md-surface: 258 7% 11%;
+    --md-surface-dim: 258 7% 8%;
+    --md-surface-bright: 257 6% 27%;
+    --md-on-surface: 312 9% 89%;
+    --md-surface-variant: 264 7% 29%;
+    --md-on-surface-variant: 270 11% 79%;
 
-    --divider: 0 0% 22%;
+    --md-surface-container-lowest: 260 19% 6%;
+    --md-surface-container-low: 264 8% 12%;
+    --md-surface-container: 257 10% 14%;
+    --md-surface-container-high: 257 8% 17%;
+    --md-surface-container-highest: 257 6% 22%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 100%;
+    --md-outline: 264 6% 46%;
+    --md-outline-variant: 264 8% 25%;
 
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+    --md-inverse-surface: 312 9% 89%;
+    --md-inverse-on-surface: 258 7% 11%;
+    --md-inverse-primary: 258 37% 48%;
 
-    --dot-grid: radial-gradient(circle, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
+    --success: 140 55% 68%;
+    --warning: 36 92% 68%;
   }
 }
 
@@ -200,6 +320,9 @@
    ======================================== */
 @media (prefers-reduced-motion: reduce) {
   :root {
+    --duration-short: 0ms;
+    --duration-medium: 0ms;
+    --duration-long: 0ms;
     --duration-fast: 0ms;
     --duration-normal: 0ms;
     --duration-slow: 0ms;

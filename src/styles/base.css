@@ -1,98 +1,130 @@
 /* ========================================
    CoverForge Base Element Styles
-   shadcn/ui ring focus, HSL colors.
+   Material You · M3 text fields, slider,
+   select and focus treatment.
    ======================================== */
 
 body {
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
+  background-color: hsl(var(--md-surface));
+  color: hsl(var(--md-on-surface));
   font-family: var(--font-sans);
-  font-size: var(--text-base);
+  font-size: var(--md-body-medium);
   min-height: 100vh;
   overflow-x: hidden;
 }
 
 ::selection {
-  background-color: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
+  background-color: hsl(var(--md-primary) / 0.24);
+  color: hsl(var(--md-on-surface));
 }
 
-/* Scrollbar */
+/* Scrollbar — M3 outline */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--border));
+  background: hsl(var(--md-outline-variant));
   border-radius: var(--radius-full);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground));
+  background: hsl(var(--md-outline));
 }
 
-/* Form elements */
+/* ========================================
+   TEXT FIELDS — M3 outlined
+   ======================================== */
 input[type='text'],
 input[type='search'],
 input[type='number'],
 textarea {
-  background: hsl(var(--background));
-  border: 1px solid hsl(var(--input));
-  color: hsl(var(--foreground));
+  background: transparent;
+  border: 1px solid hsl(var(--md-outline));
+  color: hsl(var(--md-on-surface));
   font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
+  font-size: var(--md-body-medium);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
   transition:
-    border-color var(--duration-fast) var(--ease-out),
-    box-shadow var(--duration-fast) var(--ease-out);
+    border-color var(--duration-short) var(--ease-standard),
+    box-shadow var(--duration-short) var(--ease-standard);
+}
+input[type='text']:hover,
+input[type='search']:hover,
+input[type='number']:hover,
+textarea:hover {
+  border-color: hsl(var(--md-on-surface));
 }
 input[type='text']:focus,
 input[type='search']:focus,
 input[type='number']:focus,
 textarea:focus {
-  border-color: hsl(var(--ring));
-  box-shadow: 0 0 0 3px hsl(var(--ring) / 0.2);
+  outline: none;
+  border-color: hsl(var(--md-primary));
+  box-shadow: inset 0 0 0 1px hsl(var(--md-primary));
 }
 input::placeholder,
 textarea::placeholder {
-  color: hsl(var(--muted-foreground) / 0.6);
+  color: hsl(var(--md-on-surface-variant));
 }
 
-/* Range */
+/* ========================================
+   RANGE — M3 slider
+   ======================================== */
 input[type='range'] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
+  height: 20px;
+  background: transparent;
+  cursor: pointer;
+}
+input[type='range']::-webkit-slider-runnable-track {
   height: 4px;
-  background: hsl(var(--border));
   border-radius: var(--radius-full);
+  background: hsl(var(--md-surface-variant));
 }
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
+  margin-top: -8px;
   border-radius: var(--radius-full);
-  background: hsl(var(--foreground));
-  cursor: pointer;
-  transition:
-    transform var(--duration-fast) var(--ease-out),
-    box-shadow var(--duration-fast) var(--ease-out);
+  background: hsl(var(--md-primary));
+  border: none;
+  transition: box-shadow var(--duration-short) var(--ease-standard);
 }
 input[type='range']::-webkit-slider-thumb:hover {
-  transform: scale(1.15);
-  box-shadow: 0 0 0 4px hsl(var(--ring) / 0.2);
+  box-shadow: 0 0 0 8px hsl(var(--md-primary) / var(--state-hover));
+}
+input[type='range']:active::-webkit-slider-thumb {
+  box-shadow: 0 0 0 12px hsl(var(--md-primary) / var(--state-pressed));
+}
+input[type='range']::-moz-range-track {
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: hsl(var(--md-surface-variant));
+}
+input[type='range']::-moz-range-progress {
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: hsl(var(--md-primary));
 }
 input[type='range']::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
   border-radius: var(--radius-full);
-  background: hsl(var(--foreground));
+  background: hsl(var(--md-primary));
   border: none;
   cursor: pointer;
+  transition: box-shadow var(--duration-short) var(--ease-standard);
+}
+input[type='range']::-moz-range-thumb:hover {
+  box-shadow: 0 0 0 8px hsl(var(--md-primary) / var(--state-hover));
 }
 
 /* File input — hidden */
@@ -100,30 +132,38 @@ input[type='file'] {
   display: none;
 }
 
-/* Select */
+/* ========================================
+   SELECT — M3 outlined menu anchor
+   ======================================== */
 select {
-  background: hsl(var(--background));
-  border: 1px solid hsl(var(--input));
-  color: hsl(var(--foreground));
+  background: transparent;
+  border: 1px solid hsl(var(--md-outline));
+  color: hsl(var(--md-on-surface));
   font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  padding: var(--space-2) var(--space-6) var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
+  font-size: var(--md-body-medium);
+  padding: var(--space-2) var(--space-8) var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
   transition:
-    border-color var(--duration-fast) var(--ease-out),
-    box-shadow var(--duration-fast) var(--ease-out);
+    border-color var(--duration-short) var(--ease-standard),
+    box-shadow var(--duration-short) var(--ease-standard);
   appearance: none;
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2371717a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2379747E' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 10px center;
+  background-position: right 12px center;
+}
+select:hover {
+  border-color: hsl(var(--md-on-surface));
 }
 select:focus {
-  border-color: hsl(var(--ring));
-  box-shadow: 0 0 0 3px hsl(var(--ring) / 0.2);
+  outline: none;
+  border-color: hsl(var(--md-primary));
+  box-shadow: inset 0 0 0 1px hsl(var(--md-primary));
 }
 
-/* Color input */
+/* ========================================
+   COLOR INPUT
+   ======================================== */
 input[type='color'] {
   -webkit-appearance: none;
   appearance: none;
@@ -138,20 +178,21 @@ input[type='color']::-webkit-color-swatch-wrapper {
 }
 input[type='color']::-webkit-color-swatch {
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
 }
 
-/* Focus ring for all interactive elements */
+/* ========================================
+   FOCUS — M3 ring for interactive elements
+   ======================================== */
 button:focus-visible,
 a:focus-visible,
 select:focus-visible {
-  outline: 2px solid hsl(var(--ring));
+  outline: 2px solid hsl(var(--md-primary));
   outline-offset: 2px;
 }
 
-/* Reset outline for custom focus handling */
 .cf-btn:focus-visible,
 .cf-btn--icon:focus-visible {
-  outline: 2px solid hsl(var(--ring));
+  outline: 2px solid hsl(var(--md-primary));
   outline-offset: 2px;
 }

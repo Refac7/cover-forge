@@ -173,7 +173,7 @@ export default function App() {
       style={{
         display: 'flex',
         minHeight: '100vh',
-        background: 'hsl(var(--secondary))',
+        background: 'hsl(var(--md-surface))',
         fontFamily: 'var(--font-sans)',
       }}
     >
@@ -323,13 +323,13 @@ export default function App() {
           <button
             onClick={handleRestore}
             style={{
-              background: 'hsl(var(--primary))',
-              color: 'hsl(var(--primary-foreground))',
+              background: 'transparent',
+              color: 'hsl(var(--md-inverse-primary))',
               border: 'none',
               padding: '4px 12px',
               borderRadius: 'var(--radius-sm)',
-              fontSize: 'var(--text-xs)',
-              fontWeight: 'var(--font-semibold)',
+              fontSize: 'var(--md-label-large)',
+              fontWeight: 'var(--font-medium)',
               cursor: 'pointer',
             }}
           >
@@ -340,7 +340,7 @@ export default function App() {
             style={{
               background: 'transparent',
               border: 'none',
-              color: 'hsl(var(--muted-foreground) / 0.6)',
+              color: 'hsl(var(--md-inverse-on-surface) / 0.7)',
               padding: 0,
               cursor: 'pointer',
               fontSize: 14,
