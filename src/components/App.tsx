@@ -281,6 +281,7 @@ export default function App() {
 
         {/* Canvas */}
         <div
+          className="cf-enter"
           style={{
             flex: 1,
             display: 'flex',

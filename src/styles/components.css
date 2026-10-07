@@ -6,6 +6,8 @@
 
 /* ---- Button ---- */
 .cf-btn {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -24,6 +26,44 @@
   user-select: none;
   white-space: nowrap;
   line-height: var(--leading-normal);
+}
+
+/* State layer — M3 interaction overlay */
+.cf-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-short) var(--ease-standard);
+}
+
+.cf-btn:hover::after {
+  opacity: var(--state-hover);
+}
+
+.cf-btn:active::after {
+  opacity: var(--state-pressed);
+}
+
+/* Press ripple — M3 ink */
+.cf-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  background: currentColor;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+
+.cf-btn:active::before {
+  animation: cf-ripple 0.5s var(--ease-standard);
 }
 
 .cf-btn:active {
@@ -264,9 +304,10 @@
   border-radius: var(--radius-full);
   cursor: pointer;
   transition:
-    background var(--duration-fast) var(--ease-out),
-    border-color var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+    background var(--duration-short) var(--ease-standard),
+    border-color var(--duration-short) var(--ease-standard),
+    color var(--duration-short) var(--ease-standard),
+    transform var(--duration-short) var(--ease-emphasized);
   white-space: nowrap;
   user-select: none;
 }
@@ -275,13 +316,89 @@
   background: hsl(var(--primary) / 0.1);
   border-color: hsl(var(--primary) / 0.3);
   color: hsl(var(--primary));
+  transform: translateY(-1px);
 }
 
 .cf-preset:active {
   transform: scale(0.96);
 }
 
-/* ---- Sidebar: Desktop vs Mobile visibility ---- */
+/* ========================================
+   MOTION UTILITIES
+   M3 emphasized enter + animated collapse.
+   ======================================== */
+
+/* Staggered entrance for lists of children */
+.cf-stagger > * {
+  animation: cf-enter var(--duration-medium) var(--ease-emphasized-decelerate) both;
+}
+
+.cf-stagger > *:nth-child(1) {
+  animation-delay: 20ms;
+}
+.cf-stagger > *:nth-child(2) {
+  animation-delay: 50ms;
+}
+.cf-stagger > *:nth-child(3) {
+  animation-delay: 80ms;
+}
+.cf-stagger > *:nth-child(4) {
+  animation-delay: 110ms;
+}
+.cf-stagger > *:nth-child(5) {
+  animation-delay: 140ms;
+}
+.cf-stagger > *:nth-child(6) {
+  animation-delay: 170ms;
+}
+.cf-stagger > *:nth-child(7) {
+  animation-delay: 200ms;
+}
+.cf-stagger > *:nth-child(8) {
+  animation-delay: 230ms;
+}
+.cf-stagger > *:nth-child(9) {
+  animation-delay: 260ms;
+}
+.cf-stagger > *:nth-child(10) {
+  animation-delay: 290ms;
+}
+.cf-stagger > *:nth-child(n + 11) {
+  animation-delay: 320ms;
+}
+
+/* Animated expand / collapse (grid-rows technique) */
+.cf-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows var(--duration-medium) var(--ease-emphasized),
+    opacity var(--duration-short) var(--ease-standard),
+    visibility 0s linear var(--duration-medium);
+}
+
+.cf-collapse--open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.cf-collapse-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Generic enter animation hook */
+.cf-enter {
+  animation: cf-enter var(--duration-long) var(--ease-emphasized-decelerate) both;
+}
+
+/* ========================================
+   SIDEBAR — Desktop vs Mobile visibility
+   ======================================== */
 
 /* Desktop sidebar: visible by default, hidden on mobile */
 .cf-sidebar-desktop {
@@ -380,6 +497,8 @@
   /* Show floating export */
   .cf-floating-export {
     display: block;
+    animation: cf-enter var(--duration-long) var(--ease-emphasized-decelerate) both;
+    animation-delay: 150ms;
   }
 
   /* Show mobile close button inside sidebar */
@@ -430,5 +549,55 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes cf-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cf-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cf-ripple {
+  from {
+    opacity: 0.24;
+    transform: scale(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+}
+
+/* ========================================
+   REDUCED MOTION — honor user preference
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  .cf-stagger > *,
+  .cf-enter,
+  .cf-floating-export,
+  .cf-toast,
+  .cf-sidebar-overlay {
+    animation: none !important;
+  }
+
+  .cf-collapse {
+    transition: none;
   }
 }
