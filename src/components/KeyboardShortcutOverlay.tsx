@@ -5,16 +5,18 @@
    ======================================== */
 
 import React, { useEffect, useCallback } from 'react';
+import { useI18n } from '../i18n';
+import type { TranslationKey } from '../i18n/messages';
 
-const SHORTCUT_LIST = [
-  { keys: '⌘E', description: 'Export PNG' },
-  { keys: '⌘Z', description: 'Undo' },
-  { keys: '⌘⇧Z', description: 'Redo' },
-  { keys: '⌘D', description: 'Toggle decorations' },
-  { keys: '⌘B', description: 'Toggle background type' },
-  { keys: '1–9', description: 'Set text alignment' },
-  { keys: '?', description: 'Show shortcuts' },
-  { keys: 'Esc', description: 'Close overlay' },
+const SHORTCUT_LIST: { keys: string; label: TranslationKey }[] = [
+  { keys: '⌘E', label: 'shortcuts.export' },
+  { keys: '⌘Z', label: 'shortcuts.undo' },
+  { keys: '⌘⇧Z', label: 'shortcuts.redo' },
+  { keys: '⌘D', label: 'shortcuts.toggleDecorations' },
+  { keys: '⌘B', label: 'shortcuts.toggleBackground' },
+  { keys: '1–9', label: 'shortcuts.setAlignment' },
+  { keys: '?', label: 'shortcuts.showShortcuts' },
+  { keys: 'Esc', label: 'shortcuts.closeOverlay' },
 ];
 
 interface KeyboardShortcutOverlayProps {
@@ -26,6 +28,7 @@ export const KeyboardShortcutOverlay = React.memo(function KeyboardShortcutOverl
   isOpen,
   onClose,
 }: KeyboardShortcutOverlayProps) {
+  const { t } = useI18n();
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -87,7 +90,7 @@ export const KeyboardShortcutOverlay = React.memo(function KeyboardShortcutOverl
               color: 'hsl(var(--foreground))',
             }}
           >
-            Keyboard Shortcuts
+            {t('common.shortcutsTitle')}
           </h2>
           <button
             onClick={onClose}
@@ -100,7 +103,7 @@ export const KeyboardShortcutOverlay = React.memo(function KeyboardShortcutOverl
               justifyContent: 'center',
               fontSize: 'var(--text-lg)',
             }}
-            aria-label="Close"
+            aria-label={t('common.close')}
           >
             ✕
           </button>
@@ -113,9 +116,9 @@ export const KeyboardShortcutOverlay = React.memo(function KeyboardShortcutOverl
             gap: 'var(--space-2)',
           }}
         >
-          {SHORTCUT_LIST.map(({ keys, description }) => (
+          {SHORTCUT_LIST.map(({ keys, label }) => (
             <div
-              key={description}
+              key={label}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -130,7 +133,7 @@ export const KeyboardShortcutOverlay = React.memo(function KeyboardShortcutOverl
                   color: 'hsl(var(--muted-foreground))',
                 }}
               >
-                {description}
+                {t(label)}
               </span>
               <div style={{ display: 'flex', gap: 'var(--space-1)' }}>
                 {keys.split('').map((char, i) => (

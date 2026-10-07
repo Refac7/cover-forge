@@ -1,12 +1,26 @@
 /* ========================================
    AlignmentGrid — 3×3 labeled visual grid.
-   Uses ALIGNMENT_KEYS and ALIGNMENT_LABELS
-   from constants (single source of truth).
+   Uses ALIGNMENT_KEYS from constants and the
+   i18n dictionary for labels.
    ======================================== */
 
 import React from 'react';
-import { ALIGNMENT_KEYS, ALIGNMENT_LABELS } from '../../store/constants';
+import { ALIGNMENT_KEYS } from '../../store/constants';
+import { useI18n } from '../../i18n';
+import type { TranslationKey } from '../../i18n/messages';
 import type { AlignmentKey } from '../../types';
+
+const ALIGNMENT_I18N: Record<AlignmentKey, TranslationKey> = {
+  'top-left': 'alignment.topLeft',
+  'top-center': 'alignment.topCenter',
+  'top-right': 'alignment.topRight',
+  'center-left': 'alignment.centerLeft',
+  center: 'alignment.center',
+  'center-right': 'alignment.centerRight',
+  'bottom-left': 'alignment.bottomLeft',
+  'bottom-center': 'alignment.bottomCenter',
+  'bottom-right': 'alignment.bottomRight',
+};
 
 const DOT_POSITIONS: Record<AlignmentKey, { top: string; left: string }> = {
   'top-left': { top: '25%', left: '25%' },
@@ -29,10 +43,11 @@ export const AlignmentGrid = React.memo(function AlignmentGrid({
   value,
   onChange,
 }: AlignmentGridProps) {
+  const { t } = useI18n();
   return (
     <div
       role="radiogroup"
-      aria-label="Text alignment"
+      aria-label={t('alignment.group')}
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(3, 36px)',
@@ -43,7 +58,7 @@ export const AlignmentGrid = React.memo(function AlignmentGrid({
       {ALIGNMENT_KEYS.map((key, idx) => {
         const isActive = value === key;
         const dot = DOT_POSITIONS[key];
-        const label = ALIGNMENT_LABELS[key] || key;
+        const label = t(ALIGNMENT_I18N[key]);
         const shortcut = idx + 1;
 
         return (

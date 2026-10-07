@@ -4,6 +4,7 @@
    ======================================== */
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { useI18n } from '../i18n';
 
 type Theme = 'system' | 'light' | 'dark';
 
@@ -58,6 +59,7 @@ export const SidebarHeader = React.memo(function SidebarHeader({
   onRedo,
   onMobileClose,
 }: SidebarHeaderProps) {
+  const { t, locale, toggleLocale } = useI18n();
   const [theme, setTheme] = useState<Theme>(getStoredTheme);
   const [systemIsDark, setSystemIsDark] = useState(getSystemIsDark);
 
@@ -90,6 +92,9 @@ export const SidebarHeader = React.memo(function SidebarHeader({
   const effectiveIsDark = theme === 'system' ? systemIsDark : theme === 'dark';
 
   const nextTheme = THEME_CYCLE[(THEME_CYCLE.indexOf(theme) + 1) % THEME_CYCLE.length];
+
+  const describeTheme = (value: Theme) =>
+    value === 'system' ? t('theme.auto') : value === 'light' ? t('theme.light') : t('theme.dark');
 
   return (
     <div
@@ -142,7 +147,7 @@ export const SidebarHeader = React.memo(function SidebarHeader({
               letterSpacing: 'var(--tracking-tight)',
             }}
           >
-            CoverForge
+            {t('common.appName')}
           </span>
         </div>
 
@@ -154,10 +159,22 @@ export const SidebarHeader = React.memo(function SidebarHeader({
           }}
         >
           <button
+            onClick={toggleLocale}
+            className="cf-btn--icon"
+            title={t('language.toggleLabel')}
+            aria-label={t('language.toggleLabel')}
+            style={{ fontSize: 'var(--md-label-medium)', fontWeight: 'var(--font-medium)' }}
+          >
+            {locale === 'zh' ? '中' : 'EN'}
+          </button>
+          <button
             onClick={toggleTheme}
             className="cf-btn--icon"
-            title={`Theme: ${theme === 'system' ? 'Auto (follow system)' : theme === 'light' ? 'Light' : 'Dark'} — click for ${nextTheme === 'system' ? 'auto' : nextTheme}`}
-            aria-label="Toggle theme"
+            title={t('theme.title', {
+              current: theme === 'system' ? t('theme.autoFull') : describeTheme(theme),
+              next: describeTheme(nextTheme),
+            })}
+            aria-label={t('theme.toggleLabel')}
           >
             {theme === 'system' ? (
               <svg
@@ -206,7 +223,7 @@ export const SidebarHeader = React.memo(function SidebarHeader({
             <button
               onClick={onMobileClose}
               className="cf-btn--icon cf-mobile-close"
-              aria-label="Close sidebar"
+              aria-label={t('sidebar.close')}
             >
               <svg
                 width="16"
@@ -230,8 +247,8 @@ export const SidebarHeader = React.memo(function SidebarHeader({
           onClick={onUndo}
           disabled={!canUndo}
           className="cf-btn--icon"
-          title="Undo (Ctrl+Z)"
-          aria-label="Undo"
+          title={t('undo.title')}
+          aria-label={t('undo.label')}
           style={{ position: 'relative' }}
         >
           <svg
@@ -268,8 +285,8 @@ export const SidebarHeader = React.memo(function SidebarHeader({
           onClick={onRedo}
           disabled={!canRedo}
           className="cf-btn--icon"
-          title="Redo (Ctrl+Shift+Z)"
-          aria-label="Redo"
+          title={t('redo.title')}
+          aria-label={t('redo.label')}
           style={{ position: 'relative' }}
         >
           <svg

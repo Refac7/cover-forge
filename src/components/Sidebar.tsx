@@ -4,6 +4,7 @@
    ======================================== */
 
 import React from 'react';
+import { useI18n } from '../i18n';
 import { SidebarHeader } from './SidebarHeader';
 import { ContentSection } from './ContentSection';
 import { AppearanceSection } from './AppearanceSection';
@@ -93,6 +94,7 @@ const SidebarContent = React.memo(function SidebarContent({
   onApplyPreset,
   onMobileClose,
 }: SidebarContentProps) {
+  const { t } = useI18n();
   return (
     <>
       <SidebarHeader
@@ -119,12 +121,12 @@ const SidebarContent = React.memo(function SidebarContent({
         <PresetBar onApply={onApplyPreset} />
         <hr className="cf-divider" />
 
-        <CollapsibleSection title="Content">
+        <CollapsibleSection title={t('sections.content')}>
           <ContentSection title={config.title} subtitle={config.subtitle} dispatch={dispatch} />
         </CollapsibleSection>
         <hr className="cf-divider" />
 
-        <CollapsibleSection title="Appearance">
+        <CollapsibleSection title={t('sections.appearance')}>
           <AppearanceSection
             bgType={config.bgType}
             bgColor={config.bgColor}
@@ -138,7 +140,7 @@ const SidebarContent = React.memo(function SidebarContent({
         </CollapsibleSection>
         <hr className="cf-divider" />
 
-        <CollapsibleSection title="Typography">
+        <CollapsibleSection title={t('sections.typography')}>
           <TypographySection
             fontFamily={config.fontFamily}
             fontSize={config.fontSize}
@@ -148,7 +150,7 @@ const SidebarContent = React.memo(function SidebarContent({
         </CollapsibleSection>
         <hr className="cf-divider" />
 
-        <CollapsibleSection title="Layout">
+        <CollapsibleSection title={t('sections.layout')}>
           <LayoutSection
             alignment={config.alignment}
             showDecorations={config.showDecorations}
@@ -157,7 +159,7 @@ const SidebarContent = React.memo(function SidebarContent({
         </CollapsibleSection>
         <hr className="cf-divider" />
 
-        <CollapsibleSection title="Canvas">
+        <CollapsibleSection title={t('sections.canvas')}>
           <CanvasSection
             canvasWidth={config.canvasWidth}
             canvasHeight={config.canvasHeight}
