@@ -7,6 +7,7 @@
 import React, { useState, useCallback } from 'react';
 import { useDebounce } from '../hooks/useDebounce';
 import { ActionTypes } from '../store/configReducer';
+import { useI18n } from '../i18n';
 import { TextInput } from './shared/TextInput';
 import type { ConfigAction } from '../types';
 
@@ -23,6 +24,7 @@ export const ContentSection = React.memo(function ContentSection({
   subtitle,
   dispatch,
 }: ContentSectionProps) {
+  const { t } = useI18n();
   const [localTitle, setLocalTitle] = useState(title);
   const [localSubtitle, setLocalSubtitle] = useState(subtitle);
 
@@ -62,16 +64,16 @@ export const ContentSection = React.memo(function ContentSection({
       }}
     >
       <TextInput
-        label="Title"
+        label={t('content.title')}
         value={localTitle}
         onChange={handleTitleChange}
-        placeholder="Enter cover title"
+        placeholder={t('content.titlePlaceholder')}
       />
       <TextInput
-        label="Subtitle"
+        label={t('content.subtitle')}
         value={localSubtitle}
         onChange={handleSubtitleChange}
-        placeholder="Optional subtitle"
+        placeholder={t('content.subtitlePlaceholder')}
         isTextarea
         rows={2}
       />

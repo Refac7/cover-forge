@@ -8,6 +8,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { useCoverConfig } from '../hooks/useCoverConfig';
 import { ActionTypes } from '../store/configReducer';
 import { ALIGNMENT_KEYS } from '../store/constants';
+import { I18nProvider, useI18n } from '../i18n';
 import { Sidebar } from './Sidebar';
 import { CanvasPreview } from './CanvasPreview';
 import { KeyboardShortcutOverlay } from './KeyboardShortcutOverlay';
@@ -15,6 +16,15 @@ import { ExportButton } from './ExportButton';
 import type { CoverConfig } from '../types';
 
 export default function App() {
+  return (
+    <I18nProvider>
+      <AppShell />
+    </I18nProvider>
+  );
+}
+
+function AppShell() {
+  const { t } = useI18n();
   const {
     config,
     dispatch,
@@ -139,7 +149,7 @@ export default function App() {
       link.click();
     } catch (err) {
       console.error('Export failed:', err);
-      alert('Export failed. Please try again.');
+      alert(t('common.exportFailed'));
     } finally {
       dispatch({ type: ActionTypes.SET_BG_IMAGE, payload: originalBgImage });
       dispatch({ type: ActionTypes.SET_BLUR, payload: originalBlur });
@@ -150,7 +160,7 @@ export default function App() {
       processingRef.current = false;
       setIsProcessing(false);
     }
-  }, [dispatch]);
+  }, [dispatch, t]);
 
   const handleApplyPreset = useCallback(
     (values: Partial<CoverConfig>) => {
@@ -226,7 +236,11 @@ export default function App() {
               gap: 'var(--space-3)',
             }}
           >
-            <button className="cf-hamburger" onClick={toggleSidebar} aria-label="Toggle sidebar">
+            <button
+              className="cf-hamburger"
+              onClick={toggleSidebar}
+              aria-label={t('sidebar.toggle')}
+            >
               <svg
                 width="18"
                 height="18"
@@ -247,7 +261,7 @@ export default function App() {
                 letterSpacing: 'var(--tracking-tight)',
               }}
             >
-              Preview
+              {t('common.preview')}
             </h2>
           </div>
 
@@ -271,8 +285,8 @@ export default function App() {
             <button
               onClick={() => setShowShortcuts(true)}
               className="cf-btn--icon"
-              title="Keyboard shortcuts (?)"
-              aria-label="Show keyboard shortcuts"
+              title={t('common.showShortcuts')}
+              aria-label={t('common.showShortcuts')}
             >
               ?
             </button>
@@ -281,6 +295,7 @@ export default function App() {
 
         {/* Canvas */}
         <div
+          className="cf-enter"
           style={{
             flex: 1,
             display: 'flex',
@@ -319,7 +334,7 @@ export default function App() {
 
       {showRestorePrompt && (
         <div className="cf-toast">
-          <span>Previous session found.</span>
+          <span>{t('common.previousSession')}</span>
           <button
             onClick={handleRestore}
             style={{
@@ -333,10 +348,11 @@ export default function App() {
               cursor: 'pointer',
             }}
           >
-            Restore
+            {t('common.restore')}
           </button>
           <button
             onClick={dismissRestore}
+            aria-label={t('common.close')}
             style={{
               background: 'transparent',
               border: 'none',

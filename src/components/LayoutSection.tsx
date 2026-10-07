@@ -5,6 +5,7 @@
 
 import React, { useCallback } from 'react';
 import { ActionTypes } from '../store/configReducer';
+import { useI18n } from '../i18n';
 import { AlignmentGrid } from './shared/AlignmentGrid';
 import { Toggle } from './shared/Toggle';
 import type { ConfigAction, AlignmentKey } from '../types';
@@ -20,6 +21,7 @@ export const LayoutSection = React.memo(function LayoutSection({
   showDecorations,
   dispatch,
 }: LayoutSectionProps) {
+  const { t } = useI18n();
   const handleAlignment = useCallback(
     (key: AlignmentKey) => {
       dispatch({ type: ActionTypes.SET_ALIGNMENT, payload: key });
@@ -47,13 +49,13 @@ export const LayoutSection = React.memo(function LayoutSection({
           justifyContent: 'space-between',
         }}
       >
-        <span className="cf-input-label">Alignment</span>
+        <span className="cf-input-label">{t('layout.alignment')}</span>
         <AlignmentGrid value={alignment} onChange={handleAlignment} />
       </div>
 
       {/* Decorations */}
       <Toggle
-        label="Typographic Marks"
+        label={t('layout.decorations')}
         checked={showDecorations}
         onChange={handleToggleDecorations}
       />

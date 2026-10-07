@@ -4,6 +4,7 @@
    ======================================== */
 
 import React from 'react';
+import { useI18n } from '../i18n';
 
 interface BackgroundLayerProps {
   bgType: string;
@@ -20,6 +21,7 @@ export const BackgroundLayer = React.memo(function BackgroundLayer({
   blur,
   brightness,
 }: BackgroundLayerProps) {
+  const { t } = useI18n();
   return (
     <>
       {/* Solid color base — always present */}
@@ -35,7 +37,7 @@ export const BackgroundLayer = React.memo(function BackgroundLayer({
       {bgType === 'image' && bgImage && (
         <img
           src={bgImage}
-          alt="Background"
+          alt={t('background.alt')}
           style={{
             position: 'absolute',
             inset: 0,

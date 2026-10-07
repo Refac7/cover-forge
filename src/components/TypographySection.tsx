@@ -6,6 +6,7 @@
 import React, { useCallback } from 'react';
 import { ActionTypes } from '../store/configReducer';
 import { PRESET_FONTS } from '../store/constants';
+import { useI18n } from '../i18n';
 import { Slider } from './shared/Slider';
 import { FileUpload } from './shared/FileUpload';
 import type { ConfigAction } from '../types';
@@ -23,6 +24,7 @@ export const TypographySection = React.memo(function TypographySection({
   customFontName,
   dispatch,
 }: TypographySectionProps) {
+  const { t } = useI18n();
   const handleFontSelect = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       dispatch({ type: ActionTypes.SET_FONT_FAMILY, payload: e.target.value });
@@ -64,27 +66,29 @@ export const TypographySection = React.memo(function TypographySection({
     >
       {/* Font family select */}
       <div className="cf-input-group">
-        <label className="cf-input-label">Typeface</label>
+        <label className="cf-input-label">{t('typography.typeface')}</label>
         <select value={fontFamily} onChange={handleFontSelect}>
           {PRESET_FONTS.map((f) => (
             <option key={f.value} value={f.value}>
               {f.name}
             </option>
           ))}
-          {customFontName && <option value={customFontName}>Custom Uploaded</option>}
+          {customFontName && (
+            <option value={customFontName}>{t('typography.customUploaded')}</option>
+          )}
         </select>
       </div>
 
       {/* Font upload */}
       <FileUpload
-        label="Upload Font (.ttf, .otf, .woff, .woff2)"
+        label={t('typography.uploadFont')}
         accept=".ttf,.otf,.woff,.woff2"
         onFile={handleFontUpload}
       />
 
       {/* Font size slider */}
       <Slider
-        label="Font Size"
+        label={t('typography.fontSize')}
         value={fontSize}
         min={24}
         max={200}

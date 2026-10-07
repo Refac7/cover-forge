@@ -4,6 +4,7 @@
    ======================================== */
 
 import React from 'react';
+import { useI18n } from '../i18n';
 import { SidebarHeader } from './SidebarHeader';
 import { ContentSection } from './ContentSection';
 import { AppearanceSection } from './AppearanceSection';
@@ -59,18 +60,22 @@ const CollapsibleSection = React.memo(function CollapsibleSection({
           height="12"
           viewBox="0 0 12 12"
           fill="none"
-          stroke="hsl(var(--muted-foreground) / 0.6)"
+          stroke="hsl(var(--md-on-surface-variant))"
           strokeWidth="1.5"
           strokeLinecap="round"
           style={{
             transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
-            transition: 'transform var(--duration-normal) var(--ease-out)',
+            transition: 'transform var(--duration-medium) var(--ease-emphasized)',
           }}
         >
           <path d="M4 2L8 6L4 10" />
         </svg>
       </button>
-      {isOpen && <div style={{ padding: '0 0 var(--space-2)' }}>{children}</div>}
+      <div className={`cf-collapse ${isOpen ? 'cf-collapse--open' : ''}`}>
+        <div className="cf-collapse-inner" style={{ padding: '0 0 var(--space-2)' }}>
+          {children}
+        </div>
+      </div>
     </div>
   );
 });
@@ -89,6 +94,7 @@ const SidebarContent = React.memo(function SidebarContent({
   onApplyPreset,
   onMobileClose,
 }: SidebarContentProps) {
+  const { t } = useI18n();
   return (
     <>
       <SidebarHeader
@@ -102,6 +108,7 @@ const SidebarContent = React.memo(function SidebarContent({
       />
 
       <div
+        className="cf-stagger"
         style={{
           flex: 1,
           overflowY: 'auto',
@@ -114,12 +121,12 @@ const SidebarContent = React.memo(function SidebarContent({
         <PresetBar onApply={onApplyPreset} />
         <hr className="cf-divider" />
 
-        <CollapsibleSection title="Content">
+        <CollapsibleSection title={t('sections.content')}>
           <ContentSection title={config.title} subtitle={config.subtitle} dispatch={dispatch} />
         </CollapsibleSection>
         <hr className="cf-divider" />
 
-        <CollapsibleSection title="Appearance">
+        <CollapsibleSection title={t('sections.appearance')}>
           <AppearanceSection
             bgType={config.bgType}
             bgColor={config.bgColor}
@@ -133,7 +140,7 @@ const SidebarContent = React.memo(function SidebarContent({
         </CollapsibleSection>
         <hr className="cf-divider" />
 
-        <CollapsibleSection title="Typography">
+        <CollapsibleSection title={t('sections.typography')}>
           <TypographySection
             fontFamily={config.fontFamily}
             fontSize={config.fontSize}
@@ -143,7 +150,7 @@ const SidebarContent = React.memo(function SidebarContent({
         </CollapsibleSection>
         <hr className="cf-divider" />
 
-        <CollapsibleSection title="Layout">
+        <CollapsibleSection title={t('sections.layout')}>
           <LayoutSection
             alignment={config.alignment}
             showDecorations={config.showDecorations}
@@ -152,7 +159,7 @@ const SidebarContent = React.memo(function SidebarContent({
         </CollapsibleSection>
         <hr className="cf-divider" />
 
-        <CollapsibleSection title="Canvas">
+        <CollapsibleSection title={t('sections.canvas')}>
           <CanvasSection
             canvasWidth={config.canvasWidth}
             canvasHeight={config.canvasHeight}
