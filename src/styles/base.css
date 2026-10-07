@@ -11,6 +11,19 @@ body {
   font-size: var(--md-body-medium);
   min-height: 100vh;
   overflow-x: hidden;
+  transition:
+    background-color var(--duration-medium) var(--ease-standard),
+    color var(--duration-medium) var(--ease-standard);
+}
+
+/* Smooth theme surface transitions */
+.cf-sidebar-desktop,
+.cf-sidebar--mobile,
+.cf-card {
+  transition:
+    background-color var(--duration-medium) var(--ease-standard),
+    border-color var(--duration-medium) var(--ease-standard),
+    color var(--duration-medium) var(--ease-standard);
 }
 
 ::selection {
