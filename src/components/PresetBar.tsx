@@ -5,6 +5,7 @@
 
 import React, { useCallback } from 'react';
 import { usePresets } from '../hooks/usePresets';
+import { useI18n } from '../i18n';
 import type { CoverConfig, Preset } from '../types';
 
 interface PresetBarProps {
@@ -13,6 +14,7 @@ interface PresetBarProps {
 
 export const PresetBar = React.memo(function PresetBar({ onApply }: PresetBarProps) {
   const { allPresets } = usePresets();
+  const { t } = useI18n();
 
   const handleClick = useCallback(
     (preset: Preset) => {
@@ -36,7 +38,7 @@ export const PresetBar = React.memo(function PresetBar({ onApply }: PresetBarPro
           key={preset.id}
           className="cf-preset"
           onClick={() => handleClick(preset)}
-          title={`Apply "${preset.name}" preset`}
+          title={t('presets.apply', { name: preset.name })}
         >
           <span style={{ fontSize: 11 }}>{preset.icon}</span>
           {preset.name}

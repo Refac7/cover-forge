@@ -5,6 +5,7 @@
 
 import React, { useCallback } from 'react';
 import { ActionTypes } from '../store/configReducer';
+import { useI18n } from '../i18n';
 import { ColorPicker } from './shared/ColorPicker';
 import { Slider } from './shared/Slider';
 import { FileUpload } from './shared/FileUpload';
@@ -31,6 +32,7 @@ export const AppearanceSection = React.memo(function AppearanceSection({
   brightness,
   dispatch,
 }: AppearanceSectionProps) {
+  const { t } = useI18n();
   const setBgType = useCallback(
     (type: string) => {
       dispatch({
@@ -87,12 +89,12 @@ export const AppearanceSection = React.memo(function AppearanceSection({
         }}
       >
         <ColorPicker
-          label="Accent"
+          label={t('appearance.accent')}
           value={themeColor}
           onChange={handleColorChange(ActionTypes.SET_THEME_COLOR)}
         />
         <ColorPicker
-          label="Text"
+          label={t('appearance.text')}
           value={textColor}
           onChange={handleColorChange(ActionTypes.SET_TEXT_COLOR)}
         />
@@ -113,8 +115,8 @@ export const AppearanceSection = React.memo(function AppearanceSection({
         {/* Radio group */}
         <div style={{ display: 'flex', gap: 'var(--space-6)' }}>
           {[
-            { value: 'color', label: 'Solid Color' },
-            { value: 'image', label: 'Image' },
+            { value: 'color', label: t('appearance.solidColor') },
+            { value: 'image', label: t('appearance.image') },
           ].map(({ value, label }) => {
             const isActive = bgType === value;
             return (
@@ -150,7 +152,7 @@ export const AppearanceSection = React.memo(function AppearanceSection({
 
         {bgType === 'color' ? (
           <ColorPicker
-            label="Background"
+            label={t('appearance.background')}
             value={bgColor}
             onChange={handleColorChange(ActionTypes.SET_BG_COLOR)}
           />
@@ -163,21 +165,21 @@ export const AppearanceSection = React.memo(function AppearanceSection({
             }}
           >
             <FileUpload
-              label="Upload Background Image"
+              label={t('appearance.uploadBackground')}
               accept="image/*"
               onFile={handleImageUpload}
             />
             {bgImage && (
               <>
                 <Slider
-                  label="Blur"
+                  label={t('appearance.blur')}
                   value={blur}
                   min={0}
                   max={20}
                   onChange={handleSlider(ActionTypes.SET_BLUR)}
                 />
                 <Slider
-                  label="Brightness"
+                  label={t('appearance.brightness')}
                   value={brightness}
                   min={0}
                   max={200}

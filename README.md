@@ -18,6 +18,7 @@
 - **自动保存** — 刷新页面不丢失工作进度。下次打开时提示恢复上次会话。
 - **键盘快捷键** — `⌘E` 导出，`⌘Z` 撤销，`⌘⇧Z` 重做，`⌘D` 切换装饰条，`⌘B` 切换背景类型，`1–9` 文字对齐，`?` 查看所有快捷键。
 - **主题切换** — 三态切换：跟随系统 / 浅色 / 深色。完整的 Material You（Material Design 3）色调系统，含浅色与深色配色角色。
+- **多语言（i18n）** — 内置简体中文与英文，首次访问自动匹配浏览器语言，侧边栏一键切换并持久化到 `localStorage`。零依赖，类型安全的翻译键。
 - **响应式布局** — 桌面端固定侧边栏，移动端浮层抽屉，小屏设备底部悬浮导出按钮。
 - **高清导出** — 通过 `html2canvas-pro` 以 1.5× 倍率渲染，输出分辨率与画布尺寸成正比，在视网膜屏幕上清晰锐利。
 
@@ -99,6 +100,18 @@ pnpm preview
 
 所有颜色令牌位于 `src/styles/tokens.css`，遵循 Material You（Material Design 3）的色调角色体系（如 `--md-primary: 258 37% 48%`、`--md-surface-container-high`）。形状、海拔阴影（elevation）与动效缓动同样采用 M3 规范。
 
+### 国际化
+
+零依赖的轻量 i18n，位于 `src/i18n/`。`I18nProvider` 包裹整棵 React 树，组件通过 `useI18n()` 获取 `t`、`locale`、`setLocale`、`toggleLocale`：
+
+```tsx
+const { t } = useI18n();
+t('content.title'); // => "标题" / "Title"
+t('presets.apply', { name: preset.name });
+```
+
+翻译键由 `messages.ts` 中的英文词典自动推导为联合类型 `TranslationKey`，因此调用 `t('...')` 时拼写错误会在编译期报错。新增语言只需实现 `Messages` 类型并在 `MESSAGES` 中注册。
+
 ---
 
 ## 项目结构
@@ -128,6 +141,9 @@ src/
 │   ├── useAutosave.ts               # localStorage 持久化
 │   ├── usePresets.ts                # 内置 + 用户预设 CRUD
 │   └── useDebounce.ts               # 通用去抖 hook
+├── i18n/
+│   ├── index.tsx                    # I18nProvider + useI18n 钩子
+│   └── messages.ts                  # 中/英文字典与类型化翻译键
 ├── store/
 │   ├── constants.ts                 # 画布尺寸、字体、对齐、默认值
 │   ├── configReducer.ts             # 所有状态转换

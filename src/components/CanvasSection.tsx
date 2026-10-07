@@ -6,6 +6,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ActionTypes } from '../store/configReducer';
 import { ASPECT_RATIOS, MIN_CANVAS_DIMENSION, MAX_CANVAS_DIMENSION } from '../store/constants';
+import { useI18n } from '../i18n';
 import type { ConfigAction } from '../types';
 
 interface CanvasSectionProps {
@@ -19,6 +20,7 @@ export const CanvasSection = React.memo(function CanvasSection({
   canvasHeight,
   dispatch,
 }: CanvasSectionProps) {
+  const { t } = useI18n();
   const [widthInput, setWidthInput] = useState(String(canvasWidth));
   const [heightInput, setHeightInput] = useState(String(canvasHeight));
 
@@ -88,7 +90,7 @@ export const CanvasSection = React.memo(function CanvasSection({
     >
       {/* Aspect ratio */}
       <div className="cf-input-group">
-        <label className="cf-input-label">Aspect Ratio</label>
+        <label className="cf-input-label">{t('canvas.aspectRatio')}</label>
         <div
           style={{
             display: 'grid',
@@ -131,7 +133,7 @@ export const CanvasSection = React.memo(function CanvasSection({
 
       {/* Resolution */}
       <div className="cf-input-group">
-        <label className="cf-input-label">Resolution (px)</label>
+        <label className="cf-input-label">{t('canvas.resolution')}</label>
         <div
           style={{
             display: 'grid',
@@ -147,7 +149,7 @@ export const CanvasSection = React.memo(function CanvasSection({
             min={MIN_CANVAS_DIMENSION}
             max={MAX_CANVAS_DIMENSION}
             onChange={handleWidth}
-            aria-label="Canvas width"
+            aria-label={t('canvas.width')}
           />
           <span
             style={{
@@ -164,7 +166,7 @@ export const CanvasSection = React.memo(function CanvasSection({
             min={MIN_CANVAS_DIMENSION}
             max={MAX_CANVAS_DIMENSION}
             onChange={handleHeight}
-            aria-label="Canvas height"
+            aria-label={t('canvas.height')}
           />
         </div>
       </div>
